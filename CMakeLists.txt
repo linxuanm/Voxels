@@ -11,16 +11,21 @@ endfunction()
 
 set(VOXELS_HEADERS
     src/game/application.h
+
     src/util/config.h
     src/util/log.h
-
     src/util/specs.h
+
+    src/render/camera.h
 )
 
 set(VOXELS_SOURCES
     src/game/application.cpp
+
     src/util/config.cpp
     src/util/log.cpp
+
+    src/render/camera.cpp
 )
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)

@@ -3,4 +3,6 @@
 namespace Config {
 
     void load();
+
+    extern float fov;
 };
