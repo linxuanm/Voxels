@@ -3,6 +3,16 @@
 #include "game/application.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Application &app = Application::get();
+
+    if (!app.launch()) {
+        std::cout << "LAUNCH FAILED" << std::endl;
+    }
+
+    app.loop();
+    glfwTerminate();
+
+    std::cout << "GAME PROCESS END" << std::endl;
+
     return 0;
 }

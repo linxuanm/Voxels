@@ -9,6 +9,7 @@ public:
     static Application &get();
 
     bool launch();
+    void loop();
 
 private:
     GLFWwindow *window;

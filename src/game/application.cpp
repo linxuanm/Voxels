@@ -56,3 +56,7 @@ bool Application::launch() {
 
     return true;
 }
+
+void Application::loop() {
+
+}
