@@ -9,8 +9,19 @@ function(log_list LIST)
     endforeach()
 endfunction()
 
-set(VOXELS_HEADERS)
-set(VOXELS_SOURCES)
+set(VOXELS_HEADERS
+    src/game/application.h
+    src/util/config.h
+    src/util/log.h
+
+    src/util/specs.h
+)
+
+set(VOXELS_SOURCES
+    src/game/application.cpp
+    src/util/config.cpp
+    src/util/log.cpp
+)
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)
 set(GLFW /usr/local/Cellar/glfw/3.3.5/lib/libglfw.3.3.dylib)
@@ -20,7 +31,7 @@ file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(Voxels main.cpp ${VOXELS_HEADERS} ${VOXELS_SOURCES})
 
-include_directories(src)
+include_directories(/usr/local/include/ src)
 
 if (APPLE)
     target_link_libraries(Voxels "-framework OpenGL")
