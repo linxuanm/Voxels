@@ -21,6 +21,9 @@ set(VOXELS_HEADERS
 
     src/render/view/camera.h
     src/render/shader/shader.h
+    src/render/world/render_chunk.h
+
+    src/math/blockpos.h
 )
 
 set(VOXELS_SOURCES
@@ -32,6 +35,9 @@ set(VOXELS_SOURCES
 
     src/render/view/camera.cpp
     src/render/shader/shader.cpp
+    src/render/world/render_chunk.cpp
+
+    src/math/blockpos.cpp
 )
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)
