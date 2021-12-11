@@ -9,6 +9,7 @@ public:
     BlockPos sub(int x, int y, int z);
     BlockPos sub(BlockPos other);
     BlockPos mul(float scalar);
+    int toChunkPos();
     int x();
     int y();
     int z();

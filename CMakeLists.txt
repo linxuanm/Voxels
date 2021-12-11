@@ -24,6 +24,9 @@ set(VOXELS_HEADERS
     src/render/world/render_chunk.h
 
     src/math/blockpos.h
+
+    src/world/chunk.h
+    src/world/blocks.h
 )
 
 set(VOXELS_SOURCES
@@ -38,6 +41,8 @@ set(VOXELS_SOURCES
     src/render/world/render_chunk.cpp
 
     src/math/blockpos.cpp
+
+    src/world/chunk.cpp
 )
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)

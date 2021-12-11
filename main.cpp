@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "game/application.h"
+#include "world/chunk.h"
 
 int main() {
 

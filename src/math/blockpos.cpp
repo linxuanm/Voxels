@@ -26,6 +26,14 @@ BlockPos BlockPos::mul(float scalar) {
     };
 }
 
+int BlockPos::toChunkPos() {
+    int x = xComp & 15;
+    int y = yComp;
+    int z = zComp & 15;
+
+    return y << 8 | x << 4 | z;
+}
+
 int BlockPos::x() {
     return xComp;
 }
