@@ -8,6 +8,7 @@ public:
     Camera();
 
     glm::mat4 getViewProjMat();
+    void translate(float x, float y, float z);
     void rotate(float pitch, float yaw);
 
 private:

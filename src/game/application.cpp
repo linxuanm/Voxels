@@ -15,6 +15,13 @@ static void resize(GLFWwindow *window, int width, int height) {
     Application::aspectRatio = (float) width / height;
 }
 
+static void viewportSetup() {
+    int width, height;
+    glfwGetWindowSize(Application::window, &width, &height);
+
+    resize(Application::window, width, height);
+}
+
 void Application::windowSize(int *width, int *height) {
     glfwGetWindowSize(window, width, height);
 }
@@ -63,6 +70,8 @@ bool Application::launch() {
 
 void Application::loop() {
     Voxels::get().init();
+    viewportSetup();
+
     glfwSwapBuffers(window); // Mac OS
 
     auto deltaTime = (float) glfwGetTime();
