@@ -2,7 +2,10 @@
 
 #include <iostream>
 
+#include "game/application.h"
+
 bool Input::keysDown[512];
+bool Input::showMouse = true;
 
 void Input::keyCallback(GLFWwindow *win, int key, int scan, int act, int mod) {
 
@@ -11,7 +14,11 @@ void Input::keyCallback(GLFWwindow *win, int key, int scan, int act, int mod) {
         std::cout << "Invalid keycode: " << key << std::endl;
     }
 
-    if (act == GLFW_PRESS) keysDown[key] = true;
+    if (act == GLFW_PRESS) {
+        keysDown[key] = true;
+
+        Application::handleKeyPress(key);
+    }
     else if (act == GLFW_RELEASE) keysDown[key] = false;
 }
 

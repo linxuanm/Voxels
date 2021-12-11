@@ -2,14 +2,15 @@
 
 #include <iostream>
 
+#include "util/input.h"
 #include "game/voxels.h"
 #include "util/config.h"
 #include "util/log.h"
 #include "util/specs.h"
-#include "util/input.h"
 
 GLFWwindow *Application::window = nullptr;
 float Application::aspectRatio = 1.0f;
+bool Application::hideMouse = true;
 
 static void resize(GLFWwindow *window, int width, int height) {
     Application::aspectRatio = (float) width / height;
@@ -71,6 +72,7 @@ bool Application::launch() {
 void Application::loop() {
     Voxels::get().init();
     viewportSetup();
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSwapBuffers(window); // Mac OS
 
@@ -100,5 +102,15 @@ void Application::loop() {
             macUpdate = true;
         }
         #endif
+    }
+}
+
+void Application::handleKeyPress(int key) {
+    if (key == GLFW_KEY_E) {
+        hideMouse = !hideMouse;
+        glfwSetInputMode(
+            window, GLFW_CURSOR,
+            hideMouse ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL
+        );
     }
 }

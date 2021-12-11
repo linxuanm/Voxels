@@ -1,5 +1,7 @@
 #include "voxels.h"
 
+#include <GLFW/glfw3.h>
+
 #include "player/controller.h"
 
 Voxels::Voxels() = default;
