@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(Voxels)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 function(log_list LIST)
     foreach(element IN LISTS ${LIST})
@@ -19,9 +19,11 @@ set(VOXELS_HEADERS
     src/util/log.h
     src/util/specs.h
 
+    src/render/texture.h
     src/render/view/camera.h
     src/render/shader/shader.h
     src/render/world/render_chunk.h
+    src/render/world/world_renderer.h
 
     src/math/blockpos.h
 
@@ -36,9 +38,11 @@ set(VOXELS_SOURCES
     src/util/config.cpp
     src/util/log.cpp
 
+    src/render/texture.cpp
     src/render/view/camera.cpp
     src/render/shader/shader.cpp
     src/render/world/render_chunk.cpp
+    src/render/world/world_renderer.cpp
 
     src/math/blockpos.cpp
 

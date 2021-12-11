@@ -5,7 +5,7 @@
 #include "game/application.h"
 #include "util/config.h"
 
-Camera::Camera() = default;
+Camera::Camera(): z(1) {};
 
 glm::mat4 Camera::getViewProjMat() {
     glm::mat4 proj = glm::perspective(

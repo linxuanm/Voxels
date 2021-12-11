@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "game/voxels.h"
 #include "util/config.h"
 #include "util/log.h"
 #include "util/specs.h"
@@ -60,10 +61,19 @@ bool Application::launch() {
 }
 
 void Application::loop() {
-    glfwSwapBuffers(window);
+    Voxels::get().init();
+    glfwSwapBuffers(window); // Mac OS
+
+    auto deltaTime = (float) glfwGetTime();
+    float lastFrame = deltaTime;
 
     while (!glfwWindowShouldClose(window)) {
+        auto currTime = (float) glfwGetTime();
+        deltaTime = currTime - lastFrame;
+        lastFrame = currTime;
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Voxels::get().drawFrame(deltaTime);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
