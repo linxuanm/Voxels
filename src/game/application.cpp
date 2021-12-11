@@ -6,6 +6,7 @@
 #include "util/config.h"
 #include "util/log.h"
 #include "util/specs.h"
+#include "util/input.h"
 
 GLFWwindow *Application::window = nullptr;
 float Application::aspectRatio = 1.0f;
@@ -44,7 +45,7 @@ bool Application::launch() {
 
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, resize);
-    // glfwSetKeyCallback(window, Input::keyCallback);
+    glfwSetKeyCallback(window, Input::keyCallback);
 
     glewExperimental = GL_TRUE;
 

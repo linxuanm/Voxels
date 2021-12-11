@@ -7,6 +7,7 @@ class WorldRenderer {
 public:
     void init();
     void drawWorld(float deltaTime);
+    Camera &camera();
 
 private:
     Camera cam;

@@ -5,4 +5,5 @@ namespace Config {
     void load();
 
     extern float fov;
+    extern float speed;
 };

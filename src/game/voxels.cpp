@@ -1,5 +1,7 @@
 #include "voxels.h"
 
+#include "player/controller.h"
+
 Voxels::Voxels() = default;
 
 Voxels &Voxels::get() {
@@ -13,5 +15,6 @@ void Voxels::init() {
 }
 
 void Voxels::drawFrame(float deltaTime) {
+    Controller::updateMovement(renderer.camera(), deltaTime);
     renderer.drawWorld(deltaTime);
 }

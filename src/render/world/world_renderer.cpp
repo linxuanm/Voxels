@@ -70,3 +70,7 @@ void WorldRenderer::drawWorld(float deltaTime) {
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
+
+Camera &WorldRenderer::camera() {
+    return cam;
+}

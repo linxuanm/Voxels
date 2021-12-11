@@ -18,6 +18,7 @@ set(VOXELS_HEADERS
     src/util/config.h
     src/util/log.h
     src/util/specs.h
+    src/util/input.h
 
     src/render/texture.h
     src/render/view/camera.h
@@ -29,6 +30,8 @@ set(VOXELS_HEADERS
 
     src/world/chunk.h
     src/world/blocks.h
+
+    src/player/controller.h
 )
 
 set(VOXELS_SOURCES
@@ -37,6 +40,7 @@ set(VOXELS_SOURCES
 
     src/util/config.cpp
     src/util/log.cpp
+    src/util/input.cpp
 
     src/render/texture.cpp
     src/render/view/camera.cpp
@@ -47,6 +51,8 @@ set(VOXELS_SOURCES
     src/math/blockpos.cpp
 
     src/world/chunk.cpp
+
+    src/player/controller.cpp
 )
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)
