@@ -19,7 +19,8 @@ set(VOXELS_HEADERS
     src/util/log.h
     src/util/specs.h
 
-    src/render/camera.h
+    src/render/view/camera.h
+    src/render/shader/shader.h
 )
 
 set(VOXELS_SOURCES
@@ -29,7 +30,8 @@ set(VOXELS_SOURCES
     src/util/config.cpp
     src/util/log.cpp
 
-    src/render/camera.cpp
+    src/render/view/camera.cpp
+    src/render/shader/shader.cpp
 )
 
 set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)
