@@ -6,14 +6,15 @@
 #include "util/log.h"
 #include "util/specs.h"
 
-Application::Application(): window(nullptr) {
+GLFWwindow *Application::window = nullptr;
+float Application::aspectRatio = 1.0f;
 
+static void resize(GLFWwindow *window, int width, int height) {
+    Application::aspectRatio = (float) width / height;
 }
 
-Application &Application::get() {
-    static Application app;
-
-    return app;
+void Application::windowSize(int *width, int *height) {
+    glfwGetWindowSize(window, width, height);
 }
 
 bool Application::launch() {
@@ -41,6 +42,7 @@ bool Application::launch() {
     }
 
     glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, resize);
     // glfwSetKeyCallback(window, Input::keyCallback);
 
     glewExperimental = GL_TRUE;
@@ -58,5 +60,25 @@ bool Application::launch() {
 }
 
 void Application::loop() {
+    glfwSwapBuffers(window);
 
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+
+        Log::logGLError();
+
+        #ifdef __APPLE__ // update window on Mac OS
+        static bool macUpdate = false;
+
+        if(!macUpdate) {
+            int x, y;
+            glfwGetWindowPos(window, &x, &y);
+            glfwSetWindowPos(window, x + 1, y);
+            macUpdate = true;
+        }
+        #endif
+    }
 }

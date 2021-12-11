@@ -10,7 +10,10 @@ function(log_list LIST)
 endfunction()
 
 set(VOXELS_HEADERS
+    src/gl.h
+
     src/game/application.h
+    src/game/voxels.h
 
     src/util/config.h
     src/util/log.h
@@ -21,6 +24,7 @@ set(VOXELS_HEADERS
 
 set(VOXELS_SOURCES
     src/game/application.cpp
+    src/game/voxels.cpp
 
     src/util/config.cpp
     src/util/log.cpp

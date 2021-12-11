@@ -2,13 +2,14 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "game/application.h"
 #include "util/config.h"
 
 Camera::Camera() = default;
 
 glm::mat4 Camera::getViewProjMat() {
     glm::mat4 proj = glm::perspective(
-        Config::fov, 1.0f, 0.1f, 100.0f
+        Config::fov, Application::aspectRatio, 0.1f, 100.0f
     );
 
     glm::vec3 front{
