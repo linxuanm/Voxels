@@ -27,6 +27,10 @@ glm::mat4 Camera::getViewProjMat() {
     return proj * view;
 }
 
+float Camera::getYaw() {
+    return yaw;
+}
+
 void Camera::translate(float x, float y, float z) {
     this->x += x;
     this->y += y;
@@ -35,5 +39,5 @@ void Camera::translate(float x, float y, float z) {
 
 void Camera::rotate(float dYaw, float dPitch) {
     yaw += dYaw;
-    pitch = glm::clamp(pitch + dPitch, -90.0f, 90.0f);
+    pitch = glm::clamp(pitch + dPitch, -89.9f, 89.9f);
 }
