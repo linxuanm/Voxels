@@ -57,9 +57,9 @@ set(VOXELS_SOURCES
     src/player/controller.cpp
 )
 
-set(GLEW /usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.dylib)
-set(GLFW /usr/local/Cellar/glfw/3.3.5/lib/libglfw.3.3.dylib)
-link_libraries(${OPENGL} ${GLEW} ${GLFW})
+find_package(GLEW REQUIRED)
+find_package(glfw3 REQUIRED)
+link_libraries(${OPENGL} ${GLEW_LIBRARIES} glfw)
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
