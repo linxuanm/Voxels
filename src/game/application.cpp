@@ -10,7 +10,6 @@
 
 GLFWwindow *Application::window = nullptr;
 float Application::aspectRatio = 1.0f;
-bool Application::hideMouse = true;
 
 static void resize(GLFWwindow *window, int width, int height) {
     Application::aspectRatio = (float) width / height;
@@ -21,10 +20,6 @@ static void viewportSetup() {
     glfwGetWindowSize(Application::window, &width, &height);
 
     resize(Application::window, width, height);
-}
-
-void Application::windowSize(int *width, int *height) {
-    glfwGetWindowSize(window, width, height);
 }
 
 bool Application::launch() {
@@ -64,6 +59,12 @@ bool Application::launch() {
         return false;
     }
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported()) {
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
+    glfwSetCursorPosCallback(window, Input::mouseCallback);
+
     Log::printVersions();
 
     return true;
@@ -72,7 +73,6 @@ bool Application::launch() {
 void Application::loop() {
     Voxels::get().init();
     viewportSetup();
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSwapBuffers(window); // Mac OS
 
@@ -102,15 +102,5 @@ void Application::loop() {
             macUpdate = true;
         }
         #endif
-    }
-}
-
-void Application::handleKeyPress(int key) {
-    if (key == GLFW_KEY_E) {
-        hideMouse = !hideMouse;
-        glfwSetInputMode(
-            window, GLFW_CURSOR,
-            hideMouse ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL
-        );
     }
 }

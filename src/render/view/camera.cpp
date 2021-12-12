@@ -12,10 +12,13 @@ glm::mat4 Camera::getViewProjMat() {
         Config::fov, Application::aspectRatio, 0.01f, 100.0f
     );
 
+    float radPitch = glm::radians(pitch);
+    float radYaw = glm::radians(yaw);
+
     glm::vec3 front{
-        -cos(pitch) * sin(yaw),
-        sin(pitch),
-        -cos(pitch) * cos(yaw)
+        -cos(radPitch) * sin(radYaw),
+        sin(radPitch),
+        -cos(radPitch) * cos(radYaw)
     };
 
     glm::vec3 eye{x, y, z};
@@ -30,7 +33,7 @@ void Camera::translate(float x, float y, float z) {
     this->z += z;
 }
 
-void Camera::rotate(float yaw, float pitch) {
-    this->yaw += yaw;
-    this->pitch += pitch;
+void Camera::rotate(float dYaw, float dPitch) {
+    yaw += dYaw;
+    pitch = glm::clamp(pitch + dPitch, -90.0f, 90.0f);
 }

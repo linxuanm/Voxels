@@ -1,8 +1,7 @@
 #include "voxels.h"
 
-#include <GLFW/glfw3.h>
-
 #include "player/controller.h"
+#include "util/input.h"
 
 Voxels::Voxels() = default;
 
@@ -19,4 +18,8 @@ void Voxels::init() {
 void Voxels::drawFrame(float deltaTime) {
     Controller::updateMovement(renderer.camera(), deltaTime);
     renderer.drawWorld(deltaTime);
+}
+
+Camera &Voxels::camera() {
+    return renderer.camera();
 }

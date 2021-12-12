@@ -8,6 +8,7 @@ public:
     static Voxels &get();
     void init();
     void drawFrame(float deltaTime);
+    Camera &camera();
 
 private:
     Voxels();
