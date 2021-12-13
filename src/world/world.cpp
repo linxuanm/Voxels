@@ -10,6 +10,10 @@ std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) {
     return chunks[(long) x << 32 | z];
 }
 
+ChunkMap &World::chunkMap() {
+    return chunks;
+}
+
 void World::initWorld() {
-    chunks[0] = generator.generateChunk(0, 0);
+    chunks[5l << 32 | 6] = generator.generateChunk(5, 6);
 }

@@ -1,7 +1,6 @@
 #include "world_renderer.h"
 
 #include <string>
-#include <GL/glew.h>
 
 #include "gl.h"
 #include "render/shader/shader.h"
@@ -62,11 +61,21 @@ void WorldRenderer::init() {
     glDepthFunc(GL_LESS);
 }
 
-void WorldRenderer::drawWorld(float deltaTime) {
+#include <iostream>
+
+void WorldRenderer::drawWorld(World world, float deltaTime) {
     glBindVertexArray(vao);
 
     glUniform1i(varTex, 0);
     glUniformMatrix4fv(varMVP, 1, GL_FALSE, &cam.getViewProjMat()[0][0]);
+
+    ChunkMap &chunks = world.chunkMap();
+    for (auto &i: chunks) {
+        auto x = (int32_t) (i.first >> 32);
+        auto z = (int32_t) (i.first & 0xFFFFFFFF);
+
+        i.second->renderChunk();
+    }
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

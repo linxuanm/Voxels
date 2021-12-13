@@ -7,7 +7,7 @@
 Generator::Generator(long inSeed): seed(inSeed) {}
 
 std::shared_ptr<Chunk> Generator::generateChunk(ChunkPos x, ChunkPos z) {
-    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>();
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(x, z);
 
     for (int h = 0; h < 20; h++) {
         for (int i = 0; i < 16; i++) {

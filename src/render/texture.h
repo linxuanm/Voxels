@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
-#include <GL/glew.h>
+
+#include "gl.h"
 
 class Texture {
 
 public:
-    Texture(std::string path);
+    explicit Texture(std::string path);
     ~Texture();
 
     void bind();

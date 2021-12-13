@@ -16,6 +16,7 @@ public:
     World();
     std::shared_ptr<Chunk> getBlockChunk(int x, int z);
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
+    ChunkMap &chunkMap();
     void initWorld();
 
 private:

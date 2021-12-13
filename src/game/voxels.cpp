@@ -19,7 +19,7 @@ void Voxels::init() {
 
 void Voxels::drawFrame(float deltaTime) {
     Controller::updateMovement(renderer.camera(), deltaTime);
-    renderer.drawWorld(deltaTime);
+    renderer.drawWorld(world, deltaTime);
 }
 
 Camera &Voxels::camera() {
