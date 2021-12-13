@@ -3,6 +3,8 @@
 
 Generator::Generator(): seed(42) {}
 
-Chunk *Generator::generateChunk(ChunkPos x, ChunkPos z) {
-    Chunk
+std::shared_ptr<Chunk> Generator::generateChunk(ChunkPos x, ChunkPos z) {
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>();
+
+    return chunk;
 }
