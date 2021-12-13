@@ -13,6 +13,8 @@ Voxels &Voxels::get() {
 
 void Voxels::init() {
     renderer.init();
+
+    world.initWorld();
 }
 
 void Voxels::drawFrame(float deltaTime) {

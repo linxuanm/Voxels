@@ -1,6 +1,7 @@
 #pragma once
 
 #include "render/world/world_renderer.h"
+#include "world/world.h"
 
 class Voxels {
 
@@ -12,5 +13,6 @@ public:
 
 private:
     Voxels();
+    World world;
     WorldRenderer renderer;
 };

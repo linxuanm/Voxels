@@ -9,8 +9,7 @@ typedef int32_t ChunkPos;
 class Chunk {
 
 public:
-    Chunk();
+    int blocks[CHUNK_HEIGHT][16][16];
 
-private:
-    int blocks[16 * 16 * CHUNK_HEIGHT];
+    Chunk();
 };

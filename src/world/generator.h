@@ -7,7 +7,7 @@
 class Generator {
 
 public:
-    Generator();
+    explicit Generator(long seed);
     std::shared_ptr<Chunk> generateChunk(ChunkPos x, ChunkPos z);
 
 private:
