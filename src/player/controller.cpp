@@ -21,10 +21,7 @@ void Controller::updateMovement(Camera &cam, float deltaTime) {
     glm::mat4 rotMat = glm::eulerAngleY(glm::radians(yaw));
 
     move = rotMat * move;
+    move *= Config::speed * deltaTime;
 
-    cam.translate(
-        move[0] * Config::speed * deltaTime,
-        move[1] * Config::speed * deltaTime,
-        move[2] * Config::speed * deltaTime
-    );
+    cam.translate(move.x, move.y, move.z);
 }

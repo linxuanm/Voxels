@@ -4,7 +4,6 @@
 #include "world/chunk.h"
 
 int main() {
-
     if (!Application::launch()) {
         std::cout << "LAUNCH FAILED" << std::endl;
     }

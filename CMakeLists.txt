@@ -31,6 +31,8 @@ set(VOXELS_HEADERS
 
     src/world/chunk.h
     src/world/blocks.h
+    src/world/world.h
+    src/world/generator.h
 
     src/player/controller.h
 )
@@ -53,6 +55,8 @@ set(VOXELS_SOURCES
     src/math/blockpos.cpp
 
     src/world/chunk.cpp
+    src/world/world.cpp
+    src/world/generator.cpp
 
     src/player/controller.cpp
 )

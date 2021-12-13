@@ -91,16 +91,5 @@ void Application::loop() {
         glfwPollEvents();
 
         Log::logGLError();
-
-        #ifdef __APPLE__ // update window on Mac OS
-        static bool macUpdate = false;
-
-        if(!macUpdate) {
-            int x, y;
-            glfwGetWindowPos(window, &x, &y);
-            glfwSetWindowPos(window, x + 1, y);
-            macUpdate = true;
-        }
-        #endif
     }
 }
