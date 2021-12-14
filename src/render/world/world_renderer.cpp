@@ -61,8 +61,6 @@ void WorldRenderer::init() {
     glDepthFunc(GL_LESS);
 }
 
-#include <iostream>
-
 void WorldRenderer::drawWorld(World world, float deltaTime) {
     glBindVertexArray(vao);
 

@@ -40,7 +40,7 @@ static GLuint loadShaderFile(GLuint type, const std::string &path) {
     return id;
 }
 
-Shader::Shader(std::string &vertPath, std::string &fragPath) {
+Shader::Shader(std::string vertPath, std::string fragPath) {
     GLuint vertId = loadShaderFile(GL_VERTEX_SHADER, vertPath);
     GLuint fragId = loadShaderFile(GL_FRAGMENT_SHADER, fragPath);
 
@@ -70,4 +70,33 @@ GLint Shader::getUniformLocation(GLchar *name) {
     }
 
     return location;
+}
+
+WorldOpaqueShader::WorldOpaqueShader()
+: Shader("assets/shader/world_opaque.vert", "assets/shader/world_opaque.frag") {
+    texSampler = getUniformLocation((char *) "texSampler");
+    mvp = getUniformLocation((char *) "MVP");
+    offsetX = getUniformLocation((char *) "offsetX");
+    offsetY = getUniformLocation((char *) "offsetY");
+}
+
+void WorldOpaqueShader::updateMVP(Camera &camera) {
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, &camera.getViewProjMat()[0][0]);
+}
+
+void WorldOpaqueShader::setTexSampler(int channel) {
+    glUniform1i(texSampler, 0);
+}
+
+void WorldOpaqueShader::setOffsetX(int offset) {
+    glUniform1f(offsetX, offset);
+}
+
+void WorldOpaqueShader::setOffsetY(int offset) {
+    glUniform1f(offsetY, offset);
+}
+
+WorldOpaqueShader &Shaders::shaderOpaque() {
+    static WorldOpaqueShader shader;
+    return shader;
 }

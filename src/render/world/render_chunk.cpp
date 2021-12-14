@@ -3,7 +3,7 @@
 #include "util/specs.h"
 
 RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: x(inX), y(inY), z(inZ) {
+: loaded(false), x(inX), y(inY), z(inZ) {
     buffer = new GLuint[RENDER_LAYERS];
     glGenBuffers(RENDER_LAYERS, buffer);
 }
@@ -14,5 +14,13 @@ RenderChunk::~RenderChunk() {
 }
 
 void RenderChunk::renderSection() {
+    if (!loaded) {
+        loadBuffer();
+    }
+
+
+}
+
+void RenderChunk::loadBuffer() {
 
 }

@@ -15,4 +15,7 @@ public:
 private:
     int x, y, z;
     GLuint *buffer;
+    bool loaded;
+
+    void loadBuffer();
 };
