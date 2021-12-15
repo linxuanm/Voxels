@@ -57,22 +57,20 @@ void WorldRenderer::init() {
 
     static Texture tex{"assets/texture/block/dirt.png"};
     tex.bind();
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
 }
 
 void WorldRenderer::drawWorld(World world, float deltaTime) {
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
     WorldOpaqueShader &shader = Shaders::shaderOpaque();
     shader.bind();
     shader.updateMVP(cam);
     shader.setTexSampler(0);
 
-    ChunkMap &chunks = world.chunkMap();
+    Chunks &chunks = world.getChunks();
     for (auto &i: chunks) {
-        auto x = (int32_t) (i.first >> 32);
-        auto z = (int32_t) (i.first & 0xFFFFFFFF);
-
         i.second->renderChunk();
     }
 }

@@ -6,11 +6,10 @@ layout(location = 1) in vec2 texCoord;
 out vec2 outTexCoord;
 
 uniform mat4 MVP;
-uniform float offsetX;
-uniform float offsetY;
+uniform vec3 offset;
 
 void main() {
-    vec3 pos = vec3(position.x + offsetX * 16.0f, position.y + offsetY * 16.0f, position.z);
+    vec3 pos = position.xyz + offset;
     gl_Position = MVP * vec4(pos, 1.0f);
     outTexCoord = texCoord;
 }

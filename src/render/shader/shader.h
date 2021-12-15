@@ -26,14 +26,12 @@ public:
     WorldOpaqueShader();
     void updateMVP(Camera &camera);
     void setTexSampler(int channel);
-    void setOffsetX(int offset);
-    void setOffsetY(int offset);
+    void setOffset(glm::vec3 offsetVec);
 
 private:
     GLint texSampler;
     GLint mvp;
-    GLint offsetX;
-    GLint offsetY;
+    GLint offset;
 };
 
 typedef struct {

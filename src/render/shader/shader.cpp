@@ -76,8 +76,7 @@ WorldOpaqueShader::WorldOpaqueShader()
 : Shader("assets/shader/world_opaque.vert", "assets/shader/world_opaque.frag") {
     texSampler = getUniformLocation((char *) "texSampler");
     mvp = getUniformLocation((char *) "MVP");
-    offsetX = getUniformLocation((char *) "offsetX");
-    offsetY = getUniformLocation((char *) "offsetY");
+    offset = getUniformLocation((char *) "offset");
 }
 
 void WorldOpaqueShader::updateMVP(Camera &camera) {
@@ -88,12 +87,8 @@ void WorldOpaqueShader::setTexSampler(int channel) {
     glUniform1i(texSampler, 0);
 }
 
-void WorldOpaqueShader::setOffsetX(int offset) {
-    glUniform1f(offsetX, offset);
-}
-
-void WorldOpaqueShader::setOffsetY(int offset) {
-    glUniform1f(offsetY, offset);
+void WorldOpaqueShader::setOffset(glm::vec3 offsetVec) {
+    glUniform3fv(offset, 1, &offsetVec[0]);
 }
 
 WorldOpaqueShader &Shaders::shaderOpaque() {

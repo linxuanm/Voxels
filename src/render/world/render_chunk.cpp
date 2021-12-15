@@ -1,6 +1,7 @@
 #include "render_chunk.h"
 
 #include <vector>
+#include <render/shader/shader.h>
 
 #include "util/specs.h"
 
@@ -29,16 +30,20 @@ void RenderChunk::bufferChunk() {
     }
 
     glBindVertexArray(vao[0]);
+
+    WorldOpaqueShader &shader = Shaders::shaderOpaque();
+    shader.setOffset({x, y, z});
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
 void RenderChunk::loadBuffer() {
     GLfloat pos[] = {
-        0.0f, 0.0f + y, 0.0f + z, 0.0f, 0.0f,
-        1.0f, 0.0f + y, 0.0f + z, 1.0f, 0.0f, // correct
-        1.0f, 1.0f + y, 0.0f + z, 1.0f, 1.0f,
-        0.0f, 1.0f + y, 0.0f + z, 0.0f, 1.0f // correct
+        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // correct
+        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 1.0f, 0.0f, 0.0f, 1.0f // correct
     };
 
     GLuint indices[] = {

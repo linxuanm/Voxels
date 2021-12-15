@@ -7,17 +7,18 @@ std::shared_ptr<Chunk> World::getBlockChunk(int x, int z) {
 }
 
 std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) {
-    return chunks[(long) x << 32 | z];
+    return chunks[std::make_pair(x, z)];
 }
 
-ChunkMap &World::chunkMap() {
+Chunks &World::getChunks() {
     return chunks;
 }
 
 void World::initWorld() {
+    int a = 0;
     for (int i = -2; i < 3; i++) {
         for (int j = -2; j < 3; j++) {
-            chunks[(long) i << 32 | j] = generator.generateChunk(i, j);
+            chunks[std::make_pair(i, j)] = generator.generateChunk(i, j);
         }
     }
 }
