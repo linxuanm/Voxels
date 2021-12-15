@@ -6,10 +6,12 @@
 class WorldRenderer {
 
 public:
+    WorldRenderer();
     void init();
     void drawWorld(World world, float deltaTime);
     Camera &camera();
 
 private:
+    GLuint vao;
     Camera cam;
 };

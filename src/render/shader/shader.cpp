@@ -66,7 +66,7 @@ GLint Shader::getUniformLocation(GLchar *name) {
     int location = glGetUniformLocation(program, name);
 
     if (location == -1) {
-        std::cout << "[Shader] UNIFORM \"" << name << "\" NOT FOUND";
+        std::cout << "[Shader] UNIFORM \"" << name << "\" NOT FOUND" << std::endl;
     }
 
     return location;

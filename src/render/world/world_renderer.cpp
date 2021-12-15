@@ -6,12 +6,16 @@
 #include "render/shader/shader.h"
 #include "render/texture.h"
 
-GLint varTex;
-GLint varMVP;
-GLuint vao;
+WorldRenderer::WorldRenderer(): vao(0) {
+
+}
 
 void WorldRenderer::init() {
-    GLfloat pos[] = {
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+
+    /*GLfloat pos[] = {
         -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
         0.5f, -0.5f, -1.0f, 1.0f, 0.0f, // correct
         0.5f, 0.5f, -1.0f, 1.0f, 1.0f,
@@ -25,9 +29,6 @@ void WorldRenderer::init() {
 
     std::string vertSrc = "assets/shader/default.vert";
     std::string fragSrc = "assets/shader/default.frag";
-
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
 
     GLuint buf;
     glGenBuffers(1, &buf);
@@ -58,14 +59,19 @@ void WorldRenderer::init() {
     varMVP = shader.getUniformLocation((char *) "MVP");
 
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LESS);*/
+
+    static Texture tex{"assets/texture/block/dirt.png"};
+    tex.bind();
 }
 
 void WorldRenderer::drawWorld(World world, float deltaTime) {
-    glBindVertexArray(vao);
+    WorldOpaqueShader &shader = Shaders::shaderOpaque();
+    shader.bind();
+    shader.updateMVP(cam);
+    shader.setTexSampler(0);
 
-    glUniform1i(varTex, 0);
-    glUniformMatrix4fv(varMVP, 1, GL_FALSE, &cam.getViewProjMat()[0][0]);
+    glBindVertexArray(vao);
 
     ChunkMap &chunks = world.chunkMap();
     for (auto &i: chunks) {

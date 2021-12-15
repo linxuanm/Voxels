@@ -10,11 +10,12 @@ public:
     RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ);
     ~RenderChunk();
 
-    void renderSection();
+    void bufferChunk();
 
 private:
     int x, y, z;
     GLuint *buffer;
+    GLuint *idxBuf;
     bool loaded;
 
     void loadBuffer();
