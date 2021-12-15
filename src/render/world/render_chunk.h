@@ -16,10 +16,11 @@ public:
     RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ);
     ~RenderChunk();
 
-    void bufferChunk(int &vertCount);
+    void bufferChunk();
 
 private:
     int x, y, z;
+    GLuint *vao;
     GLuint *buffer;
     GLuint *idxBuf;
 

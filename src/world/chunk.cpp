@@ -7,8 +7,8 @@ Chunk::Chunk(ChunkPos inX, ChunkPos inZ)
     }
 }
 
-void Chunk::renderChunk(int &vertCount) {
+void Chunk::renderChunk() {
     for (auto &i: renderChunks) {
-        i->bufferChunk(vertCount);
+        i->bufferChunk();
     }
 }

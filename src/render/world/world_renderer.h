@@ -12,6 +12,5 @@ public:
     Camera &camera();
 
 private:
-    GLuint vao;
     Camera cam;
 };

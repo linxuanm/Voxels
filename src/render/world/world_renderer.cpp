@@ -6,15 +6,9 @@
 #include "render/shader/shader.h"
 #include "render/texture.h"
 
-WorldRenderer::WorldRenderer(): vao(0) {
-
-}
+WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-
     /*GLfloat pos[] = {
         -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
         0.5f, -0.5f, -1.0f, 1.0f, 0.0f, // correct
@@ -63,6 +57,9 @@ void WorldRenderer::init() {
 
     static Texture tex{"assets/texture/block/dirt.png"};
     tex.bind();
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 }
 
 void WorldRenderer::drawWorld(World world, float deltaTime) {
@@ -71,18 +68,13 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
     shader.updateMVP(cam);
     shader.setTexSampler(0);
 
-    glBindVertexArray(vao);
-    int vertCount = 0;
-
     ChunkMap &chunks = world.chunkMap();
     for (auto &i: chunks) {
         auto x = (int32_t) (i.first >> 32);
         auto z = (int32_t) (i.first & 0xFFFFFFFF);
 
-        i.second->renderChunk(vertCount);
+        i.second->renderChunk();
     }
-
-    glDrawElements(GL_TRIANGLES, vertCount, GL_UNSIGNED_INT, nullptr);
 }
 
 Camera &WorldRenderer::camera() {

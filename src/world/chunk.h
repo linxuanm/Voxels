@@ -15,7 +15,7 @@ public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(ChunkPos inX, ChunkPos inZ);
-    void renderChunk(int &vertCount);
+    void renderChunk();
 
 private:
     int x, z;

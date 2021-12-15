@@ -15,5 +15,9 @@ ChunkMap &World::chunkMap() {
 }
 
 void World::initWorld() {
-    chunks[5l << 32 | 6] = generator.generateChunk(5, 6);
+    for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++) {
+            chunks[(long) i << 32 | j] = generator.generateChunk(i, j);
+        }
+    }
 }
