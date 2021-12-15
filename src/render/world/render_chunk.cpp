@@ -1,8 +1,8 @@
 #include "render_chunk.h"
 
 #include <vector>
-#include <render/shader/shader.h>
 
+#include "render/shader/shader.h"
 #include "util/specs.h"
 
 RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
