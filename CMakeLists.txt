@@ -22,6 +22,7 @@ set(VOXELS_HEADERS
 
     src/render/texture.h
     src/render/view/camera.h
+    src/render/view/buffer_builder.h
     src/render/shader/shader.h
     src/render/world/blockface.h
     src/render/world/render_chunk.h
@@ -47,6 +48,7 @@ set(VOXELS_SOURCES
 
     src/render/texture.cpp
     src/render/view/camera.cpp
+    src/render/view/buffer_builder.cpp
     src/render/shader/shader.cpp
     src/render/world/blockface.cpp
     src/render/world/render_chunk.cpp

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "render/view/buffer_builder.h"
 #include "render/world/render_chunk.h"
 #include "util/specs.h"
 
@@ -14,7 +15,7 @@ public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(ChunkPos inX, ChunkPos inZ);
-    void renderChunk();
+    void renderChunk(int &vertCount);
 
 private:
     int x, z;

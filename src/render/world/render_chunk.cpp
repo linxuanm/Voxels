@@ -5,7 +5,7 @@
 #include "util/specs.h"
 
 RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: loaded(false), x(inX), y(inY), z(inZ) {
+: loaded(false), sectionVertCount(0), x(inX), y(inY), z(inZ) {
     buffer = new GLuint[RENDER_LAYERS];
     idxBuf = new GLuint[RENDER_LAYERS];
     glGenBuffers(RENDER_LAYERS, buffer);
@@ -17,12 +17,12 @@ RenderChunk::~RenderChunk() {
     delete[] buffer;
 }
 
-void RenderChunk::bufferChunk() {
+void RenderChunk::bufferChunk(int &vertCount) {
     if (!loaded) {
         loadBuffer();
     }
 
-
+    vertCount += sectionVertCount;
 }
 
 void RenderChunk::loadBuffer() {
@@ -53,5 +53,6 @@ void RenderChunk::loadBuffer() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuf[0]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+    sectionVertCount = 6;
     loaded = true;
 }

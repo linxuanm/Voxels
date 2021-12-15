@@ -72,16 +72,17 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
     shader.setTexSampler(0);
 
     glBindVertexArray(vao);
+    int vertCount = 0;
 
     ChunkMap &chunks = world.chunkMap();
     for (auto &i: chunks) {
         auto x = (int32_t) (i.first >> 32);
         auto z = (int32_t) (i.first & 0xFFFFFFFF);
 
-        i.second->renderChunk();
+        i.second->renderChunk(vertCount);
     }
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, vertCount, GL_UNSIGNED_INT, nullptr);
 }
 
 Camera &WorldRenderer::camera() {
