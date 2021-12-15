@@ -13,6 +13,20 @@ RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
     glGenVertexArrays(RENDER_LAYERS, vao);
     glGenBuffers(RENDER_LAYERS, buffer);
     glGenBuffers(RENDER_LAYERS, idxBuf);
+
+    glBindVertexArray(vao[0]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(
+        1, 2, GL_FLOAT, GL_FALSE,
+        sizeof(Vertex), (void *) (sizeof(GLfloat) * 3)
+    );
+
+    glBindVertexArray(0);
 }
 
 RenderChunk::~RenderChunk() {
@@ -55,15 +69,6 @@ void RenderChunk::loadBuffer() {
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, nullptr);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(
-        1, 2, GL_FLOAT, GL_FALSE,
-        sizeof(GLfloat) * 5, (void *) (sizeof(GLfloat) * 3)
-    );
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuf[0]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

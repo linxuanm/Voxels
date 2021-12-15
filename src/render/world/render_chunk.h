@@ -5,8 +5,8 @@
 
 typedef int32_t ChunkPos;
 struct Vertex {
-    int x, y, z;
-    float u, v;
+    GLfloat x, y, z;
+    GLfloat u, v;
 };
 
 
