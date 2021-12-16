@@ -9,7 +9,72 @@
 WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
+    GLfloat pos[36 * 3] = {
+        -1, -1, -1,
+         1, -1, -1,
+         1,  1, -1,
+         1,  1, -1,
+        -1,  1, -1,
+        -1, -1, -1,
+
+        -1, -1,  1,
+         1, -1,  1,
+         1,  1,  1,
+         1,  1,  1,
+        -1,  1,  1,
+        -1, -1,  1,
+
+        -1, -1, -1,
+        -1, -1,  1,
+         1, -1,  1,
+         1, -1,  1,
+         1, -1, -1,
+        -1, -1, -1,
+
+        -1,  1, -1,
+        -1,  1,  1,
+         1,  1,  1,
+         1,  1,  1,
+         1,  1, -1,
+        -1,  1, -1,
+
+        -1, -1, -1,
+        -1, -1,  1,
+        -1,  1,  1,
+        -1,  1,  1,
+        -1,  1, -1,
+        -1, -1, -1,
+
+         1, -1, -1,
+         1, -1,  1,
+         1,  1,  1,
+         1,  1,  1,
+         1,  1, -1,
+         1, -1, -1,
+    };
+
     glGenVertexArrays(1, &skyVao);
+    glGenBuffers(1, &skyVbo);
+
+    glBindVertexArray(skyVao);
+    glBindBuffer(GL_ARRAY_BUFFER, skyVbo);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(
+        0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, nullptr
+    );
+
+    glBufferData(
+        GL_ARRAY_BUFFER, sizeof(pos),
+        pos, GL_STATIC_DRAW
+    );
+
+    glBindVertexArray(0);
+}
+
+WorldRenderer::~WorldRenderer() {
+    glDeleteBuffers(1, &skyVbo);
+    glDeleteVertexArrays(1, &skyVao);
 }
 
 void WorldRenderer::drawWorld(World world, float deltaTime) {
@@ -40,10 +105,15 @@ void WorldRenderer::drawSkybox() {
 
     glBindVertexArray(skyVao);
 
-    SkyboxShader &shader = Shaders::shaderSkybox();
     Textures::skyboxTexture().bind();
+    SkyboxShader &shader = Shaders::shaderSkybox();
+    shader.bind();
+    shader.updateMVP(cam);
+    shader.setTexSampler(0);
 
-    //glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    glBindVertexArray(0);
 
     glDepthMask(GL_TRUE);
 }

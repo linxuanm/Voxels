@@ -6,13 +6,13 @@
 #include "game/application.h"
 #include "util/config.h"
 
-Camera::Camera(): x(0.5), y(20), z(0.5) {}
+Camera::Camera(): x(0.5), y(0.5), z(0.5) {}
 
 glm::mat4 Camera::getViewProjMat() {
-    glm::mat4 proj = glm::perspective(
-        Config::fov, Application::aspectRatio, 0.01f, 100.0f
-    );
+    return getProjMat() * getViewMat();
+}
 
+glm::mat4 Camera::getViewMat() {
     float radPitch = glm::radians(pitch);
     float radYaw = glm::radians(yaw);
 
@@ -23,9 +23,13 @@ glm::mat4 Camera::getViewProjMat() {
     };
 
     glm::vec3 eye{x, y, z};
-    glm::mat4 view = glm::lookAt(eye, eye + front, {0, 1, 0});
+    return glm::lookAt(eye, eye + front, {0, 1, 0});
+}
 
-    return proj * view;
+glm::mat4 Camera::getProjMat() {
+    return glm::perspective(
+        Config::fov, Application::aspectRatio, 0.01f, 100.0f
+    );
 }
 
 float Camera::getYaw() {

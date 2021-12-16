@@ -7,6 +7,8 @@ class WorldRenderer {
 
 public:
     WorldRenderer();
+    ~WorldRenderer();
+
     void init();
     void drawWorld(World world, float deltaTime);
     Camera &camera();
@@ -14,6 +16,7 @@ public:
 private:
     Camera cam;
     GLuint skyVao;
+    GLuint skyVbo;
 
     void drawSkybox();
 };

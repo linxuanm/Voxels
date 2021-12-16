@@ -10,6 +10,8 @@ public:
     Camera();
 
     glm::mat4 getViewProjMat();
+    glm::mat4 getViewMat();
+    glm::mat4 getProjMat();
     float getYaw();
     void translate(float x, float y, float z);
     void rotate(float pitch, float yaw);

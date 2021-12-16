@@ -34,9 +34,9 @@ RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 }
 
 RenderChunk::~RenderChunk() {
-    glDeleteVertexArrays(RENDER_LAYERS, vao);
     glDeleteBuffers(RENDER_LAYERS, buffer);
     glDeleteBuffers(RENDER_LAYERS, idxBuf);
+    glDeleteVertexArrays(RENDER_LAYERS, vao);
     delete[] vao;
     delete[] buffer;
     delete[] idxBuf;

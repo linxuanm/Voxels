@@ -98,8 +98,10 @@ SkyboxShader::SkyboxShader()
 }
 
 void SkyboxShader::updateMVP(Camera &camera) {
-    glm::mat4 view = glm::mat4(glm::mat3(camera.getViewProjMat()));
-    glUniformMatrix4fv(mvp, 1, GL_FALSE, &view[0][0]);
+    glm::mat4 view = glm::mat4(glm::mat3(camera.getViewMat()));
+    glm::mat4 proj = camera.getProjMat();
+    glm::mat4 projView = proj * view;
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, &projView[0][0]);
 }
 
 void SkyboxShader::setTexSampler(int channel) {
