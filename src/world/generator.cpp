@@ -4,10 +4,10 @@
 
 #include "world/blocks.h"
 
-Generator::Generator(long inSeed): seed(inSeed) {}
+Generator::Generator() = default;
 
-std::shared_ptr<Chunk> Generator::generateChunk(ChunkPos x, ChunkPos z) {
-    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(x, z);
+std::shared_ptr<Chunk> Generator::genChunk(World &w, ChunkPos x, ChunkPos z) {
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(w, x, z);
 
     for (int h = 0; h < 20; h++) {
         for (int i = 0; i < 16; i++) {

@@ -8,18 +8,21 @@
 #include "util/specs.h"
 
 typedef int32_t ChunkPos;
-typedef uint8_t RelBlockPos;
+
+class World;
 
 class Chunk {
 
 public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
-    Chunk(ChunkPos inX, ChunkPos inZ);
+    Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
     void renderChunk();
     int getBlockRel(const BlockPos &pos);
+    World &getWorld();
 
 private:
     int x, z;
+    World &world;
     std::unique_ptr<RenderChunk> renderChunks[CHUNK_HEIGHT >> 4];
 };

@@ -3,6 +3,7 @@
 #include "render/shader/shader.h"
 #include "world/chunk.h"
 #include "world/blocks.h"
+#include "world/world.h"
 #include "util/specs.h"
 
 Vertex::Vertex(BlockPos pos, GLfloat inU, GLfloat inV)
@@ -120,12 +121,16 @@ void RenderChunk::addFace(
 bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
     BlockPos side = pos.offset(face);
 
-    if (side.x() < 0 || side.x() >= 16 || side.z() < 0 || side.z() >= 16 ||
-        side.y() > CHUNK_HEIGHT || side.y() < 0) {
+    if (side.y() > CHUNK_HEIGHT || side.y() < 0) {
         return true;
     }
 
-    int block = chunk.getBlockRel(side);
+    int block;
+    if (side.x() < 0 || side.x() >= 16 || side.z() < 0 || side.z() >= 16) {
+        block = chunk.getWorld().getBlock(side + BlockPos{x << 4, 0, z << 4});
+    } else {
+        block = chunk.getBlockRel(side);
+    }
 
     return !Blocks::isSolid(block);
 }
