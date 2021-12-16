@@ -8,6 +8,7 @@
 #include "util/specs.h"
 
 typedef int32_t ChunkPos;
+typedef uint8_t RelBlockPos;
 
 class Chunk {
 
@@ -16,6 +17,7 @@ public:
 
     Chunk(ChunkPos inX, ChunkPos inZ);
     void renderChunk();
+    int getBlockRel(const BlockPos &pos);
 
 private:
     int x, z;

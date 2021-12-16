@@ -26,6 +26,14 @@ BlockPos BlockPos::mul(float scalar) {
     };
 }
 
+BlockPos BlockPos::offset(GLfloat *offset) const {
+    return {
+        xComp + (int) offset[0],
+        yComp + (int) offset[1],
+        zComp + (int) offset[2]
+    };
+}
+
 int BlockPos::toChunkPos() {
     int x = xComp & 15;
     int y = yComp;
@@ -34,14 +42,14 @@ int BlockPos::toChunkPos() {
     return y << 8 | x << 4 | z;
 }
 
-int BlockPos::x() {
+int BlockPos::x() const {
     return xComp;
 }
 
-int BlockPos::y() {
+int BlockPos::y() const {
     return yComp;
 }
 
-int BlockPos::z() {
+int BlockPos::z() const {
     return zComp;
 }

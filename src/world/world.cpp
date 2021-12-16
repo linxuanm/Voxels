@@ -15,9 +15,8 @@ Chunks &World::getChunks() {
 }
 
 void World::initWorld() {
-    int a = 0;
-    for (int i = -2; i < 3; i++) {
-        for (int j = -2; j < 3; j++) {
+    for (int i = -1; i < 2; i++) {
+        for (int j = -1; j < 2; j++) {
             chunks[std::make_pair(i, j)] = generator.generateChunk(i, j);
         }
     }

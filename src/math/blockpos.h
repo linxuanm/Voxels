@@ -1,5 +1,7 @@
 #pragma once
 
+#include "gl.h"
+
 class BlockPos {
 
 public:
@@ -9,10 +11,11 @@ public:
     BlockPos sub(int x, int y, int z);
     BlockPos sub(BlockPos other);
     BlockPos mul(float scalar);
+    BlockPos offset(GLfloat offset[3]) const;
     int toChunkPos();
-    int x();
-    int y();
-    int z();
+    int x() const;
+    int y() const;
+    int z() const;
 
 private:
     int xComp, yComp, zComp;

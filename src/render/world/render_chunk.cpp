@@ -1,12 +1,15 @@
 #include "render_chunk.h"
 
-#include <vector>
-
 #include "render/shader/shader.h"
+#include "world/chunk.h"
+#include "world/blocks.h"
 #include "util/specs.h"
 
-RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: loaded(false), vertCount(0), x(inX), y(inY), z(inZ) {
+Vertex::Vertex(BlockPos pos, GLfloat inU, GLfloat inV)
+: x(pos.x()), y(pos.y()), z(pos.z()), u(inU), v(inV) {}
+
+RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
+: loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
     vao = new GLuint[RENDER_LAYERS];
     buffer = new GLuint[RENDER_LAYERS];
     idxBuf = new GLuint[RENDER_LAYERS];
@@ -48,7 +51,7 @@ void RenderChunk::bufferChunk() {
     WorldOpaqueShader &shader = Shaders::shaderOpaque();
     shader.setOffset({x, y, z});
 
-    glDrawElements(GL_TRIANGLES, 0, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, vertCount, GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
@@ -56,6 +59,22 @@ void RenderChunk::loadBuffer() {
 
     std::vector<Vertex> verts;
     std::vector<int> idxs;
+
+    for (int h = 0; h < 16; h++) {
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                BlockPos pos{i, h, j};
+                int block = chunk.getBlockRel(pos.add({0, y << 4, 0}));
+
+                if (block != BLOCK_AIR) {
+
+                    for (auto &f: BlockFace::allFacing) {
+                        addFace(BLOCK_DIRT, pos, f, verts, idxs);
+                    }
+                }
+            }
+        }
+    }
 
     glBindVertexArray(vao[0]);
 
@@ -74,5 +93,23 @@ void RenderChunk::loadBuffer() {
     glBindVertexArray(0);
 
     loaded = true;
-    vertCount = idxs.size();
+    vertCount = (GLsizei) idxs.size();
+}
+
+void RenderChunk::addFace(
+    int block, const BlockPos &pos, BlockFace::Facing face,
+    std::vector<Vertex> &verts, std::vector<GLsizei> &idxs) {
+
+    auto offset = (GLsizei) verts.size();
+    for (int i = 0; i < 4; i++) {
+        int vertId = BlockFace::facingVerts[face][i];
+        auto currOffset = BlockFace::vertOffset[vertId];
+        auto uv = BlockFace::faceUV[i];
+        verts.emplace_back(pos.offset(currOffset), uv[0], uv[1]);
+    }
+
+    idxs.insert(idxs.end(), {
+        0 + offset, 1 + offset, 2 + offset,
+        2 + offset, 3 + offset, 0 + offset
+    });
 }
