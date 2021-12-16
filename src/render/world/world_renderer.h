@@ -13,4 +13,7 @@ public:
 
 private:
     Camera cam;
+    GLuint skyVao;
+
+    void drawSkybox();
 };

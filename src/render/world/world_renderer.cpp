@@ -9,14 +9,16 @@
 WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
-    static Texture tex{"assets/texture/block/dirt.png"};
-    tex.bind();
+    glGenVertexArrays(1, &skyVao);
 }
 
 void WorldRenderer::drawWorld(World world, float deltaTime) {
+    drawSkybox();
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+
+    Textures::blockTexture().bind();
 
     WorldOpaqueShader &shader = Shaders::shaderOpaque();
     shader.bind();
@@ -31,4 +33,17 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
 
 Camera &WorldRenderer::camera() {
     return cam;
+}
+
+void WorldRenderer::drawSkybox() {
+    glDepthMask(GL_FALSE);
+
+    glBindVertexArray(skyVao);
+
+    SkyboxShader &shader = Shaders::shaderSkybox();
+    Textures::skyboxTexture().bind();
+
+    //glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    glDepthMask(GL_TRUE);
 }

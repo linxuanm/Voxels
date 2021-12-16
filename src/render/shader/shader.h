@@ -34,13 +34,19 @@ private:
     GLint offset;
 };
 
-typedef struct {
+class SkyboxShader: public Shader {
+
+public:
+    SkyboxShader();
+    void updateMVP(Camera &camera);
+    void setTexSampler(int channel);
+
+private:
     GLint texSampler;
     GLint mvp;
-    GLint offsetX;
-    GLint offsetY;
-} ShaderOpaqueData;
+};
 
 namespace Shaders {
     WorldOpaqueShader &shaderOpaque();
+    SkyboxShader &shaderSkybox();
 };

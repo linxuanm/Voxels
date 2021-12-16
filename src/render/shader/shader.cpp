@@ -84,14 +84,34 @@ void WorldOpaqueShader::updateMVP(Camera &camera) {
 }
 
 void WorldOpaqueShader::setTexSampler(int channel) {
-    glUniform1i(texSampler, 0);
+    glUniform1i(texSampler, channel);
 }
 
 void WorldOpaqueShader::setOffset(glm::vec3 offsetVec) {
     glUniform3fv(offset, 1, &offsetVec[0]);
 }
 
+SkyboxShader::SkyboxShader()
+: Shader("assets/shader/skybox.vert", "assets/shader/skybox.frag") {
+    texSampler = getUniformLocation((char *) "texSampler");
+    mvp = getUniformLocation((char *) "MVP");
+}
+
+void SkyboxShader::updateMVP(Camera &camera) {
+    glm::mat4 view = glm::mat4(glm::mat3(camera.getViewProjMat()));
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, &view[0][0]);
+}
+
+void SkyboxShader::setTexSampler(int channel) {
+    glUniform1i(texSampler, channel);
+}
+
 WorldOpaqueShader &Shaders::shaderOpaque() {
     static WorldOpaqueShader shader;
+    return shader;
+}
+
+SkyboxShader& Shaders::shaderSkybox() {
+    static SkyboxShader shader;
     return shader;
 }
