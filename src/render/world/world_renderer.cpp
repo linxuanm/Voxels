@@ -9,6 +9,8 @@
 WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
+
+    // TODO: fix facing of triangle to adapt to single side rendering
     GLfloat pos[36 * 3] = {
         -1, -1, -1,
          1, -1, -1,
