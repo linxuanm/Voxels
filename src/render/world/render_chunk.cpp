@@ -6,7 +6,7 @@
 #include "util/specs.h"
 
 RenderChunk::RenderChunk(ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: loaded(false), sectionVertCount(0), x(inX), y(inY), z(inZ) {
+: loaded(false), vertCount(0), x(inX), y(inY), z(inZ) {
     vao = new GLuint[RENDER_LAYERS];
     buffer = new GLuint[RENDER_LAYERS];
     idxBuf = new GLuint[RENDER_LAYERS];
@@ -48,32 +48,31 @@ void RenderChunk::bufferChunk() {
     WorldOpaqueShader &shader = Shaders::shaderOpaque();
     shader.setOffset({x, y, z});
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, 0, GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
 void RenderChunk::loadBuffer() {
-    GLfloat pos[] = {
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // correct
-        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f // correct
-    };
 
-    GLuint indices[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
+    std::vector<Vertex> verts;
+    std::vector<int> idxs;
 
     glBindVertexArray(vao[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
+    glBufferData(
+        GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex),
+        &verts[0], GL_STATIC_DRAW
+    );
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuf[0]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(
+        GL_ELEMENT_ARRAY_BUFFER, idxs.size() * sizeof(Vertex),
+        &idxs[0], GL_STATIC_DRAW
+    );
 
     glBindVertexArray(0);
 
     loaded = true;
+    vertCount = idxs.size();
 }

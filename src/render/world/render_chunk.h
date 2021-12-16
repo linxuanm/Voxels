@@ -25,7 +25,7 @@ private:
     GLuint *idxBuf;
 
     bool loaded;
-    int sectionVertCount;
+    size_t vertCount;
 
     void loadBuffer();
 };
