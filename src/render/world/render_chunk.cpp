@@ -63,13 +63,16 @@ void RenderChunk::loadBuffer() {
     for (int h = 0; h < 16; h++) {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                BlockPos pos{i, h, j};
-                int block = chunk.getBlockRel(pos + BlockPos{0, y << 4, 0});
+                BlockPos relPos{i, h, j};
+                BlockPos absHeightPos = relPos + BlockPos{0, y << 4, 0};
+                int block = chunk.getBlockRel(absHeightPos);
 
                 if (block != BLOCK_AIR) {
 
                     for (auto &f: BlockFace::allFacing) {
-                        addFace(BLOCK_DIRT, pos, f, verts, idxs);
+                        if (shouldRenderFace(absHeightPos, f)) {
+                            addFace(BLOCK_DIRT, relPos, f, verts, idxs);
+                        }
                     }
                 }
             }
@@ -112,4 +115,8 @@ void RenderChunk::addFace(
         0 + offset, 1 + offset, 2 + offset,
         2 + offset, 3 + offset, 0 + offset
     });
+}
+
+bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
+    return false;
 }

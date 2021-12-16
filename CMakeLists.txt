@@ -57,6 +57,7 @@ set(VOXELS_SOURCES
     src/math/blockpos.cpp
 
     src/world/chunk.cpp
+    src/world/blocks.cpp
     src/world/world.cpp
     src/world/generator.cpp
 

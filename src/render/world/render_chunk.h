@@ -45,4 +45,5 @@ private:
     GLsizei vertCount;
 
     void loadBuffer();
+    bool shouldRenderFace(BlockPos pos, BlockFace::Facing face);
 };
