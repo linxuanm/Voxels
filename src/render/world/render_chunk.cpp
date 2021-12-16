@@ -118,5 +118,14 @@ void RenderChunk::addFace(
 }
 
 bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
-    return false;
+    BlockPos side = pos.offset(face);
+
+    if (side.x() < 0 || side.x() >= 16 || side.z() < 0 || side.z() >= 16 ||
+        side.y() > CHUNK_HEIGHT || side.y() < 0) {
+        return true;
+    }
+
+    int block = chunk.getBlockRel(side);
+
+    return !Blocks::isSolid(block);
 }
