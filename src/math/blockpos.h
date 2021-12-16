@@ -7,11 +7,11 @@ class BlockPos {
 public:
     BlockPos(int xComp, int yComp, int zComp);
     BlockPos add(int x, int y, int z);
-    BlockPos add(BlockPos other);
+    BlockPos operator+(const BlockPos &other);
     BlockPos sub(int x, int y, int z);
-    BlockPos sub(BlockPos other);
-    BlockPos mul(float scalar);
-    BlockPos offset(GLfloat offset[3]) const;
+    BlockPos operator-(const BlockPos &other);
+    BlockPos operator*(float scalar);
+    BlockPos operator+(GLfloat offset[3]) const;
     int toChunkPos();
     int x() const;
     int y() const;

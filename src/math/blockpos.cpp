@@ -6,7 +6,7 @@ BlockPos BlockPos::add(int x, int y, int z) {
     return {xComp + x, yComp + y, zComp + z};
 }
 
-BlockPos BlockPos::add(BlockPos other) {
+BlockPos BlockPos::operator+(const BlockPos &other) {
     return add(other.xComp, other.yComp, other.zComp);
 }
 
@@ -14,11 +14,11 @@ BlockPos BlockPos::sub(int x, int y, int z) {
     return {xComp - x, yComp - y, zComp - z};
 }
 
-BlockPos BlockPos::sub(BlockPos other) {
+BlockPos BlockPos::operator-(const BlockPos &other) {
     return sub(other.xComp, other.yComp, other.zComp);
 }
 
-BlockPos BlockPos::mul(float scalar) {
+BlockPos BlockPos::operator*(float scalar) {
     return {
         (int) (scalar * xComp),
         (int) (scalar * yComp),
@@ -26,7 +26,7 @@ BlockPos BlockPos::mul(float scalar) {
     };
 }
 
-BlockPos BlockPos::offset(GLfloat *offset) const {
+BlockPos BlockPos::operator+(GLfloat offset[3]) const {
     return {
         xComp + (int) offset[0],
         yComp + (int) offset[1],

@@ -64,7 +64,7 @@ void RenderChunk::loadBuffer() {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 BlockPos pos{i, h, j};
-                int block = chunk.getBlockRel(pos.add({0, y << 4, 0}));
+                int block = chunk.getBlockRel(pos + BlockPos{0, y << 4, 0});
 
                 if (block != BLOCK_AIR) {
 
@@ -105,7 +105,7 @@ void RenderChunk::addFace(
         int vertId = BlockFace::facingVerts[face][i];
         auto currOffset = BlockFace::vertOffset[vertId];
         auto uv = BlockFace::faceUV[i];
-        verts.emplace_back(pos.offset(currOffset), uv[0], uv[1]);
+        verts.emplace_back(pos + currOffset, uv[0], uv[1]);
     }
 
     idxs.insert(idxs.end(), {
