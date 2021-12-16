@@ -18,8 +18,12 @@ public:
 
     Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
     void renderChunk();
-    int getBlockRel(const BlockPos &pos);
     World &getWorld();
+    int getBlockRel(const BlockPos &pos);
+    void updateRenderChunk(ChunkPos pos);
+
+    // sets block without triggering any updates, etc
+    void setBlockRel(int block, const BlockPos &pos);
 
 private:
     int x, z;

@@ -25,3 +25,7 @@ void Voxels::drawFrame(float deltaTime) {
 Camera &Voxels::camera() {
     return renderer.camera();
 }
+
+World& Voxels::getWorld() {
+    return world;
+}

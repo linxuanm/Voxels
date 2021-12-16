@@ -50,4 +50,7 @@ void Input::fireKeyPress(int keyId) {
             hideMouse ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL
         );
     }
+    if (keyId == GLFW_KEY_R) {
+        Voxels::get().getWorld().breakBlock(Voxels::get().camera().getCurrPos());
+    }
 }

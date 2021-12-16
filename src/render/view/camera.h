@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include "math/blockpos.h"
+
 class Camera {
 
 public:
@@ -11,6 +13,7 @@ public:
     float getYaw();
     void translate(float x, float y, float z);
     void rotate(float pitch, float yaw);
+    BlockPos getCurrPos();
 
 private:
     float x, y, z;

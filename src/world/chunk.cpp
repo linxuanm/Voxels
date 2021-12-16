@@ -20,3 +20,11 @@ int Chunk::getBlockRel(const BlockPos &pos) {
 World &Chunk::getWorld() {
     return world;
 }
+
+void Chunk::updateRenderChunk(ChunkPos pos) {
+    renderChunks[pos]->refresh();
+}
+
+void Chunk::setBlockRel(int block, const BlockPos &pos) {
+    blocks[pos.y() << 8 | pos.x() << 4 | pos.z()] = block;
+}

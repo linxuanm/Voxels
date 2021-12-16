@@ -1,6 +1,7 @@
 #include "camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <cmath>
 
 #include "game/application.h"
 #include "util/config.h"
@@ -40,4 +41,12 @@ void Camera::translate(float x, float y, float z) {
 void Camera::rotate(float dYaw, float dPitch) {
     yaw += dYaw;
     pitch = glm::clamp(pitch + dPitch, -89.9f, 89.9f);
+}
+
+BlockPos Camera::getCurrPos() {
+    return {
+        static_cast<int>(floor(x)),
+        static_cast<int>(floor(y)),
+        static_cast<int>(floor(z))
+    };
 }

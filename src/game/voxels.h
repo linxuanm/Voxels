@@ -10,6 +10,7 @@ public:
     void init();
     void drawFrame(float deltaTime);
     Camera &camera();
+    World &getWorld();
 
 private:
     Voxels();

@@ -134,3 +134,7 @@ bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
 
     return !Blocks::isSolid(block);
 }
+
+void RenderChunk::refresh() {
+    loaded = false;
+}

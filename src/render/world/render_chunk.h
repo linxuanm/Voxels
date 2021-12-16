@@ -28,6 +28,7 @@ public:
     RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ);
     ~RenderChunk();
 
+    void refresh(); // reloads the VBO, etc
     void bufferChunk();
     void addFace(
         int block, const BlockPos &pos, BlockFace::Facing face,

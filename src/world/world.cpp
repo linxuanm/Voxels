@@ -2,14 +2,17 @@
 
 #include "world/blocks.h"
 
-World::World() {}
+World::World() = default;
 
-std::shared_ptr<Chunk> World::getBlockChunk(int x, int z) {
-    return getChunk(x >> 4, z >> 4);
+std::shared_ptr<Chunk> World::getChunkAt(const BlockPos &pos) {
+    return getChunk(pos.x() >> 4, pos.z() >> 4);
 }
 
 std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) {
-    return chunks[std::make_pair(x, z)];
+    auto iter = chunks.find({x, z});
+    if (iter == chunks.end()) return nullptr;
+
+    return iter->second;
 }
 
 Chunks &World::getChunks() {
@@ -17,13 +20,10 @@ Chunks &World::getChunks() {
 }
 
 int World::getBlock(const BlockPos &pos) {
-    ChunkPos x = pos.x() >> 4;
-    ChunkPos z = pos.z() >> 4;
+    auto chunk = getChunkAt(pos);
+    if (chunk == nullptr) return BLOCK_AIR;
 
-    auto iter = chunks.find({x, z});
-    if (iter == chunks.end()) return BLOCK_AIR;
-
-    return iter->second->getBlockRel({pos.x() & 15, pos.y(), pos.z() & 15});
+    return chunk->getBlockRel({pos.x() & 15, pos.y(), pos.z() & 15});
 }
 
 void World::initWorld() {
@@ -31,5 +31,35 @@ void World::initWorld() {
         for (int j = -1; j < 2; j++) {
             chunks[{i, j}] = generator.genChunk(*this, i, j);
         }
+    }
+}
+
+void World::updateBlock(const BlockPos &pos) {
+    if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT) return;
+
+    auto chunk = getChunkAt(pos);
+    if (chunk == nullptr) return;
+
+    chunk->updateRenderChunk(pos.y() >> 4);
+}
+
+void World::breakBlock(const BlockPos &pos) {
+    if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT) return;
+
+    auto chunk = getChunkAt(pos);
+    if (chunk == nullptr) return;
+
+    BlockPos relPos{pos.x() & 15, pos.y(), pos.z() & 15};
+
+    if (chunk->getBlockRel(relPos) == BLOCK_AIR) return;
+    chunk->setBlockRel(BLOCK_AIR, relPos);
+    updateBlock(pos);
+
+    /*
+     * VBO updating uses flags so multiple update on the same chunk
+     * is fine.
+     */
+    for (auto &i: BlockFace::allFacing) {
+        updateBlock(pos.offset(i));
     }
 }
