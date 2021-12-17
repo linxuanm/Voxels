@@ -1,6 +1,15 @@
 #include "blockpos.h"
 
+#include <cmath>
+
 BlockPos::BlockPos(int x, int y, int z): xComp(x), yComp(y), zComp(z) {}
+
+BlockPos::BlockPos(float x, float y, float z)
+: xComp(static_cast<int>(floor(x)))
+, yComp(static_cast<int>(floor(y)))
+, zComp(static_cast<int>(floor(z))) {}
+
+BlockPos::BlockPos(glm::vec3 pos): BlockPos(pos.x, pos.y, pos.z) {}
 
 BlockPos BlockPos::add(int x, int y, int z) const {
     return {xComp + x, yComp + y, zComp + z};

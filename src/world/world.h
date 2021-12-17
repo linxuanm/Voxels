@@ -6,6 +6,7 @@
 
 #include "world/chunk.h"
 #include "world/generator.h"
+#include "render/view/camera.h"
 
 // shared_ptr for potentially delayed dealloc during world saving
 typedef std::map<std::pair<ChunkPos, ChunkPos>, std::shared_ptr<Chunk>> Chunks;
@@ -23,6 +24,8 @@ public:
     // triggers the block update function and updates its render chunk
     void updateBlock(const BlockPos &pos);
     void breakBlock(const BlockPos &pos);
+    BlockPos traceBlock(const glm::vec3 &start, const glm::vec3 &end);
+    BlockPos traceBlock(const Camera &cam, float length);
 
 private:
     Chunks chunks;

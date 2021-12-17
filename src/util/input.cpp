@@ -51,6 +51,6 @@ void Input::fireKeyPress(int keyId) {
         );
     }
     if (keyId == GLFW_KEY_R) {
-        Voxels::get().getWorld().breakBlock(Voxels::get().camera().getCurrPos());
+        Voxels::get().getWorld().breakBlock(Voxels::get().camera().getCurrBlock());
     }
 }

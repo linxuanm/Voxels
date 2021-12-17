@@ -63,3 +63,15 @@ void World::breakBlock(const BlockPos &pos) {
         updateBlock(pos.offset(i));
     }
 }
+
+BlockPos World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
+    return BlockPos{start};
+}
+
+BlockPos World::traceBlock(const Camera &cam, float length) {
+    glm::vec3 start = cam.getCurrPos();
+    glm::vec3 forward = cam.getForward() * length;
+    glm::vec3 end = start + forward;
+
+    return traceBlock(start, end);
+}

@@ -9,13 +9,15 @@ class Camera {
 public:
     Camera();
 
-    glm::mat4 getViewProjMat();
-    glm::mat4 getViewMat();
-    glm::mat4 getProjMat();
-    float getYaw();
+    glm::mat4 getViewProjMat() const;
+    glm::mat4 getViewMat() const;
+    glm::mat4 getProjMat() const;
+    float getYaw() const;
     void translate(float x, float y, float z);
     void rotate(float pitch, float yaw);
-    BlockPos getCurrPos();
+    BlockPos getCurrBlock() const;
+    glm::vec3 getCurrPos() const;
+    glm::vec3 getForward() const;
 
 private:
     float x, y, z;
