@@ -1,6 +1,7 @@
 #include "camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 #include <cmath>
 
 #include "game/application.h"
@@ -56,5 +57,11 @@ glm::vec3 Camera::getCurrPos() const {
 }
 
 glm::vec3 Camera::getForward() const {
-    return {cos(yaw) * cos(pitch), sin(pitch), sin(yaw) * cos(pitch)};
+    float radYaw = glm::radians(yaw);
+    float radPitch = glm::radians(pitch);
+    return glm::normalize(glm::vec3{
+        -glm::sin(radYaw) * glm::cos(radPitch),
+        glm::sin(radPitch),
+        glm::cos(radYaw) * glm::cos(radPitch)
+    });
 }

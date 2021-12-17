@@ -79,6 +79,7 @@ WorldRenderer::~WorldRenderer() {
     glDeleteVertexArrays(1, &skyVao);
 }
 
+#include <iostream>
 void WorldRenderer::drawWorld(World world, float deltaTime) {
     drawSkybox();
 
@@ -96,6 +97,9 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
     for (auto &i: chunks) {
         i.second->renderChunk();
     }
+
+    auto t = cam.getForward();
+    std::cout << t.x << " " << t.y << " " << t.z << std::endl;
 }
 
 Camera &WorldRenderer::camera() {
