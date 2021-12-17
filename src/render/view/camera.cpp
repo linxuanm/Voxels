@@ -62,6 +62,6 @@ glm::vec3 Camera::getForward() const {
     return glm::normalize(glm::vec3{
         -glm::sin(radYaw) * glm::cos(radPitch),
         glm::sin(radPitch),
-        glm::cos(radYaw) * glm::cos(radPitch)
+        -glm::cos(radYaw) * glm::cos(radPitch)
     });
 }

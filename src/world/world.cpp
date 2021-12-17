@@ -65,7 +65,7 @@ void World::breakBlock(const BlockPos &pos) {
 }
 
 BlockPos World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
-    return BlockPos{start};
+    return BlockPos{end};
 }
 
 BlockPos World::traceBlock(const Camera &cam, float length) {
