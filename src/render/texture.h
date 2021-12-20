@@ -25,4 +25,5 @@ private:
 namespace Textures {
     Texture &blockTexture();
     Texture &skyboxTexture();
+    Texture &iconTexture();
 };

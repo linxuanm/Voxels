@@ -91,7 +91,7 @@ Texture &Textures::blockTexture() {
     return tex;
 }
 
-Texture& Textures::skyboxTexture() {
+Texture &Textures::skyboxTexture() {
     std::vector<std::string> paths{
         "assets/texture/skybox/sky_right.bmp",
         "assets/texture/skybox/sky_left.bmp",
@@ -101,5 +101,10 @@ Texture& Textures::skyboxTexture() {
         "assets/texture/skybox/sky_back.bmp",
     };
     static Texture tex{paths};
+    return tex;
+}
+
+Texture &Textures::iconTexture() {
+    static Texture tex{"assets/texture/gui/icons.png"};
     return tex;
 }

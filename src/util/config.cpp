@@ -8,7 +8,7 @@ float Config::actionCooldown;
 
 // TODO: load from config file
 void Config::load() {
-    fov = 3.14f / 2;
+    fov = 3.14159f / 2;
     speed = 3;
     mouseSen = 0.15f;
     reachDistance = 5.0f;
