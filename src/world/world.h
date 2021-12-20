@@ -15,8 +15,7 @@ typedef std::map<std::pair<ChunkPos, ChunkPos>, std::shared_ptr<Chunk>> Chunks;
 struct RayResult {
     bool hit;
     BlockPos pos;
-
-    //RayResult(bool inHit, const BlockPos &inPos);
+    BlockFace::Facing hitFace;
 };
 
 class World {
@@ -27,6 +26,7 @@ public:
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
     Chunks &getChunks();
     int getBlock(const BlockPos &pos);
+    void setBlock(int block, const BlockPos &pos);
     void initWorld();
 
     // triggers the block update function and updates its render chunk

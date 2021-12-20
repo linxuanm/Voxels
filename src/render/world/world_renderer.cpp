@@ -126,5 +126,9 @@ void WorldRenderer::drawSkybox() {
 }
 
 void WorldRenderer::drawOverlay() {
+    /*glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    //glLoadIdentity();
 
+    glPopMatrix();*/
 }

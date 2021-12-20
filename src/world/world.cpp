@@ -27,6 +27,18 @@ int World::getBlock(const BlockPos &pos) {
     return chunk->getBlockRel({pos.x() & 15, pos.y(), pos.z() & 15});
 }
 
+void World::setBlock(int block, const BlockPos &pos) {
+    auto chunk = getChunkAt(pos);
+    if (chunk == nullptr) return;
+
+    chunk->setBlockRel(block, {pos.x() & 15, pos.y(), pos.z() & 15});
+    updateBlock(pos);
+
+    for (auto &i: BlockFace::allFacing) {
+        updateBlock(pos.offset(i));
+    }
+}
+
 void World::initWorld() {
     for (int i = -1; i < 2; i++) {
         for (int j = -1; j < 2; j++) {
@@ -93,32 +105,38 @@ RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
     float maxY = dir.y == 0 ? FLT_MAX : (next.y - curr.y) / dir.y;
     float maxZ = dir.z == 0 ? FLT_MAX : (next.z - curr.z) / dir.z;
 
+    BlockFace::Facing hitFace;
+
     while (true) {
         if (maxX < maxY) {
             if (maxX < maxZ) {
                 curr.x += step.x;
                 maxX += deltaX;
+                hitFace = step.x > 0 ? BlockFace::WEST : BlockFace::EAST;
             } else {
                 curr.z += step.z;
                 maxZ += deltaZ;
+                hitFace = step.z > 0 ? BlockFace::NORTH : BlockFace::SOUTH;
             }
         } else {
             if (maxY < maxZ) {
                 curr.y += step.y;
                 maxY += deltaY;
+                hitFace = step.y > 0 ? BlockFace::DOWN : BlockFace::UP;
             } else {
                 curr.z += step.z;
                 maxZ += deltaZ;
+                hitFace = step.z > 0 ? BlockFace::NORTH : BlockFace::SOUTH;
             }
         }
 
         if (glm::distance(pos, curr) > len) {
-            return {false, BlockPos{pos}};
+            return {false, BlockPos{pos}, BlockFace::NORTH};
         };
 
         BlockPos currVoxel{curr};
         if (getBlock(currVoxel) != BLOCK_AIR) {
-            return {true, currVoxel};
+            return {true, currVoxel, hitFace};
         }
     }
 }

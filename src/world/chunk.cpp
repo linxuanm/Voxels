@@ -27,4 +27,5 @@ void Chunk::updateRenderChunk(ChunkPos pos) {
 
 void Chunk::setBlockRel(int block, const BlockPos &pos) {
     blocks[pos.y() << 8 | pos.x() << 4 | pos.z()] = block;
+
 }

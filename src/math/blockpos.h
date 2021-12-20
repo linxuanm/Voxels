@@ -17,6 +17,8 @@ public:
     BlockPos operator-(const BlockPos &other) const;
     BlockPos operator*(float scalar) const;
     BlockPos operator+(GLfloat offset[3]) const;
+    bool operator==(const BlockPos &pos) const;
+    bool operator!=(const BlockPos &pos) const;
     BlockPos offset(BlockFace::Facing face) const;
     int toChunkPos() const;
     int x() const;

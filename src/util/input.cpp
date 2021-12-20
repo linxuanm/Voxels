@@ -6,6 +6,7 @@
 #include "game/application.h"
 #include "game/voxels.h"
 #include "util/config.h"
+#include "world/blocks.h"
 
 bool Input::keysDown[512];
 float Input::lastMouseX;
@@ -50,11 +51,17 @@ void Input::fireKeyPress(int keyId) {
             hideMouse ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL
         );
     }
-    if (keyId == GLFW_KEY_R) {
-        Voxels &vox = Voxels::get();
-        World &world = vox.getWorld();
 
-        RayResult result = vox.getMouseOver();
+    Voxels &vox = Voxels::get();
+    Camera &cam = vox.camera();
+    World &world = vox.getWorld();
+    RayResult result = vox.getMouseOver();
+    if (keyId == GLFW_KEY_R) {
         if (result.hit) world.breakBlock(result.pos);
+    }
+    if (keyId == GLFW_KEY_T) {
+        if (result.hit && result.pos != cam.getCurrBlock()) {
+            world.setBlock(BLOCK_DIRT, result.pos.offset(result.hitFace));
+        }
     }
 }

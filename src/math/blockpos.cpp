@@ -44,6 +44,14 @@ BlockPos BlockPos::operator+(GLfloat offset[3]) const {
     };
 }
 
+bool BlockPos::operator==(const BlockPos &pos) const {
+    return pos.xComp == xComp && pos.yComp == yComp && pos.zComp == zComp;
+}
+
+bool BlockPos::operator!=(const BlockPos &pos) const {
+    return !operator==(pos);
+}
+
 BlockPos BlockPos::offset(BlockFace::Facing face) const {
     switch (face) {
         case BlockFace::UP: return add(0, 1, 0);
