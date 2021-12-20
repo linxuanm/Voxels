@@ -64,6 +64,7 @@ bool Application::launch() {
         glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
     }
     glfwSetCursorPosCallback(window, Input::mouseCallback);
+    glfwSetMouseButtonCallback(window, Input::clickCallback);
 
     Log::printVersions();
 

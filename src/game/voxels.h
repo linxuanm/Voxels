@@ -12,6 +12,8 @@ public:
     Camera &camera();
     World &getWorld();
     RayResult &getMouseOver();
+    bool playerAttack();
+    bool playerPlace();
 
 private:
     Voxels();

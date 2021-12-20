@@ -2,6 +2,8 @@
 
 #include "player/controller.h"
 #include "util/input.h"
+#include "util/config.h"
+#include "world/blocks.h"
 
 Voxels::Voxels()
 : mouseOver({false, {0, 0, 0}}) {}
@@ -23,9 +25,10 @@ RayResult& Voxels::getMouseOver() {
 }
 
 void Voxels::drawFrame(float deltaTime) {
+    Controller::updateMouseAction(deltaTime);
     Controller::updateMovement(renderer.camera(), deltaTime);
 
-    mouseOver = world.trace(renderer.camera(), 5);
+    mouseOver = world.trace(renderer.camera(), Config::reachDistance);
 
     renderer.drawWorld(world, deltaTime);
 }
@@ -36,4 +39,22 @@ Camera &Voxels::camera() {
 
 World& Voxels::getWorld() {
     return world;
+}
+
+bool Voxels::playerAttack() {
+    if (mouseOver.hit) {
+        world.breakBlock(mouseOver.pos);
+        return true;
+    }
+
+    return false;
+}
+
+bool Voxels::playerPlace() {
+    if (mouseOver.hit && mouseOver.pos != camera().getCurrBlock()) {
+        world.setBlock(BLOCK_DIRT, mouseOver.pos.offset(mouseOver.hitFace));
+        return true;
+    }
+
+    return false;
 }

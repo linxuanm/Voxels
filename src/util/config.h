@@ -8,4 +8,5 @@ namespace Config {
     extern float speed;
     extern float mouseSen;
     extern float reachDistance;
+    extern float actionCooldown;
 };

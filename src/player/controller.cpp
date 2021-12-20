@@ -6,6 +6,9 @@
 
 #include "util/config.h"
 #include "util/input.h"
+#include "game/voxels.h"
+
+float Controller::mouseCooldown = 0;
 
 void Controller::updateMovement(Camera &cam, float deltaTime) {
     glm::vec4 move{0, 0, 0, 0};
@@ -24,4 +27,20 @@ void Controller::updateMovement(Camera &cam, float deltaTime) {
     move *= Config::speed * deltaTime;
 
     cam.translate(move.x, move.y, move.z);
+}
+
+void Controller::updateMouseAction(float deltaTime) {
+    mouseCooldown -= deltaTime;
+
+    if (mouseCooldown < 0) {
+        if (Input::isMouseDown(GLFW_MOUSE_BUTTON_LEFT)) {
+            if (Voxels::get().playerAttack()) {
+                mouseCooldown = Config::actionCooldown;
+            }
+        } else if (Input::isMouseDown(GLFW_MOUSE_BUTTON_RIGHT)) {
+            if (Voxels::get().playerPlace()) {
+                mouseCooldown = Config::actionCooldown;
+            }
+        }
+    }
 }
