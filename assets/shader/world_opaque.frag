@@ -2,12 +2,16 @@
 
 layout(location = 0) out vec4 color;
 
-in vec2 outTexCoord;
+in VertOut {
+    vec2 texCoord;
+    vec3 normal;
+} vertOut;
 
 uniform vec4 uniformColor;
 uniform sampler2D texSampler;
 
 void main() {
-   vec4 texColor = texture(texSampler, outTexCoord);
-   color = texColor;
+    float light = dot(vertOut.normal, vec3(0, 1, 0)) / 4 + 0.75f;
+    vec4 texColor = texture(texSampler, vertOut.texCoord);
+    color = texColor * light;
 }

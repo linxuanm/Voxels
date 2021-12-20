@@ -27,3 +27,12 @@ GLfloat BlockFace::vertOffset[8][3] = {
 GLfloat BlockFace::faceUV[4][2] = {
     {0, 0}, {0, 1}, {1, 1}, {1, 0}
 };
+
+GLfloat BlockFace::facingNormal[6][3] = {
+    { 0,  1,  0},
+    { 0, -1,  0},
+    {-1,  0,  0},
+    { 1,  0,  0},
+    { 0,  0, -1},
+    { 0,  0,  1}
+};

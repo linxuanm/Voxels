@@ -6,8 +6,10 @@
 #include "world/world.h"
 #include "util/specs.h"
 
-Vertex::Vertex(BlockPos pos, GLfloat inU, GLfloat inV)
-: x(pos.x()), y(pos.y()), z(pos.z()), u(inU), v(inV) {}
+Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
+: x(pos.x()), y(pos.y()), z(pos.z())
+, u(uv.x), v(uv.y)
+, normX(normal.x), normY(normal.y), normZ(normal.z) {}
 
 RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 : loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
@@ -28,6 +30,12 @@ RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
     glVertexAttribPointer(
         1, 2, GL_FLOAT, GL_FALSE,
         sizeof(Vertex), (void *) (sizeof(GLfloat) * 3)
+    );
+
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(
+        2, 3, GL_FLOAT, GL_FALSE,
+        sizeof(Vertex), (void *) (sizeof(GLfloat) * 5)
     );
 
     glBindVertexArray(0);
@@ -109,7 +117,14 @@ void RenderChunk::addFace(
         int vertId = BlockFace::facingVerts[face][i];
         auto currOffset = BlockFace::vertOffset[vertId];
         auto uv = BlockFace::faceUV[i];
-        verts.emplace_back(pos + currOffset, uv[0], uv[1]);
+        auto norm = BlockFace::facingNormal[face];
+
+        // TODO: add a vertex format
+        verts.emplace_back(
+            pos + currOffset,
+            glm::vec2{uv[0], uv[1]},
+            glm::vec3{norm[0], norm[1], norm[2]}
+        );
     }
 
     idxs.insert(idxs.end(), {

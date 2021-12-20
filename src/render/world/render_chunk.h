@@ -14,11 +14,12 @@ typedef int32_t ChunkPos;
 class Vertex {
 
 public:
-    Vertex(BlockPos, GLfloat inU, GLfloat inV);
+    Vertex(BlockPos, glm::vec2 uv, glm::vec3 normal);
 
 private:
     GLfloat x, y, z;
     GLfloat u, v;
+    GLfloat normX, normY, normZ;
 };
 
 
