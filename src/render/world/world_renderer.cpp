@@ -81,6 +81,8 @@ WorldRenderer::~WorldRenderer() {
 
 #include <iostream>
 void WorldRenderer::drawWorld(World world, float deltaTime) {
+
+    // TODO: draw skybox after cull testing
     drawSkybox();
 
     glEnable(GL_DEPTH_TEST);
@@ -97,6 +99,8 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
     for (auto &i: chunks) {
         i.second->renderChunk();
     }
+
+    drawOverlay();
 }
 
 Camera &WorldRenderer::camera() {
@@ -119,4 +123,8 @@ void WorldRenderer::drawSkybox() {
     glBindVertexArray(0);
 
     glDepthMask(GL_TRUE);
+}
+
+void WorldRenderer::drawOverlay() {
+
 }

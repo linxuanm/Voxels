@@ -3,7 +3,8 @@
 #include "player/controller.h"
 #include "util/input.h"
 
-Voxels::Voxels() = default;
+Voxels::Voxels()
+: mouseOver({false, {0, 0, 0}}) {}
 
 Voxels &Voxels::get() {
     static Voxels game;
@@ -17,8 +18,15 @@ void Voxels::init() {
     world.initWorld();
 }
 
+RayResult& Voxels::getMouseOver() {
+    return mouseOver;
+}
+
 void Voxels::drawFrame(float deltaTime) {
     Controller::updateMovement(renderer.camera(), deltaTime);
+
+    mouseOver = world.trace(renderer.camera(), 5);
+
     renderer.drawWorld(world, deltaTime);
 }
 

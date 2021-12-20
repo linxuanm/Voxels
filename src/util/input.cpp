@@ -53,9 +53,8 @@ void Input::fireKeyPress(int keyId) {
     if (keyId == GLFW_KEY_R) {
         Voxels &vox = Voxels::get();
         World &world = vox.getWorld();
-        Camera &cam = vox.camera();
 
-        RayResult result = world.trace(cam, 5.0f);
+        RayResult result = vox.getMouseOver();
         if (result.hit) world.breakBlock(result.pos);
     }
 }

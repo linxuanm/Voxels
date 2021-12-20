@@ -19,4 +19,5 @@ private:
     GLuint skyVbo;
 
     void drawSkybox();
+    void drawOverlay();
 };

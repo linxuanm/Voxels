@@ -11,9 +11,11 @@ public:
     void drawFrame(float deltaTime);
     Camera &camera();
     World &getWorld();
+    RayResult &getMouseOver();
 
 private:
     Voxels();
     World world;
     WorldRenderer renderer;
+    RayResult mouseOver;
 };

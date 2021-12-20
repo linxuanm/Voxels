@@ -67,6 +67,8 @@ void World::breakBlock(const BlockPos &pos) {
 
 RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
 
+    if (getBlock(BlockPos{pos}) != BLOCK_AIR) return {true, BlockPos{pos}};
+
     /*
      * link from stackoverflow which lead to
      * http://www.cse.yorku.ca/~amana/research/grid.pdf
