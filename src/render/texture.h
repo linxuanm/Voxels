@@ -27,3 +27,7 @@ namespace Textures {
     Texture &skyboxTexture();
     Texture &iconTexture();
 };
+
+// Texture UVs
+#define ICONS_CROSSHAIR 0
+#define ICONS_CROSSHAIR_SIZE 32

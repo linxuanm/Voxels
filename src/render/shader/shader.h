@@ -25,11 +25,9 @@ class WorldOpaqueShader: public Shader {
 public:
     WorldOpaqueShader();
     void updateMVP(Camera &camera);
-    void setTexSampler(int channel);
     void setOffset(glm::vec3 offsetVec);
 
 private:
-    GLint texSampler;
     GLint mvp;
     GLint offset;
 };
@@ -39,14 +37,23 @@ class SkyboxShader: public Shader {
 public:
     SkyboxShader();
     void updateMVP(Camera &camera);
-    void setTexSampler(int channel);
 
 private:
-    GLint texSampler;
+    GLint mvp;
+};
+
+class HUDShader: public Shader {
+
+public:
+    HUDShader();
+    void updateOrtho();
+
+private:
     GLint mvp;
 };
 
 namespace Shaders {
     WorldOpaqueShader &shaderOpaque();
     SkyboxShader &shaderSkybox();
+    HUDShader &shaderHUD();
 };

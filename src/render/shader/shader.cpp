@@ -1,8 +1,11 @@
 #include "shader.h"
 
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include "game/application.h"
 
 static GLuint loadShaderFile(GLuint type, const std::string &path) {
     GLuint id = glCreateShader(type);
@@ -74,7 +77,6 @@ GLint Shader::getUniformLocation(GLchar *name) {
 
 WorldOpaqueShader::WorldOpaqueShader()
 : Shader("assets/shader/world_opaque.vert", "assets/shader/world_opaque.frag") {
-    texSampler = getUniformLocation((char *) "texSampler");
     mvp = getUniformLocation((char *) "MVP");
     offset = getUniformLocation((char *) "offset");
 }
@@ -83,17 +85,12 @@ void WorldOpaqueShader::updateMVP(Camera &camera) {
     glUniformMatrix4fv(mvp, 1, GL_FALSE, &camera.getViewProjMat()[0][0]);
 }
 
-void WorldOpaqueShader::setTexSampler(int channel) {
-    glUniform1i(texSampler, channel);
-}
-
 void WorldOpaqueShader::setOffset(glm::vec3 offsetVec) {
     glUniform3fv(offset, 1, &offsetVec[0]);
 }
 
 SkyboxShader::SkyboxShader()
 : Shader("assets/shader/skybox.vert", "assets/shader/skybox.frag") {
-    texSampler = getUniformLocation((char *) "texSampler");
     mvp = getUniformLocation((char *) "MVP");
 }
 
@@ -104,8 +101,16 @@ void SkyboxShader::updateMVP(Camera &camera) {
     glUniformMatrix4fv(mvp, 1, GL_FALSE, &projView[0][0]);
 }
 
-void SkyboxShader::setTexSampler(int channel) {
-    glUniform1i(texSampler, channel);
+HUDShader::HUDShader()
+: Shader("assets/shader/hud.vert", "assets/shader/hud.frag") {
+    mvp = getUniformLocation((char *) "MVP");
+}
+
+void HUDShader::updateOrtho() {
+    int width, height;
+
+    Application::windowSize(width, height);
+    glm::mat4x4 ortho = glm::ortho(0, width, height, 0);
 }
 
 WorldOpaqueShader &Shaders::shaderOpaque() {
@@ -115,5 +120,10 @@ WorldOpaqueShader &Shaders::shaderOpaque() {
 
 SkyboxShader& Shaders::shaderSkybox() {
     static SkyboxShader shader;
+    return shader;
+}
+
+HUDShader& Shaders::shaderHUD() {
+    static HUDShader shader;
     return shader;
 }

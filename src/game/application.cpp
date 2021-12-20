@@ -22,6 +22,10 @@ static void viewportSetup() {
     resize(Application::window, width, height);
 }
 
+void Application::windowSize(int &width, int &height) {
+    glfwGetWindowSize(Application::window, &width, &height);
+}
+
 bool Application::launch() {
     Config::load();
 

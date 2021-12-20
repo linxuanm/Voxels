@@ -7,7 +7,6 @@ in VertOut {
     vec3 normal;
 } vertOut;
 
-uniform vec4 uniformColor;
 uniform sampler2D texSampler;
 
 void main() {

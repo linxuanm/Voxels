@@ -17,6 +17,8 @@ private:
     Camera cam;
     GLuint skyVao;
     GLuint skyVbo;
+    GLuint hudVao;
+    GLuint hudVbo;
 
     void drawSkybox();
     void drawOverlay();

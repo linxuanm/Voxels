@@ -9,4 +9,5 @@ namespace Application {
 
     bool launch();
     void loop();
+    void windowSize(int &width, int &height);
 };
