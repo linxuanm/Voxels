@@ -156,9 +156,11 @@ void WorldRenderer::drawSkybox() {
 }
 
 void WorldRenderer::drawOverlay() {
+    Textures::iconTexture().bind();
     HUDShader &shader = Shaders::shaderHUD();
     shader.bind();
     shader.updateOrtho();
 
-
+    glBindVertexArray(hudVao);
+    glDrawArrays(GL_TRIANGLES, 0, 4);
 }
