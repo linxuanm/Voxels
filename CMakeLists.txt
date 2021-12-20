@@ -29,6 +29,7 @@ set(VOXELS_HEADERS
     src/render/world/world_renderer.h
 
     src/math/blockpos.h
+    src/math/vec.h
 
     src/world/chunk.h
     src/world/blocks.h
@@ -55,6 +56,7 @@ set(VOXELS_SOURCES
     src/render/world/world_renderer.cpp
 
     src/math/blockpos.cpp
+    src/math/vec.cpp
 
     src/world/chunk.cpp
     src/world/blocks.cpp

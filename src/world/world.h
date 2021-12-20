@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <cstdint>
 #include <memory>
 #include <map>
@@ -10,6 +11,13 @@
 
 // shared_ptr for potentially delayed dealloc during world saving
 typedef std::map<std::pair<ChunkPos, ChunkPos>, std::shared_ptr<Chunk>> Chunks;
+
+struct RayCastResult {
+    bool hit;
+    BlockPos pos;
+
+    //RayCastResult(bool inHit, const BlockPos &inPos);
+};
 
 class World {
 
@@ -24,8 +32,8 @@ public:
     // triggers the block update function and updates its render chunk
     void updateBlock(const BlockPos &pos);
     void breakBlock(const BlockPos &pos);
-    BlockPos traceBlock(const glm::vec3 &start, const glm::vec3 &end);
-    BlockPos traceBlock(const Camera &cam, float length);
+    RayCastResult traceBlock(const glm::vec3 &start, const glm::vec3 &end);
+    RayCastResult traceBlock(const Camera &cam, float length);
 
 private:
     Chunks chunks;

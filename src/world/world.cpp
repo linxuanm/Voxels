@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include "world/blocks.h"
+#include "math/vec.h"
 
 World::World() = default;
 
@@ -64,11 +65,80 @@ void World::breakBlock(const BlockPos &pos) {
     }
 }
 
-BlockPos World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
-    return BlockPos{end};
+RayCastResult World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
+
+    /*
+     * link from stackoverflow which lead to
+     * http://www.cse.yorku.ca/~amana/research/grid.pdf
+     */
+    glm::vec3 dir = glm::normalize(end - start);
+    glm::vec3 curr = glm::floor(start);
+    glm::vec3 step{
+        dir.x > 0.0f ? 1.0f : -1.0f,
+        dir.y > 0.0f ? 1.0f : -1.0f,
+        dir.z > 0.0f ? 1.0f : -1.0f
+    };
+    glm::vec3 next = curr + step;
+
+    float deltaX = dir.x == 0 ? FLT_MAX : step.x / dir.x;
+    float deltaY = dir.y == 0 ? FLT_MAX : step.y / dir.y;
+    float deltaZ = dir.z == 0 ? FLT_MAX : step.z / dir.z;
+
+    float maxX = dir.x == 0 ? FLT_MAX : (next.x - curr.x) / dir.x;
+    float maxY = dir.y == 0 ? FLT_MAX : (next.y - curr.y) / dir.y;
+    float maxZ = dir.z == 0 ? FLT_MAX : (next.z - curr.z) / dir.z;
+
+    while (true) {
+        if (maxX < maxY) {
+            if (maxX < maxZ) {
+                curr.x += step.x;
+
+                if ((step.x > 0 && curr.x > end.x) ||
+                    (step.x < 0 && curr.x < end.x)) {
+                    return {false, BlockPos{end}};
+                };
+
+                maxX += deltaX;
+            } else {
+                curr.z += step.z;
+
+                if ((step.z > 0 && curr.z > end.z) ||
+                    (step.z < 0 && curr.z < end.z)) {
+                    return {false, BlockPos{end}};
+                };
+
+                maxZ += deltaZ;
+            }
+        } else {
+            if (maxY < maxZ) {
+                curr.y += step.y;
+
+                if ((step.y > 0 && curr.y > end.y) ||
+                    (step.y < 0 && curr.y < end.y)) {
+                    return {false, BlockPos{end}};
+                };
+
+                maxY += deltaY;
+            } else {
+                curr.z += step.z;
+
+                if ((step.z > 0 && curr.z > end.z) ||
+                    (step.z < 0 && curr.z < end.z)) {
+                    return {false, BlockPos{end}};
+                };
+
+                maxZ += deltaZ;
+            }
+        }
+
+        BlockPos currVoxel{curr};
+        if (getBlock(currVoxel) != BLOCK_AIR) {
+            return {true, currVoxel};
+        }
+    }
 }
 
-BlockPos World::traceBlock(const Camera &cam, float length) {
+RayCastResult World::traceBlock(const Camera &cam, float length) {
     glm::vec3 start = cam.getCurrPos();
     glm::vec3 forward = cam.getForward() * length;
     glm::vec3 end = start + forward;
