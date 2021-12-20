@@ -73,13 +73,17 @@ RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
      * link from stackoverflow which lead to
      * http://www.cse.yorku.ca/~amana/research/grid.pdf
      */
-    glm::vec3 curr = glm::floor(pos);
+    glm::vec3 curr = pos;
     glm::vec3 step{
         dir.x > 0.0f ? 1.0f : -1.0f,
         dir.y > 0.0f ? 1.0f : -1.0f,
         dir.z > 0.0f ? 1.0f : -1.0f
     };
-    glm::vec3 next = curr + step;
+    glm::vec3 next{
+        step.x > 0 ? glm::floor(curr.x + step.x) : glm::ceil(curr.x + step.x),
+        step.y > 0 ? glm::floor(curr.y + step.y) : glm::ceil(curr.y + step.y),
+        step.z > 0 ? glm::floor(curr.z + step.z) : glm::ceil(curr.z + step.z)
+    };
 
     float deltaX = dir.x == 0 ? FLT_MAX : step.x / dir.x;
     float deltaY = dir.y == 0 ? FLT_MAX : step.y / dir.y;
@@ -108,14 +112,14 @@ RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
             }
         }
 
+        if (glm::distance(pos, curr) > len) {
+            return {false, BlockPos{pos}};
+        };
+
         BlockPos currVoxel{curr};
         if (getBlock(currVoxel) != BLOCK_AIR) {
             return {true, currVoxel};
         }
-
-        if (glm::distance(pos, curr) > len) {
-            return {false, BlockPos{pos}};
-        };
     }
 }
 
