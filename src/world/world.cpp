@@ -65,14 +65,13 @@ void World::breakBlock(const BlockPos &pos) {
     }
 }
 
-RayCastResult World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
+RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
 
     /*
      * link from stackoverflow which lead to
      * http://www.cse.yorku.ca/~amana/research/grid.pdf
      */
-    glm::vec3 dir = glm::normalize(end - start);
-    glm::vec3 curr = glm::floor(start);
+    glm::vec3 curr = glm::floor(pos);
     glm::vec3 step{
         dir.x > 0.0f ? 1.0f : -1.0f,
         dir.y > 0.0f ? 1.0f : -1.0f,
@@ -92,41 +91,17 @@ RayCastResult World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
         if (maxX < maxY) {
             if (maxX < maxZ) {
                 curr.x += step.x;
-
-                if ((step.x > 0 && curr.x > end.x) ||
-                    (step.x < 0 && curr.x < end.x)) {
-                    return {false, BlockPos{end}};
-                };
-
                 maxX += deltaX;
             } else {
                 curr.z += step.z;
-
-                if ((step.z > 0 && curr.z > end.z) ||
-                    (step.z < 0 && curr.z < end.z)) {
-                    return {false, BlockPos{end}};
-                };
-
                 maxZ += deltaZ;
             }
         } else {
             if (maxY < maxZ) {
                 curr.y += step.y;
-
-                if ((step.y > 0 && curr.y > end.y) ||
-                    (step.y < 0 && curr.y < end.y)) {
-                    return {false, BlockPos{end}};
-                };
-
                 maxY += deltaY;
             } else {
                 curr.z += step.z;
-
-                if ((step.z > 0 && curr.z > end.z) ||
-                    (step.z < 0 && curr.z < end.z)) {
-                    return {false, BlockPos{end}};
-                };
-
                 maxZ += deltaZ;
             }
         }
@@ -135,13 +110,16 @@ RayCastResult World::traceBlock(const glm::vec3 &start, const glm::vec3 &end) {
         if (getBlock(currVoxel) != BLOCK_AIR) {
             return {true, currVoxel};
         }
+
+        if (glm::distance(pos, curr) > len) {
+            return {false, BlockPos{pos}};
+        };
     }
 }
 
-RayCastResult World::traceBlock(const Camera &cam, float length) {
+RayResult World::trace(const Camera &cam, float len) {
     glm::vec3 start = cam.getCurrPos();
-    glm::vec3 forward = cam.getForward() * length;
-    glm::vec3 end = start + forward;
+    glm::vec3 dir = cam.getForward();
 
-    return traceBlock(start, end);
+    return trace(start, dir, len);
 }

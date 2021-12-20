@@ -12,11 +12,11 @@
 // shared_ptr for potentially delayed dealloc during world saving
 typedef std::map<std::pair<ChunkPos, ChunkPos>, std::shared_ptr<Chunk>> Chunks;
 
-struct RayCastResult {
+struct RayResult {
     bool hit;
     BlockPos pos;
 
-    //RayCastResult(bool inHit, const BlockPos &inPos);
+    //RayResult(bool inHit, const BlockPos &inPos);
 };
 
 class World {
@@ -32,8 +32,8 @@ public:
     // triggers the block update function and updates its render chunk
     void updateBlock(const BlockPos &pos);
     void breakBlock(const BlockPos &pos);
-    RayCastResult traceBlock(const glm::vec3 &start, const glm::vec3 &end);
-    RayCastResult traceBlock(const Camera &cam, float length);
+    RayResult trace(const glm::vec3 &pos, const glm::vec3 &dir, float len);
+    RayResult trace(const Camera &cam, float len);
 
 private:
     Chunks chunks;

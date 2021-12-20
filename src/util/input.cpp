@@ -55,7 +55,7 @@ void Input::fireKeyPress(int keyId) {
         World &world = vox.getWorld();
         Camera &cam = vox.camera();
 
-        RayCastResult result = world.traceBlock(cam, 5.0f);
+        RayResult result = world.trace(cam, 5.0f);
         if (result.hit) world.breakBlock(result.pos);
     }
 }
