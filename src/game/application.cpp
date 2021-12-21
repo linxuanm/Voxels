@@ -1,6 +1,8 @@
 #include "application.h"
 
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "util/input.h"
 #include "game/voxels.h"
@@ -10,9 +12,18 @@
 
 GLFWwindow *Application::window = nullptr;
 float Application::aspectRatio = 1.0f;
+glm::mat4 Application::orthoViewMat;
 
 static void resize(GLFWwindow *window, int width, int height) {
     Application::aspectRatio = (float) width / height;
+    glViewport(0, 0, width, height);
+
+    float centerX = (GLfloat) width / 2;
+    float centerY = (GLfloat) height / 2;
+
+    glm::mat4 ortho = glm::ortho(0.0f, (float) width, (float) height, 0.0f);
+    glm::mat4 view = glm::translate(glm::vec3{centerX, centerY, 0.0f});
+    Application::orthoViewMat = ortho * view;
 }
 
 static void viewportSetup() {

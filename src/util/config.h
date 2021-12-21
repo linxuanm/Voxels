@@ -9,4 +9,5 @@ namespace Config {
     extern float mouseSen;
     extern float reachDistance;
     extern float actionCooldown;
+    extern float crosshairSize;
 };

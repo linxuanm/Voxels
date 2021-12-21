@@ -20,7 +20,7 @@ void Voxels::init() {
     world.initWorld();
 }
 
-RayResult& Voxels::getMouseOver() {
+RayResult &Voxels::getMouseOver() {
     return mouseOver;
 }
 

@@ -107,11 +107,7 @@ HUDShader::HUDShader()
 }
 
 void HUDShader::updateOrtho() {
-    int width, height;
-
-    Application::windowSize(width, height);
-    glm::mat4x4 ortho = glm::ortho(0, width, height, 0);
-    glUniformMatrix4fv(mvp, 1, GL_FALSE, &ortho[0][0]);
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, &Application::orthoViewMat[0][0]);
 }
 
 WorldOpaqueShader &Shaders::shaderOpaque() {

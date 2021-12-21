@@ -5,6 +5,7 @@ float Config::speed;
 float Config::mouseSen;
 float Config::reachDistance;
 float Config::actionCooldown;
+float Config::crosshairSize;
 
 // TODO: load from config file
 void Config::load() {
@@ -13,4 +14,5 @@ void Config::load() {
     mouseSen = 0.15f;
     reachDistance = 5.0f;
     actionCooldown = 0.15f;
+    crosshairSize = 25.0f;
 }

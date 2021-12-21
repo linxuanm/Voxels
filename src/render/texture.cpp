@@ -6,6 +6,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include "util/config.h"
+
 Texture::Texture(std::string path): cube(false) {
     std::ifstream file{path};
 
@@ -18,7 +20,7 @@ Texture::Texture(std::string path): cube(false) {
     glGenTextures(1, &texId);
     glBindTexture(GL_TEXTURE_2D, texId);
 
-    stbi_set_flip_vertically_on_load(1);
+    // stbi_set_flip_vertically_on_load(1);
     stbi_uc *buffer = stbi_load(path.c_str(), &width, &height, &channels, 4);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

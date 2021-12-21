@@ -5,6 +5,7 @@
 #include "gl.h"
 #include "render/shader/shader.h"
 #include "render/texture.h"
+#include "util/config.h"
 
 WorldRenderer::WorldRenderer() = default;
 
@@ -55,11 +56,15 @@ void WorldRenderer::init() {
          1, -1, -1,
     };
 
-    GLfloat hudPos[4 * 5] = {
-        0, 0, 0, 0, 0,
-        1, 0, 0, 1, 0,
-        1, 1, 0, 1, 1,
-        0, 1, 0, 0, 1
+    const GLfloat size = Config::crosshairSize;
+    GLfloat hudPos[6 * 5] = {
+        -size, -size, 0, ICONS_CROSS_X, ICONS_CROSS_Y,
+         size, -size, 0, ICONS_CROSS_XX, ICONS_CROSS_Y,
+         size,  size, 0, ICONS_CROSS_XX, ICONS_CROSS_YY,
+
+         size,  size, 0, ICONS_CROSS_XX, ICONS_CROSS_YY,
+        -size,  size, 0, ICONS_CROSS_X, ICONS_CROSS_YY,
+        -size, -size, 0, ICONS_CROSS_X, ICONS_CROSS_Y
     };
 
     // Sky Box
@@ -86,13 +91,13 @@ void WorldRenderer::init() {
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, nullptr
+        0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, nullptr
     );
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(
         1, 2, GL_FLOAT, GL_FALSE,
-        sizeof(GLfloat) * 3, (void *) (3 * sizeof(GLfloat))
+        sizeof(GLfloat) * 5, (void *) (3 * sizeof(GLfloat))
     );
 
     glBufferData(
@@ -111,7 +116,6 @@ WorldRenderer::~WorldRenderer() {
     glDeleteVertexArrays(1, &hudVao);
 }
 
-#include <iostream>
 void WorldRenderer::drawWorld(World world, float deltaTime) {
 
     // TODO: draw skybox after cull testing
@@ -161,6 +165,11 @@ void WorldRenderer::drawOverlay() {
     shader.bind();
     shader.updateOrtho();
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glBindVertexArray(hudVao);
-    glDrawArrays(GL_TRIANGLES, 0, 4);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glDisable(GL_BLEND);
 }
