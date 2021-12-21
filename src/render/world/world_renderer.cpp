@@ -1,61 +1,18 @@
 #include "world_renderer.h"
 
+#include <glm/gtx/transform.hpp>
 #include <string>
-#include <game/application.h>
 
+#include "game/application.h"
 #include "gl.h"
 #include "render/shader/shader.h"
 #include "render/texture.h"
 #include "util/config.h"
+#include "game/voxels.h"
 
 WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
-
-    // TODO: fix facing of triangle to adapt to single side rendering
-    GLfloat skyBox[36 * 3] = {
-        -1, -1, -1,
-         1, -1, -1,
-         1,  1, -1,
-         1,  1, -1,
-        -1,  1, -1,
-        -1, -1, -1,
-
-        -1, -1,  1,
-         1, -1,  1,
-         1,  1,  1,
-         1,  1,  1,
-        -1,  1,  1,
-        -1, -1,  1,
-
-        -1, -1, -1,
-        -1, -1,  1,
-         1, -1,  1,
-         1, -1,  1,
-         1, -1, -1,
-        -1, -1, -1,
-
-        -1,  1, -1,
-        -1,  1,  1,
-         1,  1,  1,
-         1,  1,  1,
-         1,  1, -1,
-        -1,  1, -1,
-
-        -1, -1, -1,
-        -1, -1,  1,
-        -1,  1,  1,
-        -1,  1,  1,
-        -1,  1, -1,
-        -1, -1, -1,
-
-         1, -1, -1,
-         1, -1,  1,
-         1,  1,  1,
-         1,  1,  1,
-         1,  1, -1,
-         1, -1, -1,
-    };
 
     const GLfloat size = Config::crosshairSize;
     GLfloat hudPos[6 * 5] = {
@@ -69,10 +26,10 @@ void WorldRenderer::init() {
     };
 
     // Sky Box
-    glGenVertexArrays(1, &skyVao);
-    glGenBuffers(1, &skyVbo);
-    glBindVertexArray(skyVao);
-    glBindBuffer(GL_ARRAY_BUFFER, skyVbo);
+    glGenVertexArrays(1, &boxVao);
+    glGenBuffers(1, &boxVbo);
+    glBindVertexArray(boxVao);
+    glBindBuffer(GL_ARRAY_BUFFER, boxVbo);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
@@ -80,8 +37,8 @@ void WorldRenderer::init() {
     );
 
     glBufferData(
-        GL_ARRAY_BUFFER, sizeof(skyBox),
-        skyBox, GL_STATIC_DRAW
+        GL_ARRAY_BUFFER, sizeof(BlockFace::cubeVertexDraw),
+        BlockFace::cubeVertexDraw, GL_STATIC_DRAW
     );
 
     // GUI
@@ -110,8 +67,8 @@ void WorldRenderer::init() {
 }
 
 WorldRenderer::~WorldRenderer() {
-    glDeleteBuffers(1, &skyVbo);
-    glDeleteVertexArrays(1, &skyVao);
+    glDeleteBuffers(1, &boxVbo);
+    glDeleteVertexArrays(1, &boxVao);
 
     glDeleteBuffers(1, &hudVbo);
     glDeleteVertexArrays(1, &hudVao);
@@ -120,7 +77,9 @@ WorldRenderer::~WorldRenderer() {
 void WorldRenderer::drawWorld(World world, float deltaTime) {
 
     // TODO: draw skybox after cull testing
+    glBindVertexArray(boxVao);
     drawSkybox();
+    glBindVertexArray(0);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -136,6 +95,10 @@ void WorldRenderer::drawWorld(World world, float deltaTime) {
         i.second->renderChunk();
     }
 
+    glBindVertexArray(boxVao);
+    drawWorldOverlay();
+    glBindVertexArray(0);
+
     drawOverlay();
 }
 
@@ -146,16 +109,12 @@ Camera &WorldRenderer::camera() {
 void WorldRenderer::drawSkybox() {
     glDepthMask(GL_FALSE);
 
-    glBindVertexArray(skyVao);
-
     Textures::skyboxTexture().bind();
     SkyboxShader &shader = Shaders::shaderSkybox();
     shader.bind();
     shader.updateMVP(cam);
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
-
-    glBindVertexArray(0);
 
     glDepthMask(GL_TRUE);
 }
@@ -179,5 +138,25 @@ void WorldRenderer::drawOverlay() {
 }
 
 void WorldRenderer::drawWorldOverlay() {
+    RayResult result = Voxels::get().getMouseOver();
+    if (result.hit) {
+        glm::vec3 pos = result.pos.toVec() + glm::vec3{0.5f, 0.5f, 0.5f};
+        glm::mat4 scaleMat = glm::scale(glm::vec3{0.501f, 0.501f, 0.501f});
+        glm::mat4 transMat = glm::translate(pos);
 
+        float alpha = (float) glm::sin(glfwGetTime() * 2.5f) * 0.1f;
+        alpha += 0.3f;
+
+        SimpleShader &shader = Shaders::shaderColor();
+        shader.bind();
+        shader.updateColor({1.0f, 1.0f, 1.0f, alpha});
+        shader.updateMVP(cam.getViewProjMat() * transMat * scaleMat);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        glDisable(GL_BLEND);
+    }
 }

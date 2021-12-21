@@ -15,8 +15,8 @@ public:
 
 private:
     Camera cam;
-    GLuint skyVao;
-    GLuint skyVbo;
+    GLuint boxVao; // for any simple, generic box geometry
+    GLuint boxVbo;
     GLuint hudVao;
     GLuint hudVbo;
 

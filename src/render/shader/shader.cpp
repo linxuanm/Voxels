@@ -120,15 +120,24 @@ WorldOpaqueShader &Shaders::shaderOpaque() {
     return shader;
 }
 
-SkyboxShader& Shaders::shaderSkybox() {
+SkyboxShader &Shaders::shaderSkybox() {
     static SkyboxShader shader;
     return shader;
 }
 
-SimpleShader& Shaders::shaderSimple() {
+SimpleShader &Shaders::shaderSimple() {
     static SimpleShader shader{
         "assets/shader/simple.vert",
         "assets/shader/simple.frag"
+    };
+
+    return shader;
+}
+
+SimpleShader &Shaders::shaderColor() {
+    static SimpleShader shader{
+        "assets/shader/color.vert",
+        "assets/shader/color.frag"
     };
 
     return shader;

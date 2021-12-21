@@ -65,6 +65,10 @@ BlockPos BlockPos::offset(BlockFace::Facing face) const {
     return *this;
 }
 
+glm::vec3 BlockPos::toVec() const {
+    return {(float) xComp, (float) yComp, (float) zComp};
+}
+
 int BlockPos::toChunkPos() const {
     int x = xComp & 15;
     int y = yComp;
