@@ -1,6 +1,7 @@
 #include "world_renderer.h"
 
 #include <string>
+#include <game/application.h>
 
 #include "gl.h"
 #include "render/shader/shader.h"
@@ -161,16 +162,22 @@ void WorldRenderer::drawSkybox() {
 
 void WorldRenderer::drawOverlay() {
     Textures::iconTexture().bind();
-    HUDShader &shader = Shaders::shaderHUD();
+    SimpleShader &shader = Shaders::shaderSimple();
     shader.bind();
-    shader.updateOrtho();
+    shader.updateColor({1.0f, 1.0f, 1.0f, 1.0f});
+    shader.updateMVP(Application::orthoViewMat);
 
     glEnable(GL_BLEND);
-    //glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
-    glBlendFuncSeparate(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+    glBlendFuncSeparate(
+        GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO
+    );
 
     glBindVertexArray(hudVao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisable(GL_BLEND);
+}
+
+void WorldRenderer::drawWorldOverlay() {
+
 }

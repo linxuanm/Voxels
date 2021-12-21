@@ -22,4 +22,5 @@ private:
 
     void drawSkybox();
     void drawOverlay();
+    void drawWorldOverlay();
 };

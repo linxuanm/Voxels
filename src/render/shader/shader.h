@@ -10,7 +10,7 @@ class Shader {
 
 public:
     // different vert/frag combination is rare in Voxels' case
-    Shader(std::string vertPath, std::string fragPath);
+    Shader(const std::string &vert, const std::string &frag);
     ~Shader();
 
     void bind();
@@ -42,18 +42,21 @@ private:
     GLint mvp;
 };
 
-class HUDShader: public Shader {
+class SimpleShader: public Shader {
 
 public:
-    HUDShader();
-    void updateOrtho();
+    SimpleShader(const std::string &vert, const std::string &frag);
+    void updateMVP(const glm::mat4 &mvpMat);
+    void updateColor(const glm::vec4 &colorVal);
 
 private:
     GLint mvp;
+    GLint color;
 };
 
 namespace Shaders {
     WorldOpaqueShader &shaderOpaque();
     SkyboxShader &shaderSkybox();
-    HUDShader &shaderHUD();
+    SimpleShader &shaderSimple();
+    SimpleShader &shaderColor();
 };

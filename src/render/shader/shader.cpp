@@ -43,9 +43,9 @@ static GLuint loadShaderFile(GLuint type, const std::string &path) {
     return id;
 }
 
-Shader::Shader(std::string vertPath, std::string fragPath) {
-    GLuint vertId = loadShaderFile(GL_VERTEX_SHADER, vertPath);
-    GLuint fragId = loadShaderFile(GL_FRAGMENT_SHADER, fragPath);
+Shader::Shader(const std::string &vert, const std::string &frag) {
+    GLuint vertId = loadShaderFile(GL_VERTEX_SHADER, vert);
+    GLuint fragId = loadShaderFile(GL_FRAGMENT_SHADER, frag);
 
     program = glCreateProgram();
     glAttachShader(program, vertId);
@@ -101,13 +101,18 @@ void SkyboxShader::updateMVP(Camera &camera) {
     glUniformMatrix4fv(mvp, 1, GL_FALSE, &projView[0][0]);
 }
 
-HUDShader::HUDShader()
-: Shader("assets/shader/hud.vert", "assets/shader/hud.frag") {
+SimpleShader::SimpleShader(const std::string &vert, const std::string &frag)
+: Shader(vert, frag) {
     mvp = getUniformLocation((char *) "MVP");
+    color = getUniformLocation((char *) "inColor");
 }
 
-void HUDShader::updateOrtho() {
-    glUniformMatrix4fv(mvp, 1, GL_FALSE, &Application::orthoViewMat[0][0]);
+void SimpleShader::updateMVP(const glm::mat4 &mvpMat) {
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, &mvpMat[0][0]);
+}
+
+void SimpleShader::updateColor(const glm::vec4 &colorVal) {
+    glUniform4fv(color, 1, &colorVal[0]);
 }
 
 WorldOpaqueShader &Shaders::shaderOpaque() {
@@ -120,7 +125,11 @@ SkyboxShader& Shaders::shaderSkybox() {
     return shader;
 }
 
-HUDShader& Shaders::shaderHUD() {
-    static HUDShader shader;
+SimpleShader& Shaders::shaderSimple() {
+    static SimpleShader shader{
+        "assets/shader/simple.vert",
+        "assets/shader/simple.frag"
+    };
+
     return shader;
 }
