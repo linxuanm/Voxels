@@ -14,5 +14,5 @@ void Config::load() {
     mouseSen = 0.15f;
     reachDistance = 5.0f;
     actionCooldown = 0.15f;
-    crosshairSize = 25.0f;
+    crosshairSize = 50.0f;
 }

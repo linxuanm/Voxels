@@ -14,27 +14,31 @@ GLFWwindow *Application::window = nullptr;
 float Application::aspectRatio = 1.0f;
 glm::mat4 Application::orthoViewMat;
 
+#include <iostream>
 static void resize(GLFWwindow *window, int width, int height) {
     Application::aspectRatio = (float) width / height;
     glViewport(0, 0, width, height);
 
-    float centerX = (GLfloat) width / 2;
-    float centerY = (GLfloat) height / 2;
+    float hudX = width;
+    float hudY = height;
 
-    glm::mat4 ortho = glm::ortho(0.0f, (float) width, (float) height, 0.0f);
+    float centerX = (GLfloat) hudX / 2;
+    float centerY = (GLfloat) hudY / 2;
+
+    glm::mat4 ortho = glm::ortho(0.0f, hudX, hudY, 0.0f);
     glm::mat4 view = glm::translate(glm::vec3{centerX, centerY, 0.0f});
     Application::orthoViewMat = ortho * view;
 }
 
 static void viewportSetup() {
     int width, height;
-    glfwGetWindowSize(Application::window, &width, &height);
+    glfwGetFramebufferSize(Application::window, &width, &height);
 
     resize(Application::window, width, height);
 }
 
 void Application::windowSize(int &width, int &height) {
-    glfwGetWindowSize(Application::window, &width, &height);
+    glfwGetFramebufferSize(Application::window, &width, &height);
 }
 
 bool Application::launch() {
