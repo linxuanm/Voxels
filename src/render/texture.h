@@ -30,8 +30,8 @@ namespace Textures {
 
 // Texture UVs
 
-#define ICONS_SIZE 512.0f
-#define ICONS_CROSS_SIZE 32.0f
+#define ICONS_SIZE 256.0f
+#define ICONS_CROSS_SIZE 16.0f
 #define ICONS_CROSS_X 0.0f
 #define ICONS_CROSS_Y 0.0f
 #define ICONS_CROSS_XX (ICONS_CROSS_X + ICONS_CROSS_SIZE / ICONS_SIZE)

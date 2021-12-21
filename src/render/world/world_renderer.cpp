@@ -166,7 +166,8 @@ void WorldRenderer::drawOverlay() {
     shader.updateOrtho();
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+    glBlendFuncSeparate(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
     glBindVertexArray(hudVao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
