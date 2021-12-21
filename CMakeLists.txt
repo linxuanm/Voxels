@@ -66,6 +66,12 @@ set(VOXELS_SOURCES
     src/player/controller.cpp
 )
 
+message("\nIncluded headers:")
+log_list(VOXELS_HEADERS)
+
+message("\nIncluded headers:")
+log_list(VOXELS_HEADERS)
+
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 link_libraries(${OPENGL} ${GLEW_LIBRARIES} glfw)
