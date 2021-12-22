@@ -4,9 +4,11 @@
 #include <cstdint>
 #include <memory>
 #include <map>
+#include <thread>
 
 #include "world/chunk.h"
 #include "world/generator.h"
+#include "world/loading_thread.h"
 #include "render/view/camera.h"
 
 // shared_ptr for potentially delayed dealloc during world saving
@@ -22,6 +24,7 @@ class World {
 
 public:
     World();
+    ~World();
     std::shared_ptr<Chunk> getChunkAt(const BlockPos &pos);
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
     Chunks &getChunks();
@@ -35,7 +38,13 @@ public:
     RayResult trace(const glm::vec3 &pos, const glm::vec3 &dir, float len);
     RayResult trace(const Camera &cam, float len);
 
+    bool shouldShutDown();
+    void quit();
+
 private:
+    bool shutDown;
     Chunks chunks;
     Generator generator;
+    WorldLoadingThread chunkLoader;
+    std::thread chunkThread;
 };

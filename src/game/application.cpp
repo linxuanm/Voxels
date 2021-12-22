@@ -91,7 +91,9 @@ bool Application::launch() {
 }
 
 void Application::loop() {
-    Voxels::get().init();
+    Voxels &vox = Voxels::get();
+
+    vox.init();
     viewportSetup();
 
     glfwSwapBuffers(window); // Mac OS
@@ -112,4 +114,6 @@ void Application::loop() {
 
         Log::logGLError();
     }
+
+    vox.end();
 }

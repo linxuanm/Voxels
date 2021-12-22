@@ -74,7 +74,7 @@ WorldRenderer::~WorldRenderer() {
     glDeleteVertexArrays(1, &hudVao);
 }
 
-void WorldRenderer::drawWorld(World world, float deltaTime) {
+void WorldRenderer::drawWorld(World &world, float deltaTime) {
 
     // TODO: draw skybox after cull testing
     glBindVertexArray(boxVao);

@@ -10,7 +10,7 @@ public:
     ~WorldRenderer();
 
     void init();
-    void drawWorld(World world, float deltaTime);
+    void drawWorld(World &world, float deltaTime);
     Camera &camera();
 
 private:

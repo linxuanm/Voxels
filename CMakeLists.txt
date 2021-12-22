@@ -35,6 +35,7 @@ set(VOXELS_HEADERS
     src/world/blocks.h
     src/world/world.h
     src/world/generator.h
+    src/world/loading_thread.h
 
     src/player/controller.h
 )
@@ -62,6 +63,7 @@ set(VOXELS_SOURCES
     src/world/blocks.cpp
     src/world/world.cpp
     src/world/generator.cpp
+    src/world/loading_thread.cpp
 
     src/player/controller.cpp
 )

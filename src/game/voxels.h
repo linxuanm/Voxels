@@ -14,6 +14,7 @@ public:
     RayResult &getMouseOver();
     bool playerAttack();
     bool playerPlace();
+    void end();
 
 private:
     Voxels();

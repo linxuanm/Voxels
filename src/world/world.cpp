@@ -3,7 +3,9 @@
 #include "world/blocks.h"
 #include "math/vec.h"
 
-World::World() = default;
+World::World(): chunkLoader(*this) {}
+
+World::~World() = default;
 
 std::shared_ptr<Chunk> World::getChunkAt(const BlockPos &pos) {
     return getChunk(pos.x() >> 4, pos.z() >> 4);
@@ -40,6 +42,7 @@ void World::setBlock(int block, const BlockPos &pos) {
 }
 
 void World::initWorld() {
+    chunkThread = std::thread{&WorldLoadingThread::execute, chunkLoader};
     for (int i = -1; i < 2; i++) {
         for (int j = -1; j < 2; j++) {
             chunks[{i, j}] = generator.genChunk(*this, i, j);
@@ -146,4 +149,14 @@ RayResult World::trace(const Camera &cam, float len) {
     glm::vec3 dir = cam.getForward();
 
     return trace(start, dir, len);
+}
+
+bool World::shouldShutDown() {
+    return shutDown;
+}
+
+void World::quit() {
+    shutDown = true;
+
+    chunkThread.join();
 }

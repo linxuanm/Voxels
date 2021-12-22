@@ -58,3 +58,7 @@ bool Voxels::playerPlace() {
 
     return false;
 }
+
+void Voxels::end() {
+    world.quit();
+}
