@@ -10,5 +10,5 @@ public:
 
 private:
     World &world;
-    void cycle();
+    bool cycle(); // returns true if world ends
 };

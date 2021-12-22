@@ -1,5 +1,7 @@
 #pragma once
 
+#include "world/chunk.h"
+
 namespace Config {
 
     void load();
@@ -10,4 +12,5 @@ namespace Config {
     extern float reachDistance;
     extern float actionCooldown;
     extern float crosshairSize;
+    extern ChunkPos renderDist;
 };
