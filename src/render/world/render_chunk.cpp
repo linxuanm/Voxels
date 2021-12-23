@@ -50,7 +50,6 @@ void RenderChunk::tryInitGL() {
     initialized = true;
 }
 
-#include <iostream>
 RenderChunk::~RenderChunk() {
     glDeleteBuffers(RENDER_LAYERS, buffer);
     glDeleteBuffers(RENDER_LAYERS, idxBuf);

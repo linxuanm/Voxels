@@ -167,8 +167,28 @@ void World::quit() {
 
 void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     chunks[pos] = generator.genChunk(*this, pos.first, pos.second);
+
+    rebuildAdjacentChunks(pos);
 }
 
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     chunks.erase(pos);
+
+    rebuildAdjacentChunks(pos);
+}
+
+void World::rebuildAdjacentChunks(std::pair<ChunkPos, ChunkPos> pos) {
+    for (ChunkPos i = -1; i < 2; i += 2) {
+        auto ptr = getChunk(pos.first + i, pos.second);
+        if (ptr != nullptr) {
+            ptr->rebuildChunkBuffer();
+        }
+    }
+
+    for (ChunkPos i = -1; i < 2; i += 2) {
+        auto ptr = getChunk(pos.first, pos.second + i);
+        if (ptr != nullptr) {
+            ptr->rebuildChunkBuffer();
+        }
+    }
 }

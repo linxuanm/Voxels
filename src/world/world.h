@@ -58,4 +58,6 @@ private:
     std::mutex chunkLock;
     WorldLoadingThread chunkLoader;
     std::thread chunkThread;
+
+    void rebuildAdjacentChunks(std::pair<ChunkPos, ChunkPos> pos);
 };
