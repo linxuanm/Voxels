@@ -14,23 +14,18 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 , u(uv.x), v(uv.y)
 , normX(normal.x), normY(normal.y), normZ(normal.z) {}
 
-RenderChunk::RenderChunk() = default;
+RenderChunk::RenderChunk(): initialized(false) {}
 
 RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 : notEmpty(true), dead(false), initialized(false), vertCount(0)
-, loaded(false), chunk(c), x(inX), y(inY), z(inZ) {
-
-    vao = new GLuint[RENDER_LAYERS];
-    buffer = new GLuint[RENDER_LAYERS];
-    idxBuf = new GLuint[RENDER_LAYERS];
-}
+, loaded(false), chunk(c), x(inX), y(inY), z(inZ) {}
 
 void RenderChunk::tryInitGL() {
     if (initialized) return;
 
-    glGenVertexArrays(RENDER_LAYERS, vao);
-    glGenBuffers(RENDER_LAYERS, buffer);
-    glGenBuffers(RENDER_LAYERS, idxBuf);
+    glGenVertexArrays(RENDER_LAYERS, &vao[0]);
+    glGenBuffers(RENDER_LAYERS, &buffer[0]);
+    glGenBuffers(RENDER_LAYERS, &idxBuf[0]);
 
     glBindVertexArray(vao[0]);
 
@@ -57,23 +52,9 @@ void RenderChunk::tryInitGL() {
 
 RenderChunk::~RenderChunk() {
     if (initialized) {
-        glDeleteBuffers(RENDER_LAYERS, buffer);
-        glDeleteBuffers(RENDER_LAYERS, idxBuf);
-        glDeleteVertexArrays(RENDER_LAYERS, vao);
-
-        /*
-         * Copy constructor is still enabled for RenderChunk
-         * for potential dummy chunks; however, the array
-         * pointers would then be shared among both objects.
-         *
-         * This is a temporary hacky way of resolving this;
-         * vectors will be used later when render layers are added.
-         */
-        if (notEmpty) {
-            delete[] buffer;
-            delete[] idxBuf;
-            delete[] vao;
-        }
+        glDeleteBuffers(RENDER_LAYERS, &buffer[0]);
+        glDeleteBuffers(RENDER_LAYERS, &idxBuf[0]);
+        glDeleteVertexArrays(RENDER_LAYERS, &vao[0]);
     }
 }
 

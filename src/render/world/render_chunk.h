@@ -1,11 +1,12 @@
 #pragma once
 
-#include <vector>
+#include <array>
 
 #include "gl.h"
 #include "render/view/buffer_builder.h"
 #include "math/blockpos.h"
 #include "render/world/blockface.h"
+#include "util/specs.h"
 
 class Chunk;
 
@@ -45,9 +46,9 @@ private:
 
     int x, y, z;
     Chunk *chunk;
-    GLuint *vao;
-    GLuint *buffer;
-    GLuint *idxBuf;
+    std::array<GLuint, RENDER_LAYERS> vao;
+    std::array<GLuint, RENDER_LAYERS> buffer;
+    std::array<GLuint, RENDER_LAYERS> idxBuf;
 
     bool loaded;
     bool notEmpty; // for dummy render chunks

@@ -172,7 +172,6 @@ void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
-#include <iostream>
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     auto it = chunks.find(pos);
     if (it == chunks.end()) return;

@@ -44,7 +44,9 @@ bool WorldLoadingThread::cycle() {
         auto place = inRange.find(loaded.first);
         if (place == inRange.end()) {
             // TODO: use iterator for removing to prevent O(2 * log N)
-            world.unloadChunk(loaded.first);
+            Voxels::get().scheduleTask([&](){
+                world.unloadChunk(loaded.first);
+            });
         } else {
             inRange.erase(place);
         }
