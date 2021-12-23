@@ -1,5 +1,7 @@
 #include "chunk.h"
 
+#include <iostream>
+
 Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 : blocks{}, world(inWorld), x(inX), z(inZ) {
     for (int i = 0; i < CHUNK_HEIGHT >> 4; i++) {
@@ -9,6 +11,7 @@ Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 
 void Chunk::renderChunk() {
     for (auto &i: renderChunks) {
+        i->tryInitGL();
         i->bufferChunk();
     }
 }

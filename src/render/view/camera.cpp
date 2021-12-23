@@ -29,7 +29,7 @@ glm::mat4 Camera::getViewMat() const {
 
 glm::mat4 Camera::getProjMat() const {
     return glm::perspective(
-        Config::fov, Application::aspectRatio, 0.01f, 100.0f
+        Config::fov, Application::aspectRatio, 0.01f, 300.0f
     );
 }
 

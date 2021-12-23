@@ -29,6 +29,12 @@ public:
     RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ);
     ~RenderChunk();
 
+    /*
+     * Called pre-rendering since GL calls can only be accessed
+     * from the main thread.
+     */
+    void tryInitGL();
+
     void refresh(); // reloads the VBO, etc
     void bufferChunk();
     void addFace(
@@ -37,6 +43,8 @@ public:
     );
 
 private:
+    bool initialized;
+
     int x, y, z;
     Chunk &chunk;
     GLuint *vao;

@@ -18,8 +18,13 @@ std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) {
     return iter->second;
 }
 
-Chunks &World::getChunks() {
+Chunks &World::getAndLockChunks() {
+    chunkLock.lock();
     return chunks;
+}
+
+void World::releaseChunks() {
+    chunkLock.unlock();
 }
 
 int World::getBlock(const BlockPos &pos) {
@@ -43,11 +48,6 @@ void World::setBlock(int block, const BlockPos &pos) {
 
 void World::initWorld() {
     chunkThread = std::thread{&WorldLoadingThread::execute, chunkLoader};
-    for (int i = -1; i < 2; i++) {
-        for (int j = -1; j < 2; j++) {
-            chunks[{i, j}] = generator.genChunk(*this, i, j);
-        }
-    }
 }
 
 void World::updateBlock(const BlockPos &pos) {
@@ -159,4 +159,12 @@ void World::quit() {
     shutDown = true;
 
     chunkThread.join();
+}
+
+void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
+    chunks[pos] = generator.genChunk(*this, pos.first, pos.second);
+}
+
+void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
+    chunks.erase(pos);
 }

@@ -11,11 +11,18 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 , u(uv.x), v(uv.y)
 , normX(normal.x), normY(normal.y), normZ(normal.z) {}
 
+#include <iostream>
 RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 : loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
+
     vao = new GLuint[RENDER_LAYERS];
     buffer = new GLuint[RENDER_LAYERS];
     idxBuf = new GLuint[RENDER_LAYERS];
+}
+
+void RenderChunk::tryInitGL() {
+    if (initialized) return;
+
     glGenVertexArrays(RENDER_LAYERS, vao);
     glGenBuffers(RENDER_LAYERS, buffer);
     glGenBuffers(RENDER_LAYERS, idxBuf);
@@ -39,6 +46,8 @@ RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
     );
 
     glBindVertexArray(0);
+
+    initialized = true;
 }
 
 RenderChunk::~RenderChunk() {

@@ -27,7 +27,8 @@ public:
     ~World();
     std::shared_ptr<Chunk> getChunkAt(const BlockPos &pos);
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
-    Chunks &getChunks();
+    Chunks &getAndLockChunks();
+    void releaseChunks();
     int getBlock(const BlockPos &pos);
     void setBlock(int block, const BlockPos &pos);
     void initWorld();
@@ -41,9 +42,15 @@ public:
     bool shouldShutDown();
     void quit();
 
+    // not thread safe
+    void loadChunk(std::pair<ChunkPos, ChunkPos> pos);
+    // not thread safe
+    void unloadChunk(std::pair<ChunkPos, ChunkPos> pos);
+
 private:
     bool shutDown;
     Chunks chunks;
+    std::mutex chunkLock;
     Generator generator;
     WorldLoadingThread chunkLoader;
     std::thread chunkThread;
