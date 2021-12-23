@@ -2,6 +2,7 @@
 
 #include "world/blocks.h"
 #include "math/vec.h"
+#include "game/voxels.h"
 
 World::World(): chunkLoader(*this) {}
 
@@ -171,8 +172,12 @@ void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
+#include <iostream>
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
-    chunks.erase(pos);
+    auto it = chunks.find(pos);
+    if (it == chunks.end()) return;
+
+    chunks.erase(it);
 
     rebuildAdjacentChunks(pos);
 }

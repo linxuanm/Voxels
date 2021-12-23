@@ -38,10 +38,7 @@ public:
 
     void refresh(); // reloads the VBO, etc
     void bufferChunk();
-    void addFace(
-        int block, const BlockPos &pos, BlockFace::Facing face,
-        std::vector<Vertex> &verts, std::vector<GLsizei> &idxs
-    );
+    void setDead();
 
 private:
     bool initialized;
@@ -63,4 +60,8 @@ private:
 
     void loadBuffer();
     bool shouldRenderFace(BlockPos pos, BlockFace::Facing face);
+    void addFace(
+        int block, const BlockPos &pos, BlockFace::Facing face,
+        std::vector<Vertex> &verts, std::vector<GLsizei> &idxs
+    );
 };

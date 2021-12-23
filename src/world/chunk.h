@@ -26,6 +26,9 @@ public:
     // sets block without triggering any updates, etc
     void setBlockRel(int block, const BlockPos &pos);
 
+    // called just before freeing this chunk to clean up
+    void clearGL();
+
 private:
     int x, z;
     World &world;

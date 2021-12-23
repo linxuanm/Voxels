@@ -17,7 +17,8 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 RenderChunk::RenderChunk() = default;
 
 RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: notEmpty(true), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
+: notEmpty(true), dead(false), initialized(false), vertCount(0)
+, loaded(false), chunk(c), x(inX), y(inY), z(inZ) {
 
     vao = new GLuint[RENDER_LAYERS];
     buffer = new GLuint[RENDER_LAYERS];
@@ -77,6 +78,8 @@ RenderChunk::~RenderChunk() {
 }
 
 void RenderChunk::bufferChunk() {
+    if (dead) return;
+
     if (!loaded) {
         loadBuffer();
     }
@@ -176,4 +179,8 @@ bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
 
 void RenderChunk::refresh() {
     loaded = false;
+}
+
+void RenderChunk::setDead() {
+    dead = true;
 }
