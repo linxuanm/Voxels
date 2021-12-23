@@ -17,8 +17,8 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 RenderChunk::RenderChunk(): initialized(false) {}
 
 RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: notEmpty(true), dead(false), initialized(false), vertCount(0)
-, loaded(false), chunk(c), x(inX), y(inY), z(inZ) {}
+: dead(false), initialized(false), vertCount(0), loaded(false)
+, chunk(c), x(inX), y(inY), z(inZ) {}
 
 void RenderChunk::tryInitGL() {
     if (initialized) return;
