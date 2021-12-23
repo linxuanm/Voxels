@@ -11,7 +11,7 @@ Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
     }
 }
 
-void Chunk::unloadRenderChunks() {
+Chunk::~Chunk() {
     for (auto &i: renderChunks) {
         delete i;
     }
@@ -21,6 +21,12 @@ void Chunk::renderChunk() {
     for (auto &i: renderChunks) {
         i->tryInitGL();
         i->bufferChunk();
+    }
+}
+
+void Chunk::rebuildChunkBuffer() {
+    for (auto &i: renderChunks) {
+        i->refresh();
     }
 }
 

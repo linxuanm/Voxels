@@ -17,8 +17,9 @@ public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
-    void unloadRenderChunks();
+    ~Chunk();
     void renderChunk();
+    void rebuildChunkBuffer();
     World &getWorld();
     int getBlockRel(const BlockPos &pos);
     void updateRenderChunk(ChunkPos pos);
