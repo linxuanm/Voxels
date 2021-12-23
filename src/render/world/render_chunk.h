@@ -26,7 +26,8 @@ private:
 class RenderChunk {
 
 public:
-    RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ);
+    RenderChunk();
+    RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ);
     ~RenderChunk();
 
     /*
@@ -46,7 +47,7 @@ private:
     bool initialized;
 
     int x, y, z;
-    Chunk &chunk;
+    Chunk *chunk;
     GLuint *vao;
     GLuint *buffer;
     GLuint *idxBuf;

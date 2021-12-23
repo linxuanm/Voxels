@@ -17,7 +17,6 @@ public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
-    ~Chunk();
     void renderChunk();
     void rebuildChunkBuffer();
     World &getWorld();
@@ -30,5 +29,5 @@ public:
 private:
     int x, z;
     World &world;
-    RenderChunk *renderChunks[CHUNK_HEIGHT >> 4];
+    RenderChunk renderChunks[CHUNK_HEIGHT >> 4];
 };

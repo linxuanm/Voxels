@@ -7,26 +7,20 @@
 Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 : blocks{}, world(inWorld), x(inX), z(inZ) {
     for (int i = 0; i < CHUNK_HEIGHT >> 4; i++) {
-        renderChunks[i] = new RenderChunk{*this, x, i, z};
-    }
-}
-
-Chunk::~Chunk() {
-    for (auto &i: renderChunks) {
-        delete i;
+        renderChunks[i] = RenderChunk{this, x, i, z};
     }
 }
 
 void Chunk::renderChunk() {
     for (auto &i: renderChunks) {
-        i->tryInitGL();
-        i->bufferChunk();
+        i.tryInitGL();
+        i.bufferChunk();
     }
 }
 
 void Chunk::rebuildChunkBuffer() {
     for (auto &i: renderChunks) {
-        i->refresh();
+        i.refresh();
     }
 }
 
@@ -39,7 +33,7 @@ World &Chunk::getWorld() {
 }
 
 void Chunk::updateRenderChunk(ChunkPos pos) {
-    renderChunks[pos]->refresh();
+    renderChunks[pos].refresh();
 }
 
 void Chunk::setBlockRel(int block, const BlockPos &pos) {

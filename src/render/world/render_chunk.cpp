@@ -1,5 +1,7 @@
 #include "render_chunk.h"
 
+#include <iostream>
+
 #include "render/shader/shader.h"
 #include "world/chunk.h"
 #include "world/blocks.h"
@@ -12,7 +14,9 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 , u(uv.x), v(uv.y)
 , normX(normal.x), normY(normal.y), normZ(normal.z) {}
 
-RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
+RenderChunk::RenderChunk() = default;
+
+RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 : loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
 
     vao = new GLuint[RENDER_LAYERS];
@@ -51,13 +55,15 @@ void RenderChunk::tryInitGL() {
 }
 
 RenderChunk::~RenderChunk() {
-    glDeleteBuffers(RENDER_LAYERS, buffer);
-    glDeleteBuffers(RENDER_LAYERS, idxBuf);
-    glDeleteVertexArrays(RENDER_LAYERS, vao);
+    if (initialized) {
+        glDeleteBuffers(RENDER_LAYERS, buffer);
+        glDeleteBuffers(RENDER_LAYERS, idxBuf);
+        glDeleteVertexArrays(RENDER_LAYERS, vao);
 
-    delete[] buffer;
-    delete[] idxBuf;
-    delete[] vao;
+        delete[] buffer;
+        delete[] idxBuf;
+        delete[] vao;
+    }
 }
 
 void RenderChunk::bufferChunk() {
@@ -83,8 +89,7 @@ void RenderChunk::loadBuffer() {
             for (int j = 0; j < 16; j++) {
                 BlockPos relPos{i, h, j};
                 BlockPos absHeightPos = relPos + BlockPos{0, y << 4, 0};
-                int block = chunk.getBlockRel(absHeightPos);
-
+                int block = chunk->getBlockRel(absHeightPos);
                 if (block != BLOCK_AIR) {
 
                     for (auto &f: BlockFace::allFacing) {
@@ -151,9 +156,9 @@ bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
 
     int block;
     if (side.x() < 0 || side.x() >= 16 || side.z() < 0 || side.z() >= 16) {
-        block = chunk.getWorld().getBlock(side + BlockPos{x << 4, 0, z << 4});
+        block = chunk->getWorld().getBlock(side + BlockPos{x << 4, 0, z << 4});
     } else {
-        block = chunk.getBlockRel(side);
+        block = chunk->getBlockRel(side);
     }
 
     return !Blocks::isSolid(block);
