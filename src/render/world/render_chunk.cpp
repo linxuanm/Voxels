@@ -55,9 +55,9 @@ RenderChunk::~RenderChunk() {
     glDeleteBuffers(RENDER_LAYERS, idxBuf);
     glDeleteVertexArrays(RENDER_LAYERS, vao);
 
-    delete[] vao;
-    delete[] idxBuf;
     delete[] buffer;
+    delete[] idxBuf;
+    delete[] vao;
 }
 
 void RenderChunk::bufferChunk() {
@@ -96,7 +96,7 @@ void RenderChunk::loadBuffer() {
             }
         }
     }
-
+    GLenum err;
     glBindVertexArray(vao[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);

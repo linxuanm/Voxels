@@ -2,10 +2,18 @@
 
 #include <iostream>
 
+#include "game/voxels.h"
+
 Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 : blocks{}, world(inWorld), x(inX), z(inZ) {
     for (int i = 0; i < CHUNK_HEIGHT >> 4; i++) {
-        renderChunks[i] = std::make_unique<RenderChunk>(*this, x, i, z);
+        renderChunks[i] = new RenderChunk{*this, x, i, z};
+    }
+}
+
+void Chunk::unloadRenderChunks() {
+    for (auto &i: renderChunks) {
+        delete i;
     }
 }
 

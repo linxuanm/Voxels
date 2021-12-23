@@ -1,8 +1,10 @@
 #include "loading_thread.h"
 
 #include <set>
-#include <util/config.h>
+#include <chrono>
+#include <thread>
 
+#include "util/config.h"
 #include "world/world.h"
 #include "game/voxels.h"
 
@@ -10,7 +12,9 @@ WorldLoadingThread::WorldLoadingThread(World &inWorld)
 : world(inWorld) {}
 
 void WorldLoadingThread::execute() {
-    while (!cycle());
+    while (!cycle()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 }
 
 bool WorldLoadingThread::cycle() {
@@ -18,7 +22,7 @@ bool WorldLoadingThread::cycle() {
     glm::vec3 playerPos = glm::floor(vox.camera().getCurrPos());
     std::pair<ChunkPos, ChunkPos> currChunk{
         static_cast<ChunkPos>(playerPos.x) >> 4,
-        static_cast<ChunkPos>(playerPos.z) > 4
+        static_cast<ChunkPos>(playerPos.z) >> 4
     };
 
     std::set<std::pair<ChunkPos, ChunkPos>> inRange;
@@ -40,7 +44,9 @@ bool WorldLoadingThread::cycle() {
         auto place = inRange.find(loaded.first);
         if (place == inRange.end()) {
             // TODO: use iterator for removing to prevent O(2 * log N)
-
+            Voxels::get().scheduleTask([&](){
+                world.unloadChunk(loaded.first);
+            });
         } else {
             inRange.erase(place);
         }

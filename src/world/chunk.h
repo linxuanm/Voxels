@@ -17,6 +17,7 @@ public:
     int blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
+    void unloadRenderChunks();
     void renderChunk();
     World &getWorld();
     int getBlockRel(const BlockPos &pos);
@@ -28,5 +29,5 @@ public:
 private:
     int x, z;
     World &world;
-    std::unique_ptr<RenderChunk> renderChunks[CHUNK_HEIGHT >> 4];
+    RenderChunk *renderChunks[CHUNK_HEIGHT >> 4];
 };
