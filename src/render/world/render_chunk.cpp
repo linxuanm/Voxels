@@ -17,7 +17,7 @@ Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 RenderChunk::RenderChunk() = default;
 
 RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
-: loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
+: notEmpty(true), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
 
     vao = new GLuint[RENDER_LAYERS];
     buffer = new GLuint[RENDER_LAYERS];
@@ -60,9 +60,19 @@ RenderChunk::~RenderChunk() {
         glDeleteBuffers(RENDER_LAYERS, idxBuf);
         glDeleteVertexArrays(RENDER_LAYERS, vao);
 
-        delete[] buffer;
-        delete[] idxBuf;
-        delete[] vao;
+        /*
+         * Copy constructor is still enabled for RenderChunk
+         * for potential dummy chunks; however, the array
+         * pointers would then be shared among both objects.
+         *
+         * This is a temporary hacky way of resolving this;
+         * vectors will be used later when render layers are added.
+         */
+        if (notEmpty) {
+            delete[] buffer;
+            delete[] idxBuf;
+            delete[] vao;
+        }
     }
 }
 
@@ -90,8 +100,8 @@ void RenderChunk::loadBuffer() {
                 BlockPos relPos{i, h, j};
                 BlockPos absHeightPos = relPos + BlockPos{0, y << 4, 0};
                 int block = chunk->getBlockRel(absHeightPos);
-                if (block != BLOCK_AIR) {
 
+                if (block != BLOCK_AIR) {
                     for (auto &f: BlockFace::allFacing) {
                         if (shouldRenderFace(absHeightPos, f)) {
                             addFace(BLOCK_DIRT, relPos, f, verts, idxs);
@@ -101,7 +111,7 @@ void RenderChunk::loadBuffer() {
             }
         }
     }
-    GLenum err;
+
     glBindVertexArray(vao[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);

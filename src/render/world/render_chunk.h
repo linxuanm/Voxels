@@ -53,6 +53,12 @@ private:
     GLuint *idxBuf;
 
     bool loaded;
+    bool notEmpty; // for dummy render chunks
+    /*
+     * When deactivated and waits for GL clean up from
+     * main thread.
+     */
+    bool dead;
     GLsizei vertCount;
 
     void loadBuffer();

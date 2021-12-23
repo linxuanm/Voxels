@@ -8,7 +8,7 @@ class RunnableQueue {
 
 public:
     void runAll();
-    void push_back(std::function<void()>);
+    void push_back(const std::function<void()> &func);
 
 private:
     std::mutex mutex;

@@ -11,7 +11,7 @@ void RunnableQueue::runAll() {
     lock.unlock();
 }
 
-void RunnableQueue::push_back(std::function<void()> func) {
+void RunnableQueue::push_back(const std::function<void()> &func) {
     std::unique_lock<std::mutex> lock{mutex};
     queue.push(func);
     lock.unlock();

@@ -65,6 +65,6 @@ void Voxels::end() {
     world.quit();
 }
 
-void Voxels::scheduleTask(std::function<void()> func) {
+void Voxels::scheduleTask(const std::function<void()> &func) {
     taskQueue.push_back(func);
 }

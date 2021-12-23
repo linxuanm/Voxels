@@ -17,7 +17,7 @@ public:
     bool playerAttack();
     bool playerPlace();
     void end();
-    void scheduleTask(std::function<void()> func);
+    void scheduleTask(const std::function<void()> &func);
 
 private:
     Voxels();
