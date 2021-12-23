@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "render/world/world_renderer.h"
 #include "world/world.h"
 
@@ -15,10 +17,13 @@ public:
     bool playerAttack();
     bool playerPlace();
     void end();
+    void scheduleTask(std::function<void()> func);
 
 private:
     Voxels();
     World world;
     WorldRenderer renderer;
     RayResult mouseOver;
+
+    RunnableQueue taskQueue;
 };

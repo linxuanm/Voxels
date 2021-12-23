@@ -23,6 +23,10 @@ Chunks &World::getAndLockChunks() {
     return chunks;
 }
 
+Chunks World::getChunksCopy() const {
+    return chunks;
+}
+
 void World::releaseChunks() {
     chunkLock.unlock();
 }

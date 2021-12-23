@@ -5,13 +5,13 @@
 #include "world/blocks.h"
 #include "world/world.h"
 #include "util/specs.h"
+#include "game/voxels.h"
 
 Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
 : x(pos.x()), y(pos.y()), z(pos.z())
 , u(uv.x), v(uv.y)
 , normX(normal.x), normY(normal.y), normZ(normal.z) {}
 
-#include <iostream>
 RenderChunk::RenderChunk(Chunk &c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)
 : loaded(false), vertCount(0), chunk(c), x(inX), y(inY), z(inZ) {
 
@@ -54,9 +54,10 @@ RenderChunk::~RenderChunk() {
     glDeleteBuffers(RENDER_LAYERS, buffer);
     glDeleteBuffers(RENDER_LAYERS, idxBuf);
     glDeleteVertexArrays(RENDER_LAYERS, vao);
+
     delete[] vao;
-    delete[] buffer;
     delete[] idxBuf;
+    delete[] buffer;
 }
 
 void RenderChunk::bufferChunk() {
@@ -74,7 +75,6 @@ void RenderChunk::bufferChunk() {
 }
 
 void RenderChunk::loadBuffer() {
-
     std::vector<Vertex> verts;
     std::vector<int> idxs;
 

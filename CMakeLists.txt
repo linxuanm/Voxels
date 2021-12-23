@@ -19,6 +19,7 @@ set(VOXELS_HEADERS
     src/util/log.h
     src/util/specs.h
     src/util/input.h
+    src/util/runnable_queue.h
 
     src/render/texture.h
     src/render/view/camera.h
@@ -47,6 +48,7 @@ set(VOXELS_SOURCES
     src/util/config.cpp
     src/util/log.cpp
     src/util/input.cpp
+    src/util/runnable_queue.cpp
 
     src/render/texture.cpp
     src/render/view/camera.cpp

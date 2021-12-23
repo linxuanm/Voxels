@@ -13,7 +13,6 @@ void WorldLoadingThread::execute() {
     while (!cycle());
 }
 
-#include <iostream>
 bool WorldLoadingThread::cycle() {
     Voxels &vox = Voxels::get();
     glm::vec3 playerPos = glm::floor(vox.camera().getCurrPos());
@@ -41,7 +40,7 @@ bool WorldLoadingThread::cycle() {
         auto place = inRange.find(loaded.first);
         if (place == inRange.end()) {
             // TODO: use iterator for removing to prevent O(2 * log N)
-            world.unloadChunk(loaded.first);
+
         } else {
             inRange.erase(place);
         }

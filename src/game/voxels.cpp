@@ -25,6 +25,8 @@ RayResult &Voxels::getMouseOver() {
 }
 
 void Voxels::drawFrame(float deltaTime) {
+    taskQueue.runAll();
+
     Controller::updateMouseAction(deltaTime);
     Controller::updateMovement(renderer.camera(), deltaTime);
 
@@ -61,4 +63,8 @@ bool Voxels::playerPlace() {
 
 void Voxels::end() {
     world.quit();
+}
+
+void Voxels::scheduleTask(std::function<void()> func) {
+    taskQueue.push_back(func);
 }

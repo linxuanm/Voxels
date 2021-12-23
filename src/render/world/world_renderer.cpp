@@ -94,10 +94,7 @@ void WorldRenderer::drawWorld(World &world, float deltaTime) {
      * Copying chunks is fine even in between chunk unloading
      * since each chunk uses a shared pointer.
      */
-    Chunks chunks{world.getAndLockChunks()};
-    world.releaseChunks();
-
-    for (auto &i: chunks) {
+    for (auto &i: world.getChunksCopy()) {
         i.second->renderChunk();
     }
 

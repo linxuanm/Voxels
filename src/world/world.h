@@ -10,6 +10,7 @@
 #include "world/generator.h"
 #include "world/loading_thread.h"
 #include "render/view/camera.h"
+#include "util/runnable_queue.h"
 
 // shared_ptr for potentially delayed dealloc during world saving
 typedef std::map<std::pair<ChunkPos, ChunkPos>, std::shared_ptr<Chunk>> Chunks;
@@ -28,6 +29,7 @@ public:
     std::shared_ptr<Chunk> getChunkAt(const BlockPos &pos);
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
     Chunks &getAndLockChunks();
+    Chunks getChunksCopy() const;
     void releaseChunks();
     int getBlock(const BlockPos &pos);
     void setBlock(int block, const BlockPos &pos);
@@ -49,9 +51,11 @@ public:
 
 private:
     bool shutDown;
+
     Chunks chunks;
-    std::mutex chunkLock;
     Generator generator;
+
+    std::mutex chunkLock;
     WorldLoadingThread chunkLoader;
     std::thread chunkThread;
 };
