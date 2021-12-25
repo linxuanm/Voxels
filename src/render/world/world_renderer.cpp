@@ -144,7 +144,7 @@ void WorldRenderer::drawWorldOverlay() {
     RayResult result = Voxels::get().getMouseOver();
     if (result.hit) {
         glm::vec3 pos = result.pos.toVec() + glm::vec3{0.5f, 0.5f, 0.5f};
-        glm::mat4 scaleMat = glm::scale(glm::vec3{0.501f, 0.501f, 0.501f});
+        glm::mat4 scaleMat = glm::scale(glm::vec3{0.505f, 0.505f, 0.505f});
         glm::mat4 transMat = glm::translate(pos);
 
         float alpha = (float) glm::sin(glfwGetTime() * 2.5f) * 0.1f;

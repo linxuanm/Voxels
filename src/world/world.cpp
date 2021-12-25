@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include "world/blocks.h"
+#include "world/chunk.h"
 #include "math/vec.h"
 #include "game/voxels.h"
 
@@ -172,10 +173,17 @@ void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
+#include <iostream>
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     auto it = chunks.find(pos);
     if (it == chunks.end()) return;
 
+    // TODO: save block
+    std::shared_ptr<Chunk> chunk = it->second;
+    Voxels::get().scheduleTask([=](){
+        std::cout << "123" << std::endl;
+        //chunk->clearGL();
+    });
     chunks.erase(it);
 
     rebuildAdjacentChunks(pos);

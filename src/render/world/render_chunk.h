@@ -50,7 +50,7 @@ private:
     std::array<GLuint, RENDER_LAYERS> buffer;
     std::array<GLuint, RENDER_LAYERS> idxBuf;
 
-    bool loaded;
+    bool updated;
     /*
      * When deactivated and waits for GL clean up from
      * main thread.

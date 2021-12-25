@@ -42,6 +42,6 @@ void Chunk::setBlockRel(int block, const BlockPos &pos) {
 
 void Chunk::clearGL() {
     for (auto &i: renderChunks) {
-        i.setDead();
+        //i.setDead();
     }
 }

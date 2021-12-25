@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <condition_variable>
 #include <queue>
 #include <mutex>
 
@@ -12,5 +13,6 @@ public:
 
 private:
     std::mutex mutex;
+    std::condition_variable cv;
     std::queue<std::function<void()>> queue;
 };
