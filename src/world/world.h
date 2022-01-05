@@ -49,6 +49,7 @@ public:
     void loadChunk(std::pair<ChunkPos, ChunkPos> pos);
     // not thread safe
     void unloadChunk(std::pair<ChunkPos, ChunkPos> pos);
+    bool isChunkLoaded(std::pair<ChunkPos, ChunkPos> pos);
 
 private:
     bool shutDown;

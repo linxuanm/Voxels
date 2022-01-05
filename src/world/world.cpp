@@ -175,11 +175,15 @@ void World::quit() {
 }
 
 void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
+    auto it = chunks.find(pos);
+    if (it != chunks.end()) return;
+
     chunks[pos] = generator.genChunk(*this, pos.first, pos.second);
 
     rebuildAdjacentChunks(pos);
 }
 
+#include <iostream>
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     auto it = chunks.find(pos);
     if (it == chunks.end()) return;
@@ -192,6 +196,10 @@ void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     chunks.erase(it);
 
     rebuildAdjacentChunks(pos);
+}
+
+bool World::isChunkLoaded(std::pair<ChunkPos, ChunkPos> pos) {
+    return chunks.find(pos) != chunks.end();
 }
 
 void World::rebuildAdjacentChunks(std::pair<ChunkPos, ChunkPos> pos) {

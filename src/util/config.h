@@ -13,4 +13,5 @@ namespace Config {
     extern float actionCooldown;
     extern float crosshairSize;
     extern ChunkPos renderDist;
+    extern int maxChunkLoadPerSec;
 };

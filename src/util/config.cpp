@@ -8,6 +8,7 @@ float Config::mouseSen;
 float Config::reachDistance;
 float Config::actionCooldown;
 float Config::crosshairSize;
+int Config::maxChunkLoadPerSec;
 
 ChunkPos Config::renderDist;
 
@@ -19,5 +20,6 @@ void Config::load() {
     reachDistance = 5.0f;
     actionCooldown = 0.15f;
     crosshairSize = 50.0f;
-    renderDist = 12;
+    renderDist = 6;
+    maxChunkLoadPerSec = 5;
 }
