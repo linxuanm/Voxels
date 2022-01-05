@@ -13,7 +13,8 @@ namespace BlockFace {
     extern Facing allFacing[6];
     extern int facingVerts[6][4];
     extern GLfloat vertOffset[8][3];
-    extern GLfloat faceUV[4][2];
     extern GLfloat facingNormal[6][3];
     extern GLfloat cubeVertexDraw[36 * 3];
+
+    glm::vec2 getFaceUV(int vert, int u, int v);
 };

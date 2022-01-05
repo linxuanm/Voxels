@@ -89,7 +89,7 @@ int Texture::getHeight() {
 }
 
 Texture &Textures::blockTexture() {
-    static Texture tex{"assets/texture/block/dirt.png"};
+    static Texture tex{"assets/texture/block/blocks.png"};
     return tex;
 }
 

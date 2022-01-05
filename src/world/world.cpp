@@ -11,11 +11,11 @@ World::World(): chunkLoader(*this) {
 
 World::~World() = default;
 
-std::shared_ptr<Chunk> World::getChunkAt(const BlockPos &pos) {
+std::shared_ptr<Chunk> World::getChunkAt(const BlockPos &pos) const {
     return getChunk(pos.x() >> 4, pos.z() >> 4);
 }
 
-std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) {
+std::shared_ptr<Chunk> World::getChunk(ChunkPos x, ChunkPos z) const {
     auto iter = chunks.find({x, z});
     if (iter == chunks.end()) return nullptr;
 
@@ -40,7 +40,7 @@ void World::releaseChunks() {
     chunkLock.unlock();
 }
 
-int World::getBlock(const BlockPos &pos) {
+int World::getBlock(const BlockPos &pos) const {
     auto chunk = getChunkAt(pos);
     if (chunk == nullptr) return BLOCK_AIR;
 

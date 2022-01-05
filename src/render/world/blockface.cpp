@@ -1,5 +1,7 @@
 #include "blockface.h"
 
+#include "render/texture.h"
+
 BlockFace::Facing BlockFace::allFacing[6] = {
     UP, DOWN, WEST, EAST, NORTH, SOUTH
 };
@@ -22,10 +24,6 @@ GLfloat BlockFace::vertOffset[8][3] = {
     {1, 0, 1},
     {1, 1, 1},
     {0, 1, 1},
-};
-
-GLfloat BlockFace::faceUV[4][2] = {
-    {0, 0}, {0, 1}, {1, 1}, {1, 0}
 };
 
 GLfloat BlockFace::facingNormal[6][3] = {
@@ -80,3 +78,13 @@ GLfloat BlockFace::cubeVertexDraw[36 * 3] = {
      1,  1, -1,
      1, -1, -1,
 };
+
+glm::vec2 BlockFace::getFaceUV(int vert, int u, int v) {
+    switch (vert) {
+        case 0: return {BLOCK_UV_TL(u, v)};
+        case 1: return {BLOCK_UV_TR(u, v)};
+        case 2: return {BLOCK_UV_BR(u, v)};
+        case 3: return {BLOCK_UV_BL(u, v)};
+        default: return {0, 0};
+    }
+}

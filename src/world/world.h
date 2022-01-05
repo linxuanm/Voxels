@@ -26,13 +26,13 @@ class World {
 public:
     World();
     ~World();
-    std::shared_ptr<Chunk> getChunkAt(const BlockPos &pos);
-    std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
+    std::shared_ptr<Chunk> getChunkAt(const BlockPos &pos) const;
+    std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z) const;
     Chunks &getAndLockChunks();
     Chunks getChunksCopy() const;
     void lockChunks();
     void releaseChunks();
-    int getBlock(const BlockPos &pos);
+    int getBlock(const BlockPos &pos) const ;
     void setBlock(int block, const BlockPos &pos);
     void initWorld();
 

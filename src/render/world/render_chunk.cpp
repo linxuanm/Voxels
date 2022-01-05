@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "render/shader/shader.h"
+#include "render/texture.h"
 #include "world/chunk.h"
 #include "world/blocks.h"
 #include "world/world.h"
@@ -115,13 +116,12 @@ void RenderChunk::addFace(
     for (int i = 0; i < 4; i++) {
         int vertId = BlockFace::facingVerts[face][i];
         auto currOffset = BlockFace::vertOffset[vertId];
-        auto uv = BlockFace::faceUV[i];
+        auto uv = BlockFace::getFaceUV(i, BLOCK_STONE_U, BLOCK_STONE_V);
         auto norm = BlockFace::facingNormal[face];
 
         // TODO: add a vertex format
         verts.emplace_back(
-            pos + currOffset,
-            glm::vec2{uv[0], uv[1]},
+            pos + currOffset, uv,
             glm::vec3{norm[0], norm[1], norm[2]}
         );
     }
