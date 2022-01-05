@@ -174,7 +174,7 @@ void World::quit() {
     chunkThread.join();
 }
 
-void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
+void World::loadChunk(ChunkCoord pos) {
     auto it = chunks.find(pos);
     if (it != chunks.end()) return;
 
@@ -183,8 +183,7 @@ void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
-#include <iostream>
-void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
+void World::unloadChunk(ChunkCoord pos) {
     auto it = chunks.find(pos);
     if (it == chunks.end()) return;
 
@@ -198,11 +197,11 @@ void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
-bool World::isChunkLoaded(std::pair<ChunkPos, ChunkPos> pos) {
+bool World::isChunkLoaded(ChunkCoord pos) {
     return chunks.find(pos) != chunks.end();
 }
 
-void World::rebuildAdjacentChunks(std::pair<ChunkPos, ChunkPos> pos) {
+void World::rebuildAdjacentChunks(ChunkCoord pos) {
     for (ChunkPos i = -1; i < 2; i += 2) {
         auto ptr = getChunk(pos.first + i, pos.second);
         if (ptr != nullptr) {

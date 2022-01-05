@@ -8,6 +8,7 @@
 #include "util/specs.h"
 
 typedef int32_t ChunkPos;
+typedef std::pair<ChunkPos, ChunkPos> ChunkCoord;
 
 class World;
 

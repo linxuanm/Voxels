@@ -17,9 +17,7 @@ static std::pair<ChunkPos, ChunkPos> getPlayerChunk() {
     };
 }
 
-static float dist(
-    std::pair<ChunkPos, ChunkPos> a, std::pair<ChunkPos, ChunkPos> b
-    ) {
+static float dist(ChunkCoord a, ChunkCoord b) {
     ChunkPos dx = a.first - b.first;
     ChunkPos dy = a.second - b.second;
 
@@ -27,7 +25,7 @@ static float dist(
 }
 
 ChunkUpdate::ChunkUpdate(
-    const std::pair<ChunkPos, ChunkPos> &inPos,
+    const ChunkCoord &inPos,
     const ChunkActionType &inAct
 ): pos(inPos), action(inAct) {}
 

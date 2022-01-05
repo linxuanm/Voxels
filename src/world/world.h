@@ -46,10 +46,10 @@ public:
     void quit();
 
     // not thread safe
-    void loadChunk(std::pair<ChunkPos, ChunkPos> pos);
+    void loadChunk(ChunkCoord pos);
     // not thread safe
-    void unloadChunk(std::pair<ChunkPos, ChunkPos> pos);
-    bool isChunkLoaded(std::pair<ChunkPos, ChunkPos> pos);
+    void unloadChunk(ChunkCoord pos);
+    bool isChunkLoaded(ChunkCoord pos);
 
 private:
     bool shutDown;
@@ -61,5 +61,5 @@ private:
     WorldLoadingThread chunkLoader;
     std::thread chunkThread;
 
-    void rebuildAdjacentChunks(std::pair<ChunkPos, ChunkPos> pos);
+    void rebuildAdjacentChunks(ChunkCoord pos);
 };

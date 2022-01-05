@@ -13,11 +13,11 @@ enum ChunkActionType {
 
 struct ChunkUpdate {
     ChunkUpdate(
-        const std::pair<ChunkPos, ChunkPos> &pos,
+        const ChunkCoord &pos,
         const ChunkActionType &action
     );
 
-    std::pair<ChunkPos, ChunkPos> pos;
+    ChunkCoord pos;
     ChunkActionType action;
 };
 
