@@ -44,18 +44,9 @@ void RenderChunk::tryInitGL() {
         2, 3, GL_FLOAT, GL_FALSE,
         sizeof(Vertex), (void *) (sizeof(GLfloat) * 5)
     );
-
     glBindVertexArray(0);
 
     initialized = true;
-}
-
-RenderChunk::~RenderChunk() {
-    if (initialized) {
-        glDeleteBuffers(RENDER_LAYERS, &buffer[0]);
-        glDeleteBuffers(RENDER_LAYERS, &idxBuf[0]);
-        glDeleteVertexArrays(RENDER_LAYERS, &vao[0]);
-    }
 }
 
 void RenderChunk::bufferChunk() {
@@ -164,4 +155,8 @@ void RenderChunk::refresh() {
 
 void RenderChunk::setDead() {
     dead = true;
+
+    glDeleteBuffers(RENDER_LAYERS, &buffer[0]);
+    glDeleteBuffers(RENDER_LAYERS, &idxBuf[0]);
+    glDeleteVertexArrays(RENDER_LAYERS, &vao[0]);
 }

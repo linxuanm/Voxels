@@ -5,7 +5,9 @@
 #include "math/vec.h"
 #include "game/voxels.h"
 
-World::World(): chunkLoader(*this) {}
+World::World(): chunkLoader(*this) {
+
+}
 
 World::~World() = default;
 
@@ -24,6 +26,11 @@ Chunks &World::getAndLockChunks() {
     chunkLock.lock();
     return chunks;
 }
+
+void World::lockChunks() {
+    chunkLock.lock();
+}
+
 
 Chunks World::getChunksCopy() const {
     return chunks;
@@ -173,7 +180,6 @@ void World::loadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     rebuildAdjacentChunks(pos);
 }
 
-#include <iostream>
 void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     auto it = chunks.find(pos);
     if (it == chunks.end()) return;
@@ -181,8 +187,7 @@ void World::unloadChunk(std::pair<ChunkPos, ChunkPos> pos) {
     // TODO: save block
     std::shared_ptr<Chunk> chunk = it->second;
     Voxels::get().scheduleTask([=](){
-        std::cout << "123" << std::endl;
-        //chunk->clearGL();
+        chunk->clearGL();
     });
     chunks.erase(it);
 

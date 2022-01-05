@@ -29,7 +29,6 @@ class RenderChunk {
 public:
     RenderChunk();
     RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ);
-    ~RenderChunk();
 
     /*
      * Called pre-rendering since GL calls can only be accessed

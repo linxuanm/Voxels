@@ -19,5 +19,5 @@ void Config::load() {
     reachDistance = 5.0f;
     actionCooldown = 0.15f;
     crosshairSize = 50.0f;
-    renderDist = 8;
+    renderDist = 12;
 }

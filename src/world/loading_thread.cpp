@@ -13,7 +13,7 @@ WorldLoadingThread::WorldLoadingThread(World &inWorld)
 
 void WorldLoadingThread::execute() {
     while (!cycle()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -26,6 +26,7 @@ bool WorldLoadingThread::cycle() {
     };
 
     std::set<std::pair<ChunkPos, ChunkPos>> inRange;
+    std::set<std::pair<ChunkPos, ChunkPos>> remove;
 
     const ChunkPos radius = Config::renderDist;
     for (ChunkPos i = -radius; i <= radius; i++) {
@@ -39,17 +40,22 @@ bool WorldLoadingThread::cycle() {
         }
     }
 
-    Chunks &chunks = world.getAndLockChunks();
+    Chunks chunks = world.getChunksCopy();
     for (auto &loaded: chunks) {
         auto place = inRange.find(loaded.first);
         if (place == inRange.end()) {
             // TODO: use iterator for removing to prevent O(2 * log N)
-            Voxels::get().scheduleTask([&](){
-                world.unloadChunk(loaded.first);
-            });
+            // world.unloadChunk(loaded.first);
+            remove.insert(loaded.first);
         } else {
             inRange.erase(place);
         }
+    }
+
+    world.lockChunks();
+
+    for (auto &toRemove: remove) {
+        world.unloadChunk(toRemove);
     }
 
     for (auto &toLoad: inRange) {

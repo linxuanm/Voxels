@@ -30,6 +30,7 @@ public:
     std::shared_ptr<Chunk> getChunk(ChunkPos x, ChunkPos z);
     Chunks &getAndLockChunks();
     Chunks getChunksCopy() const;
+    void lockChunks();
     void releaseChunks();
     int getBlock(const BlockPos &pos);
     void setBlock(int block, const BlockPos &pos);

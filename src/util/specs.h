@@ -12,5 +12,5 @@
 #define WIN_TITLE "Voxels"
 
 // for future cut-out layers, transparent layers, etc
-#define RENDER_LAYERS 2
+#define RENDER_LAYERS 1
 #define CHUNK_HEIGHT 128
