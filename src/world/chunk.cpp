@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "game/voxels.h"
+#include "world/blocks.h"
 
 Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 : blocks{}, world(inWorld), x(inX), z(inZ) {
@@ -25,6 +26,9 @@ void Chunk::rebuildChunkBuffer() {
 }
 
 int Chunk::getBlockRel(const BlockPos &pos) {
+    int idx = pos.y() << 8 | pos.x() << 4 | pos.z();
+    if (idx < 0 || idx >= CHUNK_HEIGHT * 16 * 16) return BLOCK_AIR;
+
     return blocks[pos.y() << 8 | pos.x() << 4 | pos.z()];
 }
 
@@ -37,7 +41,10 @@ void Chunk::updateRenderChunk(ChunkPos pos) {
 }
 
 void Chunk::setBlockRel(int block, const BlockPos &pos) {
-    blocks[pos.y() << 8 | pos.x() << 4 | pos.z()] = block;
+    int idx = pos.y() << 8 | pos.x() << 4 | pos.z();
+    if (idx < 0 || idx >= CHUNK_HEIGHT * 16 * 16) return;
+
+    blocks[idx] = block;
 }
 
 void Chunk::clearGL() {
