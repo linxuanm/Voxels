@@ -5,6 +5,8 @@
 #include "gl.h"
 #include "render/world/blockface.h"
 
+typedef int32_t ChunkPos;
+
 class BlockPos {
 
 public:

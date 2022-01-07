@@ -41,6 +41,10 @@ void World::releaseChunks() {
 }
 
 int World::getBlock(const BlockPos &pos) const {
+    if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT * 16 * 16) {
+        return BLOCK_AIR;
+    }
+
     auto chunk = getChunkAt(pos);
     if (chunk == nullptr) return BLOCK_AIR;
 
@@ -48,6 +52,8 @@ int World::getBlock(const BlockPos &pos) const {
 }
 
 void World::setBlock(int block, const BlockPos &pos) {
+    if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT * 16 * 16) return;
+
     auto chunk = getChunkAt(pos);
     if (chunk == nullptr) return;
 

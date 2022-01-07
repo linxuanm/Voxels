@@ -25,12 +25,12 @@ void RenderChunk::tryInitGL() {
     if (initialized) return;
 
     glGenVertexArrays(RENDER_LAYERS, &vao[0]);
-    glGenBuffers(RENDER_LAYERS, &buffer[0]);
+    glGenBuffers(RENDER_LAYERS, &arrBuf[0]);
     glGenBuffers(RENDER_LAYERS, &idxBuf[0]);
 
     glBindVertexArray(vao[0]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, arrBuf[0]);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
 
@@ -67,8 +67,7 @@ void RenderChunk::bufferChunk() {
 }
 
 void RenderChunk::loadBuffer() {
-    std::vector<Vertex> verts;
-    std::vector<int> idxs;
+    BufferBuilder buffer;
 
     for (int h = 0; h < 16; h++) {
         for (int i = 0; i < 16; i++) {
@@ -80,7 +79,7 @@ void RenderChunk::loadBuffer() {
                 if (block != BLOCK_AIR) {
                     for (auto &f: BlockFace::allFacing) {
                         if (shouldRenderFace(absHeightPos, f)) {
-                            addFace(BLOCK_DIRT, relPos, f, verts, idxs);
+                            addFace(BLOCK_DIRT, relPos, f, buffer);
                         }
                     }
                 }
@@ -89,30 +88,17 @@ void RenderChunk::loadBuffer() {
     }
 
     glBindVertexArray(vao[0]);
-
-    glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-    glBufferData(
-        GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex),
-        &verts[0], GL_STATIC_DRAW
-    );
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuf[0]);
-    glBufferData(
-        GL_ELEMENT_ARRAY_BUFFER, idxs.size() * sizeof(Vertex),
-        &idxs[0], GL_STATIC_DRAW
-    );
-
+    buffer.drawBuffer(arrBuf[0], idxBuf[0]);
     glBindVertexArray(0);
 
     updated = true;
-    vertCount = (GLsizei) idxs.size();
+    vertCount = buffer.getElemCount();
 }
 
 void RenderChunk::addFace(
     int block, const BlockPos &pos, BlockFace::Facing face,
-    std::vector<Vertex> &verts, std::vector<GLsizei> &idxs) {
+    BufferBuilder &buffer) {
 
-    auto offset = (GLsizei) verts.size();
     for (int i = 0; i < 4; i++) {
         int vertId = BlockFace::facingVerts[face][i];
         auto currOffset = BlockFace::vertOffset[vertId];
@@ -120,16 +106,13 @@ void RenderChunk::addFace(
         auto norm = BlockFace::facingNormal[face];
 
         // TODO: add a vertex format
-        verts.emplace_back(
+        buffer.addVert({
             pos + currOffset, uv,
             glm::vec3{norm[0], norm[1], norm[2]}
-        );
+        });
     }
 
-    idxs.insert(idxs.end(), {
-        0 + offset, 1 + offset, 2 + offset,
-        2 + offset, 3 + offset, 0 + offset
-    });
+    buffer.drawQuad();
 }
 
 bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
@@ -156,7 +139,7 @@ void RenderChunk::refresh() {
 void RenderChunk::setDead() {
     dead = true;
 
-    glDeleteBuffers(RENDER_LAYERS, &buffer[0]);
+    glDeleteBuffers(RENDER_LAYERS, &arrBuf[0]);
     glDeleteBuffers(RENDER_LAYERS, &idxBuf[0]);
     glDeleteVertexArrays(RENDER_LAYERS, &vao[0]);
 }

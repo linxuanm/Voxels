@@ -21,6 +21,7 @@ set(VOXELS_HEADERS
     src/util/input.h
     src/util/runnable_queue.h
 
+    src/render/model/model.h
     src/render/texture.h
     src/render/view/camera.h
     src/render/view/buffer_builder.h
@@ -31,6 +32,7 @@ set(VOXELS_HEADERS
 
     src/math/blockpos.h
     src/math/vec.h
+    src/math/noise.h
 
     src/world/chunk.h
     src/world/blocks.h
@@ -50,6 +52,7 @@ set(VOXELS_SOURCES
     src/util/input.cpp
     src/util/runnable_queue.cpp
 
+    src/render/model/model.cpp
     src/render/texture.cpp
     src/render/view/camera.cpp
     src/render/view/buffer_builder.cpp
@@ -60,6 +63,7 @@ set(VOXELS_SOURCES
 
     src/math/blockpos.cpp
     src/math/vec.cpp
+    src/math/noise.cpp
 
     src/world/chunk.cpp
     src/world/blocks.cpp

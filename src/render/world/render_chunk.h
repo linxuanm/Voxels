@@ -10,20 +10,6 @@
 
 class Chunk;
 
-typedef int32_t ChunkPos;
-
-class Vertex {
-
-public:
-    Vertex(BlockPos, glm::vec2 uv, glm::vec3 normal);
-
-private:
-    GLfloat x, y, z;
-    GLfloat u, v;
-    GLfloat normX, normY, normZ;
-};
-
-
 class RenderChunk {
 
 public:
@@ -46,7 +32,7 @@ private:
     int x, y, z;
     Chunk *chunk;
     std::array<GLuint, RENDER_LAYERS> vao;
-    std::array<GLuint, RENDER_LAYERS> buffer;
+    std::array<GLuint, RENDER_LAYERS> arrBuf;
     std::array<GLuint, RENDER_LAYERS> idxBuf;
 
     bool updated;
@@ -61,6 +47,6 @@ private:
     bool shouldRenderFace(BlockPos pos, BlockFace::Facing face);
     void addFace(
         int block, const BlockPos &pos, BlockFace::Facing face,
-        std::vector<Vertex> &verts, std::vector<GLsizei> &idxs
+        BufferBuilder &buffer
     );
 };
