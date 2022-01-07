@@ -10,11 +10,6 @@
 #include "util/specs.h"
 #include "game/voxels.h"
 
-Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
-: x(pos.x()), y(pos.y()), z(pos.z())
-, u(uv.x), v(uv.y)
-, normX(normal.x), normY(normal.y), normZ(normal.z) {}
-
 RenderChunk::RenderChunk(): initialized(false) {}
 
 RenderChunk::RenderChunk(Chunk *c, ChunkPos inX, ChunkPos inY, ChunkPos inZ)

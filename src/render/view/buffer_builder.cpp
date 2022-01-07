@@ -1,5 +1,10 @@
 #include "buffer_builder.h"
 
+Vertex::Vertex(BlockPos pos, glm::vec2 uv, glm::vec3 normal)
+: x(pos.x()), y(pos.y()), z(pos.z())
+, u(uv.x), v(uv.y)
+, normX(normal.x), normY(normal.y), normZ(normal.z) {}
+
 void BufferBuilder::addIdxs(const std::initializer_list<GLsizei> &inIdxs) {
     idxs.insert(idxs.end(), inIdxs);
 }
@@ -9,10 +14,10 @@ void BufferBuilder::addVert(const Vertex &vert) {
 }
 
 void BufferBuilder::drawQuad() {
-    auto offset = static_cast<GLsizei>(verts.size()) - 4;
+    auto offset = static_cast<GLsizei>(verts.size());
     idxs.insert(idxs.end(), {
-        offset + 0, offset + 1, offset + 2,
-        offset + 2, offset + 3, offset + 0
+        offset - 4, offset - 3, offset - 2,
+        offset - 2, offset - 1, offset - 4
     });
 }
 

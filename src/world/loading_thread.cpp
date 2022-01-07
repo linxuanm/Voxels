@@ -49,18 +49,25 @@ void WorldLoadingThread::runQueue() {
             updateQueue.pop();
             queued.erase(pos);
 
-            if (tag == ChunkLoadAction) {
-                world.loadChunk(pos);
-            } else {
-                /*
-                 * Reobtaining the player pos is necessary as in the
-                 * future the queue thread might not run in sync with
-                 * the cycle function.
-                 */
-                auto currChunk = getPlayerChunk();
+            /*
+             * Reobtaining the player pos is necessary as in the
+             * future the queue thread might not run in sync with
+             * the cycle function.
+             */
+            auto currChunk = getPlayerChunk();
+            float distance = dist(currChunk, pos);
 
-                if (dist(currChunk, pos) > Config::renderDist) {
+            if (tag == ChunkLoadAction) {
+                if (distance <= Config::renderDist) {
+                    world.loadChunk(pos);
+                } else {
+                    i--;
+                }
+            } else {
+                if (distance > Config::renderDist) {
                     world.unloadChunk(pos);
+                } else {
+                    i--;
                 }
             }
         }
