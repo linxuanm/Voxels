@@ -9,10 +9,10 @@ void BufferBuilder::addVert(const Vertex &vert) {
 }
 
 void BufferBuilder::drawQuad() {
-    auto offset = static_cast<GLsizei>(idxs.size());
+    auto offset = static_cast<GLsizei>(verts.size()) - 4;
     idxs.insert(idxs.end(), {
-        offset - 4, offset - 3, offset - 2,
-        offset - 2, offset - 1, offset - 4
+        offset + 0, offset + 1, offset + 2,
+        offset + 2, offset + 3, offset + 0
     });
 }
 
