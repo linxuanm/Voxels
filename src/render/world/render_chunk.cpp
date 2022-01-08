@@ -72,11 +72,16 @@ void RenderChunk::loadBuffer() {
                 BlockRef block = chunk->getBlockRel(absHeightPos);
 
                 if (!block->isAir()) {
+                    bool exposed[6];
                     for (auto &face: BlockFace::allFacing) {
-                        if (shouldRenderFace(absHeightPos, face)) {
+                        exposed[face] = shouldRenderFace(absHeightPos, face);
+
+                        /*if (shouldRenderFace(absHeightPos, face)) {
                             addFace(relPos, face, buffer);
-                        }
+                        }*/
                     }
+
+                    block->getModel()->buffer(buffer, relPos, exposed);
                 }
             }
         }

@@ -5,6 +5,7 @@
 class IModel {
 
 public:
+    virtual ~IModel() = default;
     virtual void buffer(BufferBuilder &buf, BlockPos pos, bool exposed[6]) = 0;
 };
 

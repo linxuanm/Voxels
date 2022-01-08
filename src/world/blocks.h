@@ -2,7 +2,9 @@
 
 #include <memory>
 
-// should not be used other than internally
+#include "render/model/model.h"
+
+// Constants should not be used other than internally here.
 #define BLOCK_AIR 0
 #define BLOCK_STONE 1
 #define BLOCK_DIRT 2
@@ -13,14 +15,15 @@
 class Block {
 
 public:
-    Block(int inId, bool inSolid);
+    Block(int inId, bool inSolid, std::unique_ptr<IModel> inModel);
     bool isAir() const;
     bool isSolid() const;
+    IModel *getModel() const;
 
 private:
     int id;
     bool solid;
-    //std::unique_ptr<IModel> blockModel;
+    std::unique_ptr<IModel> blockModel;
 };
 
 typedef std::unique_ptr<Block> BlockDef;
@@ -31,4 +34,5 @@ namespace Blocks {
 
     extern BlockDef air;
     extern BlockDef dirt;
+    extern BlockDef stone;
 };
