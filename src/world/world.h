@@ -32,8 +32,8 @@ public:
     Chunks getChunksCopy() const;
     void lockChunks();
     void releaseChunks();
-    int getBlock(const BlockPos &pos) const ;
-    void setBlock(int block, const BlockPos &pos);
+    BlockRef getBlock(const BlockPos &pos) const ;
+    void setBlock(BlockRef block, const BlockPos &pos);
     void initWorld();
 
     // triggers the block update function and updates its render chunk

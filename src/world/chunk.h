@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "world/blocks.h"
 #include "render/view/buffer_builder.h"
 #include "render/world/render_chunk.h"
 #include "util/specs.h"
@@ -14,17 +15,17 @@ class World;
 class Chunk {
 
 public:
-    int blocks[CHUNK_HEIGHT * 16 * 16];
+    BlockRef blocks[CHUNK_HEIGHT * 16 * 16];
 
     Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ);
     void renderChunk();
     void rebuildChunkBuffer();
     World &getWorld();
-    int getBlockRel(const BlockPos &pos);
+    BlockRef getBlockRel(const BlockPos &pos);
     void updateRenderChunk(ChunkPos pos);
 
     // sets block without triggering any updates, etc
-    void setBlockRel(int block, const BlockPos &pos);
+    void setBlockRel(BlockRef block, const BlockPos &pos);
 
     // called just before freeing this chunk to clean up
     void clearGL();

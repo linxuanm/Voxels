@@ -46,7 +46,7 @@ private:
     void loadBuffer();
     bool shouldRenderFace(BlockPos pos, BlockFace::Facing face);
     void addFace(
-        int block, const BlockPos &pos, BlockFace::Facing face,
+        const BlockPos &pos, BlockFace::Facing face,
         BufferBuilder &buffer
     );
 };

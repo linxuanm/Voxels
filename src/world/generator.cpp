@@ -14,7 +14,7 @@ std::shared_ptr<Chunk> Generator::genChunk(World &w, ChunkPos x, ChunkPos z) {
         for (int j = 0; j < 16; j++) {
 
             for (int h = 0; h < 20; h++) {
-                chunk->blocks[h << 8 | i << 4 | j] = BLOCK_DIRT;
+                chunk->blocks[h << 8 | i << 4 | j] = Blocks::dirt.get();
             }
         }
     }

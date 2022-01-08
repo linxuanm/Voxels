@@ -15,6 +15,7 @@ Voxels &Voxels::get() {
 }
 
 void Voxels::init() {
+    Blocks::initBlocks();
     renderer.init();
 
     world.initWorld();
@@ -54,7 +55,10 @@ bool Voxels::playerAttack() {
 
 bool Voxels::playerPlace() {
     if (mouseOver.hit && mouseOver.pos != camera().getCurrBlock()) {
-        world.setBlock(BLOCK_DIRT, mouseOver.pos.offset(mouseOver.hitFace));
+        world.setBlock(
+            Blocks::dirt.get(),
+            mouseOver.pos.offset(mouseOver.hitFace)
+        );
         return true;
     }
 

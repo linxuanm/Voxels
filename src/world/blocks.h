@@ -2,6 +2,7 @@
 
 #include <memory>
 
+// should not be used other than internally
 #define BLOCK_AIR 0
 #define BLOCK_STONE 1
 #define BLOCK_DIRT 2
@@ -12,15 +13,22 @@
 class Block {
 
 public:
-    explicit Block(int inId);
+    Block(int inId, bool inSolid);
+    bool isAir() const;
+    bool isSolid() const;
 
 private:
     int id;
+    bool solid;
     //std::unique_ptr<IModel> blockModel;
 };
 
+typedef std::unique_ptr<Block> BlockDef;
+typedef Block * BlockRef;
+
 namespace Blocks {
-    bool isSolid(int block);
+    void initBlocks();
 
-
+    extern BlockDef air;
+    extern BlockDef dirt;
 };

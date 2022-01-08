@@ -69,12 +69,12 @@ void RenderChunk::loadBuffer() {
             for (int j = 0; j < 16; j++) {
                 BlockPos relPos{i, h, j};
                 BlockPos absHeightPos = relPos + BlockPos{0, y << 4, 0};
-                int block = chunk->getBlockRel(absHeightPos);
+                BlockRef block = chunk->getBlockRel(absHeightPos);
 
-                if (block != BLOCK_AIR) {
-                    for (auto &f: BlockFace::allFacing) {
-                        if (shouldRenderFace(absHeightPos, f)) {
-                            addFace(BLOCK_DIRT, relPos, f, buffer);
+                if (!block->isAir()) {
+                    for (auto &face: BlockFace::allFacing) {
+                        if (shouldRenderFace(absHeightPos, face)) {
+                            addFace(relPos, face, buffer);
                         }
                     }
                 }
@@ -91,7 +91,7 @@ void RenderChunk::loadBuffer() {
 }
 
 void RenderChunk::addFace(
-    int block, const BlockPos &pos, BlockFace::Facing face,
+    const BlockPos &pos, BlockFace::Facing face,
     BufferBuilder &buffer) {
 
     for (int i = 0; i < 4; i++) {
@@ -117,14 +117,14 @@ bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
         return true;
     }
 
-    int block;
+    BlockRef block;
     if (side.x() < 0 || side.x() >= 16 || side.z() < 0 || side.z() >= 16) {
         block = chunk->getWorld().getBlock(side + BlockPos{x << 4, 0, z << 4});
     } else {
         block = chunk->getBlockRel(side);
     }
 
-    return !Blocks::isSolid(block);
+    return !block->isSolid();
 }
 
 void RenderChunk::refresh() {

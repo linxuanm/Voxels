@@ -25,9 +25,11 @@ void Chunk::rebuildChunkBuffer() {
     }
 }
 
-int Chunk::getBlockRel(const BlockPos &pos) {
+BlockRef Chunk::getBlockRel(const BlockPos &pos) {
     int idx = pos.y() << 8 | pos.x() << 4 | pos.z();
-    if (idx < 0 || idx >= CHUNK_HEIGHT * 16 * 16) return BLOCK_AIR;
+    if (idx < 0 || idx >= CHUNK_HEIGHT * 16 * 16) {
+        return Blocks::air.get();
+    }
 
     return blocks[pos.y() << 8 | pos.x() << 4 | pos.z()];
 }
@@ -40,7 +42,7 @@ void Chunk::updateRenderChunk(ChunkPos pos) {
     renderChunks[pos].refresh();
 }
 
-void Chunk::setBlockRel(int block, const BlockPos &pos) {
+void Chunk::setBlockRel(BlockRef block, const BlockPos &pos) {
     int idx = pos.y() << 8 | pos.x() << 4 | pos.z();
     if (idx < 0 || idx >= CHUNK_HEIGHT * 16 * 16) return;
 

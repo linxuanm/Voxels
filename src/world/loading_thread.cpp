@@ -76,7 +76,6 @@ void WorldLoadingThread::runQueue() {
     }
 }
 
-#include <iostream>
 bool WorldLoadingThread::cycle() {
     auto currChunk = getPlayerChunk();
 

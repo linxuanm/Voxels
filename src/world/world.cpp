@@ -40,18 +40,18 @@ void World::releaseChunks() {
     chunkLock.unlock();
 }
 
-int World::getBlock(const BlockPos &pos) const {
+BlockRef World::getBlock(const BlockPos &pos) const {
     if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT * 16 * 16) {
-        return BLOCK_AIR;
+        return Blocks::air.get();
     }
 
     auto chunk = getChunkAt(pos);
-    if (chunk == nullptr) return BLOCK_AIR;
+    if (chunk == nullptr) return Blocks::air.get();
 
     return chunk->getBlockRel({pos.x() & 15, pos.y(), pos.z() & 15});
 }
 
-void World::setBlock(int block, const BlockPos &pos) {
+void World::setBlock(BlockRef block, const BlockPos &pos) {
     if (pos.y() < 0 || pos.y() > CHUNK_HEIGHT * 16 * 16) return;
 
     auto chunk = getChunkAt(pos);
@@ -86,8 +86,8 @@ void World::breakBlock(const BlockPos &pos) {
 
     BlockPos relPos{pos.x() & 15, pos.y(), pos.z() & 15};
 
-    if (chunk->getBlockRel(relPos) == BLOCK_AIR) return;
-    chunk->setBlockRel(BLOCK_AIR, relPos);
+    if (chunk->getBlockRel(relPos)->isAir()) return;
+    chunk->setBlockRel(Blocks::air.get(), relPos);
     updateBlock(pos);
 
     /*
@@ -101,7 +101,8 @@ void World::breakBlock(const BlockPos &pos) {
 
 RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
 
-    if (getBlock(BlockPos{pos}) != BLOCK_AIR) return {true, BlockPos{pos}};
+    BlockPos in{pos};
+    if (!getBlock(in)->isAir()) return {true, in};
 
     /*
      * link from stackoverflow which lead to
@@ -157,7 +158,7 @@ RayResult World::trace(const glm::vec3 &pos, const glm::vec3 &dir, float len) {
         };
 
         BlockPos currVoxel{curr};
-        if (getBlock(currVoxel) != BLOCK_AIR) {
+        if (!getBlock(currVoxel)->isAir()) {
             return {true, currVoxel, hitFace};
         }
     }
