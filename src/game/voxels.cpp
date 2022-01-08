@@ -16,8 +16,8 @@ Voxels &Voxels::get() {
 
 void Voxels::init() {
     Blocks::initBlocks();
-    renderer.init();
 
+    renderer.init();
     world.initWorld();
 }
 

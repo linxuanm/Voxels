@@ -1,5 +1,6 @@
 #include "chunk.h"
 
+#include <algorithm>
 #include <iostream>
 
 #include "game/voxels.h"
@@ -7,6 +8,8 @@
 
 Chunk::Chunk(World &inWorld, ChunkPos inX, ChunkPos inZ)
 : blocks{}, world(inWorld), x(inX), z(inZ) {
+    std::fill_n(blocks, 16 * 16 * CHUNK_HEIGHT, Blocks::air.get());
+
     for (int i = 0; i < CHUNK_HEIGHT >> 4; i++) {
         renderChunks[i] = RenderChunk{this, x, i, z};
     }
