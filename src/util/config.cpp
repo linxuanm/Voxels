@@ -15,7 +15,7 @@ ChunkPos Config::renderDist;
 // TODO: load from config file
 void Config::load() {
     fov = 3.14159f / 2;
-    speed = 10;
+    speed = 5;
     mouseSen = 0.15f;
     reachDistance = 5.0f;
     actionCooldown = 0.15f;
