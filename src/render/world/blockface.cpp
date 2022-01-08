@@ -6,6 +6,10 @@ BlockFace::Facing BlockFace::allFacing[6] = {
     UP, DOWN, WEST, EAST, NORTH, SOUTH
 };
 
+BlockFace::Facing BlockFace::cardinalFacing[4] = {
+    WEST, EAST, NORTH, SOUTH
+};
+
 int BlockFace::facingVerts[6][4] = {
     {3, 2, 6, 7},
     {0, 1, 5, 4},
@@ -79,7 +83,9 @@ GLfloat BlockFace::cubeVertexDraw[36 * 3] = {
      1, -1, -1,
 };
 
-glm::vec2 BlockFace::getFaceUV(int vert, int u, int v) {
+glm::vec2 BlockFace::getFaceUV(int vert, const BlockUV &uv) {
+    auto [u, v] = uv;
+
     switch (vert) {
         case 0: return {BLOCK_UV_TL(u, v)};
         case 1: return {BLOCK_UV_TR(u, v)};

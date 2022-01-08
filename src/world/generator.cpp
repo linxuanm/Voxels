@@ -8,7 +8,7 @@ Generator::Generator() = default;
 
 std::shared_ptr<Chunk> Generator::genChunk(World &w, ChunkPos x, ChunkPos z) {
     std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(w, x, z);
-    BlockRef stonePtr = Blocks::stone.get();
+    BlockRef stonePtr = Blocks::grass.get();
 
     //TODO: better cache locality
     for (int i = 0; i < 16; i++) {

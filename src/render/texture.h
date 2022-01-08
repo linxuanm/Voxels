@@ -45,7 +45,9 @@ namespace Textures {
 #define BLOCK_UV_BL(U, V) ((U+1) * BLOCK_UV_OFFSET), (V * BLOCK_UV_OFFSET)
 #define BLOCK_UV_BR(U, V) ((U+1) * BLOCK_UV_OFFSET), ((V+1) * BLOCK_UV_OFFSET)
 
-#define BLOCK_DIRT_U 0
-#define BLOCK_DIRT_V 0
-#define BLOCK_STONE_U 1
-#define BLOCK_STONE_V 0
+typedef std::pair<int, int> BlockUV;
+
+#define BLOCK_DIRT_UV BlockUV{0, 0}
+#define BLOCK_STONE_UV BlockUV{1, 0}
+#define BLOCK_GRASS_SIDE_UV BlockUV{2, 0}
+#define BLOCK_GRASS_TOP_UV BlockUV{3, 0}

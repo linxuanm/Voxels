@@ -35,4 +35,5 @@ namespace Blocks {
     extern BlockDef air;
     extern BlockDef dirt;
     extern BlockDef stone;
+    extern BlockDef grass;
 };

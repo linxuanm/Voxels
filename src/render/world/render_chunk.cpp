@@ -75,10 +75,6 @@ void RenderChunk::loadBuffer() {
                     bool exposed[6];
                     for (auto &face: BlockFace::allFacing) {
                         exposed[face] = shouldRenderFace(absHeightPos, face);
-
-                        /*if (shouldRenderFace(absHeightPos, face)) {
-                            addFace(relPos, face, buffer);
-                        }*/
                     }
 
                     block->getModel()->buffer(buffer, relPos, exposed);
@@ -93,26 +89,6 @@ void RenderChunk::loadBuffer() {
 
     updated = true;
     vertCount = buffer.getElemCount();
-}
-
-void RenderChunk::addFace(
-    const BlockPos &pos, BlockFace::Facing face,
-    BufferBuilder &buffer) {
-
-    for (int i = 0; i < 4; i++) {
-        int vertId = BlockFace::facingVerts[face][i];
-        auto currOffset = BlockFace::vertOffset[vertId];
-        auto uv = BlockFace::getFaceUV(i, BLOCK_STONE_U, BLOCK_STONE_V);
-        auto norm = BlockFace::facingNormal[face];
-
-        // TODO: add a vertex format
-        buffer.addVert({
-            pos + currOffset, uv,
-            glm::vec3{norm[0], norm[1], norm[2]}
-        });
-    }
-
-    buffer.drawQuad();
 }
 
 bool RenderChunk::shouldRenderFace(BlockPos pos, BlockFace::Facing face) {
