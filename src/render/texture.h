@@ -42,8 +42,8 @@ namespace Textures {
 #define BLOCK_UV_OFFSET (BLOCK_SIZE / BLOCKS_TEX_SIZE)
 #define BLOCK_UV_TL(U, V) (U * BLOCK_UV_OFFSET), (V * BLOCK_UV_OFFSET)
 #define BLOCK_UV_TR(U, V) (U * BLOCK_UV_OFFSET), ((V+1) * BLOCK_UV_OFFSET)
-#define BLOCK_UV_BL(U, V) ((U+1) * BLOCK_UV_OFFSET), (V * BLOCK_UV_OFFSET)
 #define BLOCK_UV_BR(U, V) ((U+1) * BLOCK_UV_OFFSET), ((V+1) * BLOCK_UV_OFFSET)
+#define BLOCK_UV_BL(U, V) ((U+1) * BLOCK_UV_OFFSET), (V * BLOCK_UV_OFFSET)
 
 typedef std::pair<int, int> BlockUV;
 

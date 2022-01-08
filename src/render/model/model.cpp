@@ -1,5 +1,7 @@
 #include "model.h"
 
+#include <iostream>
+
 // Adds a face with UV coords from the blocks texture map.
 static void addFace(
     BufferBuilder &buffer, const BlockPos &pos,

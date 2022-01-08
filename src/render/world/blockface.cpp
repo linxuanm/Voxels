@@ -2,6 +2,11 @@
 
 #include "render/texture.h"
 
+/*
+ * UP: +y
+ * EAST: +x
+ * NORTH: -z
+ */
 BlockFace::Facing BlockFace::allFacing[6] = {
     UP, DOWN, WEST, EAST, NORTH, SOUTH
 };
@@ -11,23 +16,23 @@ BlockFace::Facing BlockFace::cardinalFacing[4] = {
 };
 
 int BlockFace::facingVerts[6][4] = {
-    {3, 2, 6, 7},
     {0, 1, 5, 4},
+    {3, 2, 6, 7},
     {4, 0, 3, 7},
     {1, 5, 6, 2},
-    {0, 1, 2, 3},
-    {5, 4, 7, 6}
+    {5, 4, 7, 6},
+    {0, 1, 2, 3}
 };
 
 GLfloat BlockFace::vertOffset[8][3] = {
-    {0, 0, 0},
-    {1, 0, 0},
-    {1, 1, 0},
-    {0, 1, 0},
-    {0, 0, 1},
-    {1, 0, 1},
-    {1, 1, 1},
     {0, 1, 1},
+    {1, 1, 1},
+    {1, 0, 1},
+    {0, 0, 1},
+    {0, 1, 0},
+    {1, 1, 0},
+    {1, 0, 0},
+    {0, 0, 0},
 };
 
 GLfloat BlockFace::facingNormal[6][3] = {
