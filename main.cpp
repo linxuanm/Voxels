@@ -9,8 +9,8 @@ int main() {
         std::cout << "LAUNCH FAILED" << std::endl;
     }
 
-    //Application::loop();
-    Testing::drawTextureLoop();
+    Application::loop();
+    //Testing::drawQuadLoop(700);
     glfwTerminate();
 
     std::cout << "GAME PROCESS END" << std::endl;

@@ -75,6 +75,10 @@ bool Application::launch() {
         return false;
     }
 
+    // Viewport setup.
+    viewportSetup();
+    glfwSetFramebufferSizeCallback(window, resize);
+
     Log::printVersions();
 
     return true;
@@ -84,10 +88,8 @@ void Application::loop() {
     Voxels &vox = Voxels::get();
 
     vox.init();
-    viewportSetup();
 
     // Callback setup.
-    glfwSetFramebufferSizeCallback(window, resize);
     glfwSetKeyCallback(window, Input::keyCallback);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
