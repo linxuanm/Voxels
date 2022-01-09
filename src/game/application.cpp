@@ -66,9 +66,6 @@ bool Application::launch() {
     }
 
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, resize);
-    glfwSetKeyCallback(window, Input::keyCallback);
-
     glewExperimental = GL_TRUE;
 
     if (glewInit() != GLEW_OK) {
@@ -77,13 +74,6 @@ bool Application::launch() {
 
         return false;
     }
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    if (glfwRawMouseMotionSupported()) {
-        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-    }
-    glfwSetCursorPosCallback(window, Input::mouseCallback);
-    glfwSetMouseButtonCallback(window, Input::clickCallback);
 
     Log::printVersions();
 
@@ -95,6 +85,17 @@ void Application::loop() {
 
     vox.init();
     viewportSetup();
+
+    // Callback setup.
+    glfwSetFramebufferSizeCallback(window, resize);
+    glfwSetKeyCallback(window, Input::keyCallback);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported()) {
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
+    glfwSetCursorPosCallback(window, Input::mouseCallback);
+    glfwSetMouseButtonCallback(window, Input::clickCallback);
 
     glfwSwapBuffers(window); // Mac OS
 

@@ -20,6 +20,7 @@ set(VOXELS_HEADERS
     src/util/specs.h
     src/util/input.h
     src/util/runnable_queue.h
+    src/util/image_display.h
 
     src/render/model/model.h
     src/render/texture.h
@@ -51,6 +52,7 @@ set(VOXELS_SOURCES
     src/util/log.cpp
     src/util/input.cpp
     src/util/runnable_queue.cpp
+    src/util/image_display.cpp
 
     src/render/model/model.cpp
     src/render/texture.cpp
