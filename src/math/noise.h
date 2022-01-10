@@ -9,6 +9,7 @@ typedef std::function<float(float, float)> NoiseSampler;
 class INoise {
 
 public:
+    virtual ~INoise() = default;
     virtual float genNoise(float u, float v) = 0;
 };
 

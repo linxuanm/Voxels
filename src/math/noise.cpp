@@ -1,10 +1,19 @@
 #include "noise.h"
 
+#include <glm/glm.hpp>
 #include <random>
 #include <iostream>
 
 static float perlinFade(float x) {
     return x * x * x * (x * (x * 6 - 15) + 10);
+}
+
+static float lerp(float t, float a, float b) {
+    return a + t * (b - a);
+}
+
+static float grad(int hash, float u, float v) {
+    return ((hash & 1) == 0 ? u : -u) + ((hash & 2) == 0 ? v : -v);
 }
 
 PerlinNoise::PerlinNoise(uint32_t inSeed): seed(inSeed) {
@@ -27,12 +36,30 @@ PerlinNoise::PerlinNoise(uint32_t inSeed): seed(inSeed) {
 }
 
 float PerlinNoise::genNoise(float u, float v) {
-    int uInt = static_cast<int>(u);
-    int vInt = static_cast<int>(v);
-    float uFrac = u - uInt;
-    float vFrac = v - vInt;
+    int uInt = static_cast<int>(glm::floor(u));
+    int vInt = static_cast<int>(glm::floor(v));
+    float uFrac = u - glm::floor(u);
+    float vFrac = v - glm::floor(v);
+
     float uFade = perlinFade(uFrac);
     float vFade = perlinFade(vFrac);
 
-    return u * v;
+    int A = p[uInt] + vInt;
+    int B = p[uInt + 1] + vInt;
+
+    float val = lerp(
+        vFade,
+        lerp(
+            uFade,
+            grad(p[A], uFrac, vFrac),
+            grad(p[B], uFrac - 1, vFrac)
+        ),
+        lerp(
+            uFade,
+            grad(p[A + 1], uFrac, vFrac - 1),
+            grad(p[B + 1], uFrac - 1, vFrac - 1)
+        )
+    );
+
+    return (val + 1) / 2;
 }

@@ -8,11 +8,11 @@
 #include "render/shader/shader.h"
 #include "util/log.h"
 
-void Testing::noiseTexLoop(INoise *noise) {
-    auto func = [noise](float w, float h){
-        return noise->genNoise(w, h);
+void Testing::noiseTexLoop(INoise *noise, float scale) {
+    auto func = [noise, scale](float w, float h){
+        return noise->genNoise(w * scale, h * scale);
     };
-    TexPtr tex = Testing::genNoiseTex(func, 100, 100);
+    TexPtr tex = Testing::genNoiseTex(func, 750, 750);
     Testing::drawQuadLoop(700);
 }
 
