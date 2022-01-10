@@ -67,6 +67,10 @@ Texture::Texture(std::vector<std::string> paths): cube(true) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
 
+Texture::Texture(int inWidth, int inHeight, int inChan, GLuint inId)
+: width(inWidth), height(inHeight)
+, channels(inChan), texId(inId), cube(false) {}
+
 Texture::~Texture() {
     glDeleteTextures(1, &texId);
 }

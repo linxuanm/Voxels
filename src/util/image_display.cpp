@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "game/application.h"
-#include "render/texture.h"
 #include "render/shader/shader.h"
 #include "util/log.h"
 
@@ -44,7 +43,6 @@ void Testing::drawQuadLoop(float size) {
         quadPos, GL_STATIC_DRAW
     );
 
-    Textures::blockTexture().bind();
     SimpleShader &shader = Shaders::shaderSimple();
     shader.bind();
     shader.updateColor({1.0f, 1.0f, 1.0f, 1.0f});
@@ -69,4 +67,38 @@ void Testing::drawQuadLoop(float size) {
 
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
+}
+
+TexPtr Testing::genNoiseTex(NoiseSampler sampler, int width, int height) {
+    auto *buf = new uint32_t[width * height];
+    for (int h = 0; h < height; h++) {
+        for (int w = 0; w < width; w++) {
+            float u = (float) w / width;
+            float v = (float) h / height;
+
+            float noise = sampler(u, v);
+            auto p = static_cast<uint32_t>(noise * 255);
+            buf[h * height + w] = (255 << 24) | (p << 16) | (p << 8) | p;
+        }
+    }
+
+    GLuint texId;
+    glGenTextures(1, &texId);
+    glBindTexture(GL_TEXTURE_2D, texId);
+
+    glTexImage2D(
+        GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+        0, GL_RGBA, GL_UNSIGNED_BYTE, buf
+    );
+
+    TexPtr ptr = std::make_unique<Texture>(width, height, 4, texId);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    delete[] buf;
+
+    return ptr;
 }

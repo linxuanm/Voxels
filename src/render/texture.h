@@ -10,6 +10,7 @@ class Texture {
 public:
     explicit Texture(std::string path);
     explicit Texture(std::vector<std::string> paths); // cubemap
+    Texture(int inWidth, int inHeight, int inChan, GLuint inId);
     ~Texture();
 
     void bind();
