@@ -14,6 +14,7 @@ typedef std::unique_ptr<Texture> TexPtr;
  */
 namespace Testing {
 
+    void noiseTexLoop(INoise *noise);
     void drawQuadLoop(float size);
     TexPtr genNoiseTex(NoiseSampler sampler, int width, int height);
 };

@@ -8,6 +8,14 @@
 #include "render/shader/shader.h"
 #include "util/log.h"
 
+void Testing::noiseTexLoop(INoise *noise) {
+    auto func = [noise](float w, float h){
+        return noise->genNoise(w, h);
+    };
+    TexPtr tex = Testing::genNoiseTex(func, 100, 100);
+    Testing::drawQuadLoop(700);
+}
+
 void Testing::drawQuadLoop(float size) {
     GLuint vao, vbo;
     GLfloat quadPos[6 * 5] = {
