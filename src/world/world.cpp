@@ -5,7 +5,7 @@
 #include "math/vec.h"
 #include "game/voxels.h"
 
-World::World(): chunkLoader(*this) {
+World::World(): chunkLoader(*this), generator(42, 40, 10) {
 
 }
 

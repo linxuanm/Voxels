@@ -7,7 +7,7 @@
 #include "game/application.h"
 #include "util/config.h"
 
-Camera::Camera(): x(0.5), y(20.5), z(0.5) {}
+Camera::Camera(): x(0.5), y(40.5), z(0.5) {}
 
 glm::mat4 Camera::getViewProjMat() const {
     return getProjMat() * getViewMat();

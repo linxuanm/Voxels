@@ -36,8 +36,8 @@ PerlinNoise::PerlinNoise(uint32_t inSeed): seed(inSeed) {
 }
 
 float PerlinNoise::genNoise(float u, float v) {
-    int uInt = static_cast<int>(glm::floor(u));
-    int vInt = static_cast<int>(glm::floor(v));
+    int uInt = static_cast<int>(glm::floor(u)) & 255;
+    int vInt = static_cast<int>(glm::floor(v)) & 255;
     float uFrac = u - glm::floor(u);
     float vFrac = v - glm::floor(v);
 
@@ -61,5 +61,27 @@ float PerlinNoise::genNoise(float u, float v) {
         )
     );
 
-    return (val + 1) / 2;
+    return val;
+}
+
+CompositePerlin::CompositePerlin(uint32_t seed, uint8_t layers, float inPow)
+: persistence(inPow) {
+    for (int i = 0; i < layers; i++) {
+        octaves.emplace_back(seed);
+    }
+}
+
+float CompositePerlin::genNoise(float u, float v) {
+    float out = 0;
+    float dampen = 1;
+    float freq = 1;
+
+    for (auto &octave: octaves) {
+        out += octave.genNoise(u * freq, v * freq) * dampen;
+
+        dampen *= persistence;
+        freq *= 2;
+    }
+
+    return out;
 }

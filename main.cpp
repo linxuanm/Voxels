@@ -9,10 +9,7 @@ int main() {
         std::cout << "LAUNCH FAILED" << std::endl;
     }
 
-    //Application::loop();
-
-    std::unique_ptr<INoise> noise = std::make_unique<PerlinNoise>(1);
-    Testing::noiseTexLoop(noise.get(), 10);
+    Application::loop();
     glfwTerminate();
 
     std::cout << "GAME PROCESS END" << std::endl;

@@ -10,7 +10,7 @@
 
 void Testing::noiseTexLoop(INoise *noise, float scale) {
     auto func = [noise, scale](float w, float h){
-        return noise->genNoise(w * scale, h * scale);
+        return noise->genNoise(w * scale, h * scale) / 4 + 0.5;
     };
     TexPtr tex = Testing::genNoiseTex(func, 750, 750);
     Testing::drawQuadLoop(700);
