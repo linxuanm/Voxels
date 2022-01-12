@@ -20,7 +20,6 @@ private:
     GLuint boxVbo;
     GLuint hudVao;
     GLuint hudVbo;
-    std::array<GLuint, RENDER_LAYERS> worldVao;
 
     void drawSkybox();
     void drawOverlay();

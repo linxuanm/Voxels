@@ -15,9 +15,6 @@ WorldRenderer::WorldRenderer() = default;
 
 void WorldRenderer::init() {
 
-    // World render setup
-    glGenVertexArrays(RENDER_LAYERS, &worldVao[0]);
-
     const GLfloat size = Config::crosshairSize;
     GLfloat hudPos[6 * 5] = {
         -size, -size, 0, ICONS_CROSS_X, ICONS_CROSS_Y,
@@ -45,6 +42,8 @@ void WorldRenderer::init() {
         BlockFace::cubeVertexDraw, GL_STATIC_DRAW
     );
 
+    glBindVertexArray(0);
+
     // GUI
     glGenVertexArrays(1, &hudVao);
     glGenBuffers(1, &hudVbo);
@@ -71,7 +70,6 @@ void WorldRenderer::init() {
 }
 
 WorldRenderer::~WorldRenderer() {
-    glDeleteVertexArrays(RENDER_LAYERS, &worldVao[0]);
 
     glDeleteBuffers(1, &boxVbo);
     glDeleteVertexArrays(1, &boxVao);
@@ -96,7 +94,6 @@ void WorldRenderer::drawWorld(World &world, float deltaTime) {
     shader.bind();
     shader.updateMVP(cam);
 
-    glBindVertexArray(worldVao[RENDER_SOLID_LAYER]);
     /*
      * Copying chunks is fine even in between chunk unloading
      * since each chunk uses a shared pointer.
