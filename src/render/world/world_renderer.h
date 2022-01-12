@@ -2,6 +2,7 @@
 
 #include "render/view/camera.h"
 #include "world/world.h"
+#include "util/specs.h"
 
 class WorldRenderer {
 
@@ -19,6 +20,7 @@ private:
     GLuint boxVbo;
     GLuint hudVao;
     GLuint hudVbo;
+    std::array<GLuint, RENDER_LAYERS> worldVao;
 
     void drawSkybox();
     void drawOverlay();

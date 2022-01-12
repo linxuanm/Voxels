@@ -13,4 +13,5 @@
 
 // for future cut-out layers, transparent layers, etc
 #define RENDER_LAYERS 1
+#define RENDER_SOLID_LAYER 0
 #define CHUNK_HEIGHT 128

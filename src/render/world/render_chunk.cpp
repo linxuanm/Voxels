@@ -24,8 +24,8 @@ void RenderChunk::tryInitGL() {
     glGenBuffers(RENDER_LAYERS, &idxBuf[0]);
 
     glBindVertexArray(vao[0]);
-
     glBindBuffer(GL_ARRAY_BUFFER, arrBuf[0]);
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
 
@@ -53,12 +53,13 @@ void RenderChunk::bufferChunk() {
     }
 
     glBindVertexArray(vao[0]);
-
     WorldOpaqueShader &shader = Shaders::shaderOpaque();
     shader.setOffset({x, y, z});
 
+    //glBindBuffer(GL_ARRAY_BUFFER, arrBuf[0]);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuf[0]);
     glDrawElements(GL_TRIANGLES, vertCount, GL_UNSIGNED_INT, nullptr);
-    glBindVertexArray(0);
+    glBindVertexArray(vao[0]);
 }
 
 void RenderChunk::loadBuffer() {
@@ -117,5 +118,4 @@ void RenderChunk::setDead() {
 
     glDeleteBuffers(RENDER_LAYERS, &arrBuf[0]);
     glDeleteBuffers(RENDER_LAYERS, &idxBuf[0]);
-    glDeleteVertexArrays(RENDER_LAYERS, &vao[0]);
 }
